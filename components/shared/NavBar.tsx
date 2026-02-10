@@ -13,7 +13,7 @@ import {
 export default function Navbar() {
   return (
     <header className="border-b">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.png" width={36} height={36} alt="logo" priority />
           <span className="text-lg font-semibold">NextStore</span>
