@@ -1,11 +1,13 @@
 import FeatureShowcase from "@/components/HomePage/FeatureShowcase";
 import Hero from "@/components/HomePage/Hero";
+import LatestProducts from "@/components/HomePage/LatestProducts";
 import { NewsletterCTA, TestimonialCard, TrustedBy } from "@/components/HomePage/SocialProof";
 
 const HomePage = () => {
   return (
     <>
       <Hero />
+      <LatestProducts />
       <FeatureShowcase />
       <TrustedBy />
 

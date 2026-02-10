@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Linkedin, } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -10,10 +10,19 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <div className="flex gap-3 min-h items-center">
-              <Image className="rounded-full" src="/footer.png" width={46} height={46} alt="footer logo" />
-              <h3 className="text-xl font-semibold text-white">NextStore</h3>
-            </div>
+            <Link href="/">
+              <div className="flex gap-3 min-h items-center">
+                {" "}
+                <Image
+                  className="rounded-full"
+                  src="/footer.png"
+                  width={46}
+                  height={46}
+                  alt="footer logo"
+                />
+                <h3 className="text-xl font-semibold text-white">NextStore</h3>
+              </div>
+            </Link>
 
             <p className="mt-3 text-sm text-zinc-400 max-w-xs">
               A modern e-commerce store built with Next.js.
