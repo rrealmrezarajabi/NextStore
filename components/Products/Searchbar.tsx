@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState } from "react";
-
+import { Spinner } from "../ui/spinner";
 export default function SearchBar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -11,8 +11,11 @@ export default function SearchBar() {
   const currentSearch = searchParams.get("search") || "";
 
   const [value, setValue] = useState(currentSearch);
+  const [showSpinner , setShowSpinner] = useState(false)
 
   function handleSearch() {
+
+    setShowSpinner(true)
     const params = new URLSearchParams(searchParams.toString());
 
     if (value.trim()) {
@@ -24,6 +27,11 @@ export default function SearchBar() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
 
     setValue("");
+    
+    setTimeout(() => {
+      setShowSpinner(false); 
+    }, 400);
+    
   }
 
   return (
@@ -57,9 +65,10 @@ export default function SearchBar() {
 
       <button
         onClick={handleSearch}
-        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-white font-medium"
+        disabled={showSpinner}
+        className="px-5 py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-white font-medium flex items-center justify-center"
       >
-        Search
+        {showSpinner ? <Spinner /> : "Search"}
       </button>
     </div>
   );
