@@ -39,12 +39,12 @@ export default async function ProductsPage({
 
         <div className="mt-6 flex flex-col lg:flex-row gap-6">
           <div className="flex-1">
-            <ProductsGrid products={products.slice(0, 20)} />
+            <ProductsGrid products={products.slice(0, 12)} />
           </div>
 
           <div className="w-full lg:w-64">
             <CategoriesSidebar
-              categories={categories.slice(0,8)}
+              categories={categories.slice(0,5)}
               activeCategoryId={categoryId}
             />
           </div>
