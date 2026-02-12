@@ -27,7 +27,7 @@ export default async function ProductsPage({
   return (
     <main className="min-h-dvh bg-zinc-950 text-white">
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {/* Search + Title */}
+        
         <div className="mb-8">
           <SearchBar />
         </div>
@@ -44,7 +44,7 @@ export default async function ProductsPage({
 
           <div className="w-full lg:w-64">
             <CategoriesSidebar
-              categories={categories}
+              categories={categories.slice(0,8)}
               activeCategoryId={categoryId}
             />
           </div>
