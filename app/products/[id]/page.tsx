@@ -1,6 +1,6 @@
 import { getProduct } from "@/lib/api/product";
 import Image from "next/image";
-
+import { safeImageSrc } from "@/lib/utils";
 export default async function ProductPage({
   params,
 }: {
@@ -18,7 +18,7 @@ export default async function ProductPage({
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
             {cover ? (
               <Image
-                src={cover}
+                src={safeImageSrc(cover)}
                 alt={product.title}
                 fill
                 className="object-cover"
