@@ -2,22 +2,29 @@ import { notFound } from "next/navigation";
 import { Product } from "../types/product";
 import { BASE_URL } from "./api ";
 
-export async function getProducts(categoryId?: number): Promise<Product[]> {
+export async function getProducts({
+  categoryId,
+  title,
+}: {
+  categoryId?: number;
+  title?: string;
+}) {
   let url = `${BASE_URL}/products`;
 
-  if (categoryId) {
-    url += `?categoryId=${categoryId}`;
+  const query = new URLSearchParams();
+
+  if (categoryId) query.set("categoryId", categoryId.toString());
+  if (title) query.set("title", title);
+
+  if (query.size > 0) {
+    url += `?${query.toString()}`;
   }
 
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(url, { next: { revalidate: 60 } });
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
-  const data = await res.json();
-
-  return data as Product[];
+  return (await res.json()) as Product[];
 }
 
 export async function getProduct(id: number): Promise<Product> {
