@@ -25,8 +25,8 @@ export default async function ProductsPage({
       : "Products";
 
   return (
-    <main className="min-h-dvh bg-zinc-950 text-white">
-      <div className="mx-auto max-w-6xl px-4 py-10">
+    <main className="min-h-dvh bg-zinc-950 text-white ">
+      <div className="mx-auto max-w-full px-5 py-10">
         
         <div className="mb-8">
           <SearchBar />
@@ -37,7 +37,7 @@ export default async function ProductsPage({
           Showing {products.length} items
         </p>
 
-        <div className="mt-6 flex flex-col lg:flex-row gap-6">
+        <div className="mt-6 flex flex-col-reverse lg:flex-row gap-6">
           <div className="flex-1">
             <ProductsGrid products={products.slice(0, 12)} />
           </div>
