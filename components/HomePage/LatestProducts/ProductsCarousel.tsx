@@ -4,18 +4,13 @@ import Image from "next/image";
 import { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { safeImageSrc } from "@/lib/utils";
 type ApiProduct = {
   id: number;
   title: string;
   price: number;
   images: string[];
 };
-
-function safeImg(url?: string) {
-  if (!url) return "/placeholders/product.png";
-  return url;
-}
 
 export default function ProductsCarousel({
   products,
@@ -69,7 +64,7 @@ export default function ProductsCarousel({
               <CardContent className="p-0">
                 <div className="relative h-42.5 w-full bg-zinc-900/50">
                   <Image
-                    src={safeImg(p.images?.[0])}
+                    src={safeImageSrc(p.images?.[0])}
                     alt={p.title}
                     fill
                     className="object-cover"

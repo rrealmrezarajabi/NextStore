@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
+import { safeImageSrc } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Product } from "@/lib/types/product";
 
@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="relative aspect-4/3 w-full bg-zinc-900">
           {cover ? (
             <Image
-              src={cover}
+              src={safeImageSrc(cover)}
               alt={product.title}
               fill
               className="object-cover"
