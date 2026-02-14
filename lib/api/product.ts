@@ -42,3 +42,18 @@ export async function getProduct(id: number): Promise<Product> {
 
   return (await res.json()) as Product;
 }
+
+export async function deleteProduct(id:number){
+  const url = `${BASE_URL}/products/${id}`;
+
+  const res = await fetch(url , {
+    method:'DELETE'
+  })
+
+  if(!res.ok) throw new Error('failed to delete product')
+
+  const data = await res.json()
+
+  return data
+
+}

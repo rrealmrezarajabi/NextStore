@@ -1,9 +1,10 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { Product } from "@/lib/types/product";
-
+import { deleteProduct } from "@/lib/api/product";
 export function ProductTable({ products }: { products: Product[] }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white">
@@ -56,7 +57,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                       <Button size="xs" variant="outline" type="button">
                         Change
                       </Button>
-                      <Button size="xs" variant="destructive" type="button">
+                      <Button onClick={()=> deleteProduct(product.id)} size="xs" variant="destructive" type="button">
                         Delete
                       </Button>
                     </div>
