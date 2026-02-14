@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Product } from "../types/product";
-import { BASE_URL } from "./api ";
+import { BASE_URL } from "./base-url";
 
 export async function getProducts({
   categoryId,
