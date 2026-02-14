@@ -1,5 +1,5 @@
 import type { Category } from "../types/category";
-import { BASE_URL } from "./api ";
+import { BASE_URL } from "./base-url";
 
 export async function getCategories():Promise<Category[]> {
 
