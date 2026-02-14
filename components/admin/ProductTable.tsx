@@ -37,7 +37,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                       </div>
                       <div>
                         <Link
-                          href={`/products/${product.id}`}
+                          href={`/admin/products/${product.id}`}
                           className="font-medium text-black hover:underline"
                         >
                           {product.title}
