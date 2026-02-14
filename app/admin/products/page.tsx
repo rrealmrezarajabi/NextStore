@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProductTable } from "@/components/admin/ProductTable";
 import { getProducts } from "@/lib/api/product";
-
+import {Plus} from "lucide-react"
 export default async function AdminProductsPage() {
   const products = await getProducts({});
 
@@ -16,7 +16,13 @@ export default async function AdminProductsPage() {
           </p>
         </div>
         <Button asChild>
-          <Link href="/admin/products/new">Create product</Link>
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Create New Product
+          </Link>
         </Button>
       </div>
 
