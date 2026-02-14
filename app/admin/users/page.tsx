@@ -1,6 +1,6 @@
 import { UsersTable } from "@/components/admin/UsersTable";
 import { Button } from "@/components/ui/button";
-import getUsers from "@/lib/api/user";
+import { getUsers } from "@/lib/api/user";
 import Link from "next/link";
 import {Plus} from "lucide-react"
 export default async function AdminUsersPage() {

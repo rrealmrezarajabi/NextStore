@@ -55,7 +55,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <Button size="xs" variant="outline" type="button">
-                        Change
+                        Edit Product
                       </Button>
                       <Button onClick={()=> deleteProduct(product.id)} size="xs" variant="destructive" type="button">
                         Delete

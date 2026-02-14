@@ -2,7 +2,7 @@ import type { User } from "../types/user";
 import { BASE_URL } from "./base-url";
 
 
-export default async function getUsers():Promise<User[]>{
+export async function getUsers():Promise<User[]>{
 
     const res = await fetch(`${BASE_URL}/users`)
 
@@ -12,3 +12,16 @@ export default async function getUsers():Promise<User[]>{
 
     return data
 }
+
+
+export async function getUserById(userId:number): Promise<User> {
+
+  const res = await fetch(`${BASE_URL}/users/${userId}`);
+
+  if (!res.ok) throw new Error("failed to fetch user");
+
+  const data = await res.json();
+
+  return data;
+}
+

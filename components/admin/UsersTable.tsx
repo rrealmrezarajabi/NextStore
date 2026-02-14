@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { User } from "@/lib/types/user";
+import Link from "next/link";
 
 export function UsersTable({ users }: { users: User[] }) {
   return (
@@ -20,21 +21,25 @@ export function UsersTable({ users }: { users: User[] }) {
             {users.map((user) => (
               <tr key={user.id} className="hover:bg-zinc-50">
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
-                      <Image
-                        src={safeImageSrc(user.avatar)}
-                        alt={user.name}
-                        fill
-                        className="object-cover"
-                        sizes="48px"
-                      />
+                  <Link href={`/admin/users/${user.id}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-12 w-12 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
+                        <Image
+                          src={safeImageSrc(user.avatar)}
+                          alt={user.name}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-medium text-black">{user.name}</p>
+                        <div className="text-xs text-zinc-500">
+                          ID {user.id}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-black">{user.name}</p>
-                      <div className="text-xs text-zinc-500">ID {user.id}</div>
-                    </div>
-                  </div>
+                  </Link>
                 </td>
                 <td className="px-4 py-3 text-zinc-700">{user.email}</td>
                 <td className="px-4 py-3">
@@ -45,7 +50,7 @@ export function UsersTable({ users }: { users: User[] }) {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <Button size="xs" variant="outline" type="button">
-                      Change
+                      Edit User
                     </Button>
                     <Button size="xs" variant="destructive" type="button">
                       Delete

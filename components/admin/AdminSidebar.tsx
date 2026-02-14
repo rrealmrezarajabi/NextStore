@@ -42,9 +42,7 @@ export default function AdminSidebar() {
         </div>
       </nav>
 
-      <div className="mt-auto border-t border-zinc-200 p-3">
-        <p className="text-xs text-zinc-600">Black & white UI</p>
-      </div>
+      
     </aside>
   );
 }
