@@ -49,9 +49,12 @@ export function UsersTable({ users }: { users: User[] }) {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <Button size="xs" variant="outline" type="button">
-                      Edit User
-                    </Button>
+                    <Link href={`/admin/users/${user.id}/update`}>
+                      <Button size="xs" variant="outline" type="button">
+                        Edit User
+                      </Button>
+                    </Link>
+
                     <Button size="xs" variant="destructive" type="button">
                       Delete
                     </Button>
