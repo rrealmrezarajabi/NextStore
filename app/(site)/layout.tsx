@@ -1,0 +1,21 @@
+import Navbar from "@/components/shared/NavBar";
+import Footer from "@/components/shared/Footer";
+import Providers from "@/providers";
+
+export default function SiteLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+
+      <main className="flex-1 bg-zinc-950">
+        <Providers>{children}</Providers>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

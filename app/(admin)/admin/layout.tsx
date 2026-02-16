@@ -19,13 +19,11 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-white">
       <div className="flex min-h-screen">
-        {/* Desktop sidebar */}
         <aside className="hidden md:block w-64 shrink-0 border-r">
           <AdminSidebar />
         </aside>
 
         <div className="flex flex-1 min-w-0 flex-col">
-          {/* Mobile header + drawer */}
           <header className="md:hidden sticky top-0 z-10 border-b bg-white">
             <div className="flex h-14 items-center gap-3 px-4">
               <Sheet>
@@ -36,7 +34,6 @@ export default function AdminLayout({
                 </SheetTrigger>
 
                 <SheetContent side="left" className="p-0 w-64">
-                  {/* Required for accessibility */}
                   <VisuallyHidden>
                     <SheetTitle>Admin navigation</SheetTitle>
                   </VisuallyHidden>
