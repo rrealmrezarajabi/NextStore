@@ -1,21 +1,18 @@
-import type { User } from "../types/user"; 
+import type { User } from "../types/user";
 import { BASE_URL } from "./base-url";
-import { CreateUser } from "../types/user";
+import { CreateUserDto } from "../types/user";
+import { UpdateUserDto } from "../types/user";
+export async function getUsers(): Promise<User[]> {
+  const res = await fetch(`${BASE_URL}/users`);
 
-export async function getUsers():Promise<User[]>{
+  if (!res.ok) throw new Error("failed to fetch users");
 
-    const res = await fetch(`${BASE_URL}/users`)
+  const data = await res.json();
 
-    if(!res.ok) throw new Error('failed to fetch users')
-
-    const data = await res.json()
-
-    return data
+  return data;
 }
 
-
-export async function getUserById(userId:number): Promise<User> {
-
+export async function getUserById(userId: number): Promise<User> {
   const res = await fetch(`${BASE_URL}/users/${userId}`);
 
   if (!res.ok) throw new Error("failed to fetch user");
@@ -25,8 +22,7 @@ export async function getUserById(userId:number): Promise<User> {
   return data;
 }
 
-export async function createUser(userData:CreateUser):Promise<User>{
-
+export async function createUser(userData: CreateUserDto): Promise<User> {
   const res = await fetch(`${BASE_URL}/users`, {
     method: "POST",
     headers: {
@@ -35,10 +31,28 @@ export async function createUser(userData:CreateUser):Promise<User>{
     body: JSON.stringify(userData),
   });
 
-  if(!res.ok) throw new Error("failed to create new user")
+  if (!res.ok) throw new Error("failed to create new user");
 
-  const data = await res.json()
+  const data = await res.json();
 
-  return data
+  return data;
+}
 
+export async function updateUser(
+  userId: number,
+  userData: UpdateUserDto,
+): Promise<User> {
+  const res = await fetch(`${BASE_URL}/users/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!res.ok) throw new Error("failed to update user");
+
+  const data = await res.json();
+
+  return data;
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { createUser } from "@/lib/api/user";
-import type { CreateUser } from "@/lib/types/user";
+import type { CreateUserDto } from "@/lib/types/user";
 
 const CreateUserPage = () => {
   const router = useRouter();
@@ -14,9 +14,9 @@ const CreateUserPage = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<CreateUser>();
+  } = useForm<CreateUserDto>();
 
-  const onSubmit = async (data: CreateUser) => {
+  const onSubmit = async (data: CreateUserDto) => {
     try {
       await createUser(data);
       reset();
