@@ -1,11 +1,132 @@
-import React from 'react'
+"use client";
 
-const NewUserPage = () => {
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { createUser } from "@/lib/api/user";
+import type { CreateUser } from "@/lib/types/user";
+
+const CreateUserPage = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateUser>();
+
+  const onSubmit = async (data: CreateUser) => {
+    try {
+      await createUser(data);
+      reset();
+      router.push("/admin/users");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div>
-      hi
-    </div>
-  )
-}
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-black">Create user</h1>
+          <p className="text-sm text-zinc-600">Add a new user account.</p>
+        </div>
+        <Button asChild variant="outline">
+          <Link href="/admin/users">Back to users</Link>
+        </Button>
+      </div>
 
-export default NewUserPage
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="rounded-xl border border-zinc-200 bg-white p-6"
+      >
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Name
+            </label>
+            <input
+              type="text"
+              placeholder="Jane Doe"
+              {...register("name", { required: "Name is required" })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.name && (
+              <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="jane@example.com"
+              {...register("email", { required: "Email is required" })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="Minimum 4 characters"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 4,
+                  message: "Password must be at least 4 characters",
+                },
+              })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <div className="sm:col-span-2">
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Avatar URL
+            </label>
+            <input
+              type="text"
+              placeholder="https://..."
+              {...register("avatar", { required: "Avatar URL is required" })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.avatar && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.avatar.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-end gap-2">
+          <Button type="button" variant="outline" asChild>
+            <Link href="/admin/users">Cancel</Link>
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating..." : "Create User"}
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CreateUserPage;
