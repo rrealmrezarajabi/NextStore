@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
-
+import Providers from "@/providers";
 export const metadata: Metadata = {
   title: "NextStore",
   description: "A modern ecommerece website",
@@ -18,7 +18,9 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col ">
         <Navbar />
 
-        <main className="flex-1 bg-zinc-950">{children}</main>
+        <main className="flex-1 bg-zinc-950">
+          <Providers>{children}</Providers>
+        </main>
 
         <Footer />
       </body>
