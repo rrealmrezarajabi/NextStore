@@ -8,3 +8,11 @@ export type Product = {
   category: Category; 
   images: string[];
 };
+
+export interface CreateProductDTO {
+  title: string;
+  price: number;
+  description: string;
+  categoryId: number;
+  images: string[];
+}

@@ -23,6 +23,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
             <Link href="/admin/users">Back to users</Link>
           </Button>
           <Button variant="outline" type="button">
+            <Link href={`/admin/users/${userId}/update`}>Edit</Link>
             Edit
           </Button>
           <Button variant="destructive" type="button">

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Product } from "../types/product";
 import { BASE_URL } from "./base-url";
-
+import { CreateProductDTO } from "../types/product";
 export async function getProducts({
   categoryId,
   title,
@@ -56,4 +56,22 @@ export async function deleteProduct(id:number){
 
   return data
 
+}
+
+export async function CreateProduct(productData:CreateProductDTO):Promise<Product> {
+
+  const res = await fetch(`${BASE_URL}/products`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productData),
+  });
+
+  if(!res.ok) throw new Error ("failed to create product")
+
+  const data = res.json()
+
+  return data
+  
 }
