@@ -5,9 +5,11 @@ import { CreateProductDTO } from "../types/product";
 export async function getProducts({
   categoryId,
   title,
+  cacheMode = "revalidate",
 }: {
   categoryId?: number;
   title?: string;
+  cacheMode?: "revalidate" | "no-store";
 }) {
   let url = `${BASE_URL}/products`;
 
@@ -20,7 +22,10 @@ export async function getProducts({
     url += `?${query.toString()}`;
   }
 
-  const res = await fetch(url, { next: { revalidate: 60 } });
+  const res =
+    cacheMode === "no-store"
+      ? await fetch(url, { cache: "no-store" })
+      : await fetch(url, { next: { revalidate: 60 } });
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
@@ -43,23 +48,26 @@ export async function getProduct(id: number): Promise<Product> {
   return (await res.json()) as Product;
 }
 
-export async function deleteProduct(id:number){
+export async function deleteProduct(id: number) {
   const url = `${BASE_URL}/products/${id}`;
 
-  const res = await fetch(url , {
-    method:'DELETE'
-  })
+  const res = await fetch(url, { method: "DELETE", cache: "no-store" });
 
-  if(!res.ok) throw new Error('failed to delete product')
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(
+      `Failed to delete product (${res.status} ${res.statusText}): ${text}`,
+    );
+  }
 
-  const data = await res.json()
+  if (res.status === 204) return true;
 
-  return data
-
+  return res.json();
 }
 
-export async function CreateProduct(productData:CreateProductDTO):Promise<Product> {
-
+export async function CreateProduct(
+  productData: CreateProductDTO,
+): Promise<Product> {
   const res = await fetch(`${BASE_URL}/products`, {
     method: "POST",
     headers: {
@@ -68,10 +76,9 @@ export async function CreateProduct(productData:CreateProductDTO):Promise<Produc
     body: JSON.stringify(productData),
   });
 
-  if(!res.ok) throw new Error ("failed to create product")
+  if (!res.ok) throw new Error("failed to create product");
 
-  const data = res.json()
+  const data = res.json();
 
-  return data
-  
+  return data;
 }

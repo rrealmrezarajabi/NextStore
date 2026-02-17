@@ -1,11 +1,27 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { Product } from "@/lib/types/product";
 import { deleteProduct } from "@/lib/api/product";
 export function ProductTable({ products }: { products: Product[] }) {
+  const router = useRouter();
+
+  async function onDelete(id: number) {
+    try {
+      await deleteProduct(id);
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("(404")) {
+        router.refresh();
+        return;
+      }
+      console.error("Failed to delete product", error);
+    }
+  }
+
   return (
     <div className="rounded-xl border border-zinc-200 bg-white">
       <div className="overflow-x-auto">
@@ -57,7 +73,12 @@ export function ProductTable({ products }: { products: Product[] }) {
                       <Button size="xs" variant="outline" type="button">
                         Edit Product
                       </Button>
-                      <Button onClick={()=> deleteProduct(product.id)} size="xs" variant="destructive" type="button">
+                      <Button
+                        onClick={() => onDelete(product.id)}
+                        size="xs"
+                        variant="destructive"
+                        type="button"
+                      >
                         Delete
                       </Button>
                     </div>

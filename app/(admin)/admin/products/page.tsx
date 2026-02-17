@@ -4,7 +4,7 @@ import { ProductTable } from "@/components/admin/ProductTable";
 import { getProducts } from "@/lib/api/product";
 import {Plus} from "lucide-react"
 export default async function AdminProductsPage() {
-  const products = await getProducts({});
+  const products = await getProducts({ cacheMode: "no-store" });
 
   return (
     <div className="space-y-4">
