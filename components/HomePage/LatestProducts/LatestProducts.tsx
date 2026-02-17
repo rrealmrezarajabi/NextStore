@@ -1,5 +1,7 @@
-import ProductsCarousel from "./ProductsCarousel";
 
+import Link from "next/link";
+import ProductsCarousel from "./ProductsCarousel";
+import { BASE_URL } from "@/lib/api/base-url";
 type ApiProduct = {
   id: number;
   title: string;
@@ -9,12 +11,9 @@ type ApiProduct = {
 };
 
 async function getLatest() {
-  const res = await fetch(
-    "https://api.escuelajs.co/api/v1/products?offset=0&limit=20",
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await fetch(`${BASE_URL}/products`, {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("Failed to fetch products");
 
   const data = (await res.json()) as ApiProduct[];
@@ -41,24 +40,25 @@ export default async function LatestProducts() {
               Latest Products
             </h2>
           </div>
-
-          <a
-            href="/products"
-            className="hidden h-10 items-center justify-center rounded-lg border border-white/15 bg-white/4 px-4 text-sm font-medium text-white/80 transition hover:bg-white/8 sm:inline-flex"
-          >
-            View all
-          </a>
+          <Link href={"/products"}>
+            {" "}
+            <div className="hidden h-10 items-center justify-center rounded-lg border border-white/15 bg-white/4 px-4 text-sm font-medium text-white/80 transition hover:bg-white/8 sm:inline-flex">
+              {" "}
+              View All
+            </div>
+          </Link>
         </div>
 
         <ProductsCarousel products={products} />
 
         <div className="mt-8 sm:hidden">
-          <a
-            href="/products"
-            className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-white/15 bg-white/4 px-4 text-sm font-medium text-white/80 transition hover:bg-white/8"
-          >
-            View all products
-          </a>
+          <Link href={"/products"}>
+            {" "}
+            <div className="inline-flex h-11 w-full items-center justify-center rounded-lg border border-white/15 bg-white/4 px-4 text-sm font-medium text-white/80 transition hover:bg-white/8">
+              {" "}
+              View All
+            </div>
+          </Link>
         </div>
       </div>
     </section>
