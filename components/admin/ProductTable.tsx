@@ -70,10 +70,10 @@ export function ProductTable({ products }: { products: Product[] }) {
                   <td className="px-4 py-3 text-zinc-700">${product.price}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <Button size="xs" variant="outline" type="button">
+                      <Button size="xs" variant="outline" type="button" className="cursor-pointer">
                         Edit Product
                       </Button>
-                      <Button
+                      <Button className="cursor-pointer"
                         onClick={() => onDelete(product.id)}
                         size="xs"
                         variant="destructive"
