@@ -1,26 +1,28 @@
 import { notFound } from "next/navigation";
-import { Product } from "../types/product";
+import { CreateProductDTO, PaginatedProducts, Product } from "../types/product";
 import { BASE_URL } from "./base-url";
-import { CreateProductDTO } from "../types/product";
+
 export async function getProducts({
   categoryId,
   title,
+  page = 1,
+  limit = 20,
   cacheMode = "revalidate",
 }: {
   categoryId?: number;
   title?: string;
+  page?: number;
+  limit?: number;
   cacheMode?: "revalidate" | "no-store";
-}) {
-  let url = `${BASE_URL}/products`;
-
+} = {}): Promise<PaginatedProducts> {
   const query = new URLSearchParams();
 
   if (categoryId) query.set("categoryId", categoryId.toString());
   if (title) query.set("title", title);
+  query.set("page", page.toString());
+  query.set("limit", limit.toString());
 
-  if (query.size > 0) {
-    url += `?${query.toString()}`;
-  }
+  const url = `${BASE_URL}/products?${query.toString()}`;
 
   const res =
     cacheMode === "no-store"
@@ -29,7 +31,7 @@ export async function getProducts({
 
   if (!res.ok) throw new Error("Failed to fetch products");
 
-  return (await res.json()) as Product[];
+  return res.json() as Promise<PaginatedProducts>;
 }
 
 export async function getProduct(id: number): Promise<Product> {

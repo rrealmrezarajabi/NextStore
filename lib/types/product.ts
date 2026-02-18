@@ -5,7 +5,7 @@ export type Product = {
   slug: string;
   price: number;
   description: string;
-  category: Category; 
+  category: Category;
   images: string[];
 };
 
@@ -15,4 +15,18 @@ export interface CreateProductDTO {
   description: string;
   categoryId: number;
   images: string[];
+}
+
+export interface PaginatedMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+export interface PaginatedProducts {
+  data: Product[];
+  meta: PaginatedMeta;
 }

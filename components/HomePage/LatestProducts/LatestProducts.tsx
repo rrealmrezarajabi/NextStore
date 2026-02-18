@@ -1,30 +1,11 @@
-
 import Link from "next/link";
 import ProductsCarousel from "./ProductsCarousel";
-import { BASE_URL } from "@/lib/api/base-url";
-type ApiProduct = {
-  id: number;
-  title: string;
-  price: number;
-  images: string[];
-  creationAt?: string;
-};
+import { getProducts } from "@/lib/api/product";
 
 async function getLatest() {
-  const res = await fetch(`${BASE_URL}/products`, {
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error("Failed to fetch products");
+  const { data } = await getProducts({ limit: 20, cacheMode: "revalidate" });
 
-  const data = (await res.json()) as ApiProduct[];
-
-  const sorted = [...data].sort((a, b) => {
-    const da = new Date(a.creationAt ?? 0).getTime();
-    const db = new Date(b.creationAt ?? 0).getTime();
-    return db - da;
-  });
-
-  return sorted.slice(0, 10);
+  return [...data].sort((a, b) => b.id - a.id).slice(0, 10);
 }
 
 export default async function LatestProducts() {

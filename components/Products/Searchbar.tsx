@@ -11,11 +11,10 @@ export default function SearchBar() {
   const currentSearch = searchParams.get("search") || "";
 
   const [value, setValue] = useState(currentSearch);
-  const [showSpinner , setShowSpinner] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false);
 
   function handleSearch() {
-
-    setShowSpinner(true)
+    setShowSpinner(true);
     const params = new URLSearchParams(searchParams.toString());
 
     if (value.trim()) {
@@ -23,15 +22,15 @@ export default function SearchBar() {
     } else {
       params.delete("search");
     }
+    params.delete("page"); // reset to page 1 on new search
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
 
     setValue("");
-    
+
     setTimeout(() => {
-      setShowSpinner(false); 
+      setShowSpinner(false);
     }, 400);
-    
   }
 
   return (

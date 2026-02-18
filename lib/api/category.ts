@@ -1,16 +1,28 @@
 import type { Category } from "../types/category";
 import { BASE_URL } from "./base-url";
 
-export async function getCategories():Promise<Category[]> {
+export interface PaginatedCategories {
+  data: Category[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
 
-    const res = await fetch(`${BASE_URL}/categories` , {
-        next : {revalidate : 60}
-    })
+export async function getCategories(limit = 100): Promise<Category[]> {
+  const res = await fetch(`${BASE_URL}/categories?limit=${limit}`, {
+    next: { revalidate: 60 },
+  });
 
-    if(!res.ok) throw new Error("failed to fetch categories")
+  if (!res.ok) throw new Error("failed to fetch categories");
 
-    const data = res.json()
+  const json = (await res.json()) as PaginatedCategories | Category[];
 
-    return data
-    
+  // Handle both paginated and plain-array responses
+  if (Array.isArray(json)) return json;
+  return json.data;
 }
