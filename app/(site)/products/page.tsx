@@ -32,13 +32,18 @@ export default async function ProductsPage({
 
   return (
     <main className="min-h-dvh bg-zinc-950 text-white">
-      <div className="mx-auto max-w-full px-5 py-10">
-        <div className="mb-8">
-          <SearchBar />
+      <div className="mx-auto max-w-7xl px-5 py-10">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold">{title}</h1>
+            <p className="mt-1 text-sm text-zinc-400">
+              Showing {meta.total} items
+            </p>
+          </div>
+          <div className="mb-4">
+            <SearchBar />
+          </div>
         </div>
-
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="mt-1 text-sm text-zinc-400">Showing {meta.total} items</p>
 
         <div className="mt-6 flex flex-col-reverse lg:flex-row gap-6">
           <div className="flex-1">
@@ -59,7 +64,7 @@ export default async function ProductsPage({
 
           <div className="w-full lg:w-64">
             <CategoriesSidebar
-              categories={categories.slice(0, 5)}
+              categories={categories}
               activeCategoryId={categoryId}
             />
           </div>

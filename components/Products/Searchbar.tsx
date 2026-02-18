@@ -22,8 +22,7 @@ export default function SearchBar() {
     } else {
       params.delete("search");
     }
-    params.delete("page"); // reset to page 1 on new search
-
+    params.delete("page"); 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
 
     setValue("");
