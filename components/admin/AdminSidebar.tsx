@@ -12,13 +12,15 @@ export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-zinc-200 bg-white">
+    <aside className="w-64 border-r border-zinc-200 bg-white flex flex-col h-screen">
+      {/* Header */}
       <div className="flex h-16 items-center px-4">
         <div className="text-sm font-semibold tracking-tight text-black">
           Admin Panel
         </div>
       </div>
 
+      {/* Nav */}
       <nav className="px-2 py-3">
         <div className="space-y-1">
           {navItems.map((item) => {
@@ -43,6 +45,14 @@ export default function AdminSidebar() {
       </nav>
 
       
+      <div className="mt-auto px-2 py-4 border-t border-zinc-200">
+        <Link
+          href="/"
+          className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
+        >
+          ← Back to Homepage
+        </Link>
+      </div>
     </aside>
   );
 }
