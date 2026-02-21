@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProductTable } from "@/components/admin/ProductTable";
-import { AdminProductsToolbar } from "@/components/admin/AdminProductsToolbar";
-import { AdminProductsPagination } from "@/components/admin/AdminProductsPagination";
+import { Searchbar } from "@/components/shared/Searchbar";
+import { Pagination } from "@/components/shared/Pagination";
 import { getProducts } from "@/lib/api/product";
 import { Plus } from "lucide-react";
 
@@ -45,12 +45,12 @@ export default async function AdminProductsPage({
         </Button>
       </div>
 
-      <AdminProductsToolbar />
+      <Searchbar placeholder="Search products..." />
 
       {products.length > 0 ? (
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
           <ProductTable products={products} />
-          <AdminProductsPagination
+          <Pagination
             page={meta.page}
             totalPages={meta.totalPages}
             total={meta.total}

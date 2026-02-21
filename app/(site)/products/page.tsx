@@ -2,7 +2,7 @@ import { ProductsGrid } from "@/components/Products/ProductsGrid";
 import { CategoriesSidebar } from "@/components/Products/CategoriesSidebar";
 import { getProducts } from "@/lib/api/product";
 import { getCategories } from "@/lib/api/category";
-import SearchBar from "@/components/Products/Searchbar";
+import { Searchbar } from "@/components/shared/Searchbar";
 import { Pagination } from "@/components/shared/Pagination";
 
 const LIMIT = 12;
@@ -41,7 +41,7 @@ export default async function ProductsPage({
             </p>
           </div>
           <div className="mb-4">
-            <SearchBar />
+            <Searchbar placeholder="Search products..." variant="dark" />
           </div>
         </div>
 
