@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/admin/products", label: "Products" },
+  { href: "/admin/categories", label: "Categories" },
   { href: "/admin/users", label: "Users" },
 ];
 
@@ -44,7 +45,6 @@ export default function AdminSidebar() {
         </div>
       </nav>
 
-      
       <div className="mt-auto px-2 py-4 border-t border-zinc-200">
         <Link
           href="/"

@@ -1,7 +1,7 @@
 import { ProductsGrid } from "@/components/Products/ProductsGrid";
 import { CategoriesSidebar } from "@/components/Products/CategoriesSidebar";
 import { getProducts } from "@/lib/api/product";
-import { getCategories } from "@/lib/api/category";
+import { getAllCategories } from "@/lib/api/category";
 import { Searchbar } from "@/components/shared/Searchbar";
 import { Pagination } from "@/components/shared/Pagination";
 
@@ -21,7 +21,7 @@ export default async function ProductsPage({
 
   const [{ data: products, meta }, categories] = await Promise.all([
     getProducts({ categoryId, title: search, page, limit: LIMIT }),
-    getCategories(),
+    getAllCategories(),
   ]);
 
   const title = search
