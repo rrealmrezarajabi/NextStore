@@ -1,5 +1,8 @@
 export interface User {
   id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
   name: string;
   role: string;
   email: string;
@@ -22,10 +25,12 @@ export interface PaginatedUsers {
 }
 
 export interface CreateUserDto {
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
   password: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export interface UpdateUserDto {

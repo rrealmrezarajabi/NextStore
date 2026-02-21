@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import { getUserById, updateUser } from "@/lib/api/user";
 
 type UpdateUserDto = {
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 };
 
 const EditUserPage = () => {
@@ -28,7 +30,9 @@ const EditUserPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const user = await getUserById(userId);
-      setValue("name", user.name);
+      setValue("firstName", user.firstName);
+      setValue("lastName", user.lastName);
+      setValue("username", user.username);
       setValue("email", user.email);
       setValue("avatar", user.avatar);
     };
@@ -64,16 +68,52 @@ const EditUserPage = () => {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Name
+              First Name
             </label>
             <input
               type="text"
-              placeholder="Jane Doe"
-              {...register("name", { required: "Name is required" })}
+              placeholder="Jane"
+              {...register("firstName", { required: "First name is required" })}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
-            {errors.name && (
-              <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+            {errors.firstName && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.firstName.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Last Name
+            </label>
+            <input
+              type="text"
+              placeholder="Doe"
+              {...register("lastName", { required: "Last name is required" })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.lastName && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.lastName.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="text-xs uppercase tracking-wide text-zinc-500">
+              Username
+            </label>
+            <input
+              type="text"
+              placeholder="jane_doe"
+              {...register("username", { required: "Username is required" })}
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            />
+            {errors.username && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.username.message}
+              </p>
             )}
           </div>
 
@@ -96,19 +136,15 @@ const EditUserPage = () => {
 
           <div className="sm:col-span-2">
             <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Avatar URL
+              Avatar URL{" "}
+              <span className="normal-case text-zinc-400">(optional)</span>
             </label>
             <input
               type="text"
               placeholder="https://..."
-              {...register("avatar", { required: "Avatar URL is required" })}
+              {...register("avatar")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
-            {errors.avatar && (
-              <p className="mt-1 text-xs text-red-500">
-                {errors.avatar.message}
-              </p>
-            )}
           </div>
         </div>
 

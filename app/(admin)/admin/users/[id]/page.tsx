@@ -24,7 +24,6 @@ export default async function UserPage({ params }: { params: { id: string } }) {
           </Button>
           <Button variant="outline" type="button">
             <Link href={`/admin/users/${userId}/edit`}>Edit</Link>
-            
           </Button>
           <Button variant="destructive" type="button">
             Delete
@@ -37,14 +36,16 @@ export default async function UserPage({ params }: { params: { id: string } }) {
           <div className="relative h-20 w-20 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
             <Image
               src={safeImageSrc(user.avatar)}
-              alt={user.name}
+              alt={`${user.firstName} ${user.lastName}`}
               fill
               className="object-cover"
               sizes="80px"
             />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-black">{user.name}</h2>
+            <h2 className="text-lg font-semibold text-black">
+              {user.firstName} {user.lastName}
+            </h2>
             <div className="mt-2 inline-flex items-center rounded-full bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-800">
               {user.role}
             </div>
@@ -59,6 +60,24 @@ export default async function UserPage({ params }: { params: { id: string } }) {
             <div className="mt-1 text-sm font-medium text-zinc-900">
               {user.id}
             </div>
+          </div>
+          <div className="rounded-lg border border-zinc-200 p-4">
+            <div className="text-xs uppercase tracking-wide text-zinc-500">
+              Username
+            </div>
+            <div className="mt-1 text-sm text-zinc-700">@{user.username}</div>
+          </div>
+          <div className="rounded-lg border border-zinc-200 p-4">
+            <div className="text-xs uppercase tracking-wide text-zinc-500">
+              First Name
+            </div>
+            <div className="mt-1 text-sm text-zinc-700">{user.firstName}</div>
+          </div>
+          <div className="rounded-lg border border-zinc-200 p-4">
+            <div className="text-xs uppercase tracking-wide text-zinc-500">
+              Last Name
+            </div>
+            <div className="mt-1 text-sm text-zinc-700">{user.lastName}</div>
           </div>
           <div className="rounded-lg border border-zinc-200 p-4">
             <div className="text-xs uppercase tracking-wide text-zinc-500">

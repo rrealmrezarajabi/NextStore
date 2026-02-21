@@ -28,16 +28,18 @@ export function UsersTable({ users }: { users: User[] }) {
                       <div className="relative h-12 w-12 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
                         <Image
                           src={safeImageSrc(user.avatar)}
-                          alt={user.name}
+                          alt={`${user.firstName} ${user.lastName}`}
                           fill
                           className="object-cover"
                           sizes="48px"
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-black">{user.name}</p>
-                        <div className="text-xs text-zinc-500">
-                          ID {user.id}
+                        <p className="font-medium text-black">
+                          {user.firstName} {user.lastName}
+                        </p>
+                        <div className="text-xs text-black">
+                          @{user.username}
                         </div>
                       </div>
                     </div>
@@ -70,7 +72,7 @@ export function UsersTable({ users }: { users: User[] }) {
                       className="cursor-pointer"
                     >
                       Delete
-                      <UserRoundX  />
+                      <UserRoundX />
                     </Button>
                   </div>
                 </td>
