@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
-import { Product } from "@/lib/types/product";
+import { Product } from "@/types/product";
 import { deleteProduct } from "@/lib/api/product";
 export function ProductTable({ products }: { products: Product[] }) {
   const router = useRouter();

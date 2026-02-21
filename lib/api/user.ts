@@ -1,15 +1,15 @@
-import type { User } from "../types/user";
+import type { User } from "../../types/user";
 import { BASE_URL } from "./base-url";
-import { CreateUserDto } from "../types/user";
-import { UpdateUserDto } from "../types/user";
+import { CreateUserDto } from "../../types/user";
+import { UpdateUserDto } from "../../types/user";
 export async function getUsers(): Promise<User[]> {
   const res = await fetch(`${BASE_URL}/users`);
 
   if (!res.ok) throw new Error("failed to fetch users");
 
-  const data = await res.json();
+  const users = await res.json();
 
-  return data;
+  return users.data;
 }
 
 export async function getUserById(userId: number): Promise<User> {

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
-import { User } from "@/lib/types/user";
+import { User } from "@/types/user";
 import Link from "next/link";
 
 export function UsersTable({ users }: { users: User[] }) {
@@ -51,12 +51,22 @@ export function UsersTable({ users }: { users: User[] }) {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <Link href={`/admin/users/${user.id}/update`}>
-                      <Button size="xs" variant="outline" type="button" className="cursor-pointer">
+                      <Button
+                        size="xs"
+                        variant="outline"
+                        type="button"
+                        className="cursor-pointer"
+                      >
                         Edit User
                       </Button>
                     </Link>
 
-                    <Button size="xs" variant="destructive" type="button" className="cursor-pointer">
+                    <Button
+                      size="xs"
+                      variant="destructive"
+                      type="button"
+                      className="cursor-pointer"
+                    >
                       Delete
                     </Button>
                   </div>

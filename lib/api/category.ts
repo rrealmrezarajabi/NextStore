@@ -1,4 +1,4 @@
-import type { Category } from "../types/category";
+import type { Category } from "../../types/category";
 import { BASE_URL } from "./base-url";
 
 export interface PaginatedCategories {

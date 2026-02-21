@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation";
-import { CreateProductDTO, PaginatedProducts, Product } from "../types/product";
+import {
+  CreateProductDTO,
+  PaginatedProducts,
+  Product,
+} from "../../types/product";
 import { BASE_URL } from "./base-url";
 
 export async function getProducts({

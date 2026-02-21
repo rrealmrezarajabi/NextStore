@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { safeImageSrc } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-import { Product } from "@/lib/types/product";
+import { Product } from "@/types/product";
 
 export function ProductCard({ product }: { product: Product }) {
   const cover = product.images?.[0] ?? "";
