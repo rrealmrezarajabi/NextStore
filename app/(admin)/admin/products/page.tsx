@@ -45,7 +45,7 @@ export default async function AdminProductsPage({
         </Button>
       </div>
 
-      <Searchbar placeholder="Search products..." />
+      <Searchbar variant="dark" placeholder="Search products..." />
 
       {products.length > 0 ? (
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">

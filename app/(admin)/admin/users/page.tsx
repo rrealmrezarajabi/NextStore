@@ -40,12 +40,12 @@ export default async function AdminUsersPage({
         </Button>
       </div>
 
-      <Searchbar placeholder="Search users..." />
+      <Searchbar variant="dark" placeholder="Search users..." />
 
       {users.length > 0 ? (
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
           <UsersTable users={users} />
-          {/* Pagination — uses the same shared Pagination component as products */}
+
           <Pagination
             page={meta.page}
             totalPages={meta.totalPages}

@@ -41,7 +41,7 @@ export default async function ProductsPage({
             </p>
           </div>
           <div className="mb-4">
-            <Searchbar placeholder="Search products..." variant="dark" />
+            <Searchbar placeholder="Search products..." variant="light" />
           </div>
         </div>
 

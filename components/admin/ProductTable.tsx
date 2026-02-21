@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { Product } from "@/types/product";
 import { deleteProduct } from "@/lib/api/product";
+import { Trash2, SquarePen } from "lucide-react";
+
 export function ProductTable({ products }: { products: Product[] }) {
   const router = useRouter();
 
@@ -75,7 +77,8 @@ export function ProductTable({ products }: { products: Product[] }) {
                       type="button"
                       className="cursor-pointer"
                     >
-                      Edit Product
+                      Edit
+                      <SquarePen />
                     </Button>
                     <Button
                       className="cursor-pointer"
@@ -85,6 +88,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                       type="button"
                     >
                       Delete
+                      <Trash2 />
                     </Button>
                   </div>
                 </td>

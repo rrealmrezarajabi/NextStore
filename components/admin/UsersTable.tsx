@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { User } from "@/types/user";
 import Link from "next/link";
+import { UserPen, UserRoundX } from "lucide-react";
 
 export function UsersTable({ users }: { users: User[] }) {
   return (
@@ -57,7 +58,8 @@ export function UsersTable({ users }: { users: User[] }) {
                         type="button"
                         className="cursor-pointer"
                       >
-                        Edit User
+                        Edit
+                        <UserPen />
                       </Button>
                     </Link>
 
@@ -68,6 +70,7 @@ export function UsersTable({ users }: { users: User[] }) {
                       className="cursor-pointer"
                     >
                       Delete
+                      <UserRoundX  />
                     </Button>
                   </div>
                 </td>

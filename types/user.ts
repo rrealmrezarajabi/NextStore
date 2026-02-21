@@ -7,7 +7,6 @@ export interface User {
   avatar: string;
 }
 
-// Meta info returned by the backend for paginated responses
 export interface PaginatedMeta {
   total: number;
   page: number;
