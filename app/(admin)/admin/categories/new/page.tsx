@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { createCategory } from "@/lib/api/category";
 import type { CreateCategoryDTO } from "@/types/category";
+import { ImageUploader } from "@/components/shared/ImageUploader";
 
 export default function CreateCategoryPage() {
   const router = useRouter();
