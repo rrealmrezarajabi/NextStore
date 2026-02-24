@@ -10,10 +10,12 @@ import { ImageUploader } from "@/components/shared/ImageUploader";
 
 export default function CreateCategoryPage() {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateCategoryDTO>();
 
@@ -52,22 +54,16 @@ export default function CreateCategoryPage() {
               type="text"
               placeholder="e.g. Electronics"
               {...register("name", { required: "Name is required" })}
-              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm"
             />
             {errors.name && (
               <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
             )}
           </div>
-
-          <div className="sm:col-span-2">
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Image URL <span className="text-zinc-400">(optional)</span>
-            </label>
-            <input
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              {...register("image")}
-              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+          <div>
+            <ImageUploader
+              label="Category Image"
+              onChange={(url) => setValue("image", url)}
             />
           </div>
         </div>
@@ -80,6 +76,7 @@ export default function CreateCategoryPage() {
           >
             Cancel
           </Button>
+
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Creating..." : "Create Category"}
           </Button>

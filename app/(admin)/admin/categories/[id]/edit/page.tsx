@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { ImageUploader } from "@/components/shared/ImageUploader";
+import { resolveImageUrl } from "@/lib/api/file";
 import {
   getCategoryById,
   updateCategory,
@@ -16,6 +18,9 @@ export default function EditCategoryPage() {
   const router = useRouter();
   const params = useParams();
   const categoryId = Number(params.id);
+
+  const [loaded, setLoaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const {
     register,
@@ -29,6 +34,8 @@ export default function EditCategoryPage() {
       const category = await getCategoryById(categoryId);
       setValue("name", category.name);
       setValue("image", category.image ?? "");
+      setImageUrl(resolveImageUrl(category.image));
+      setLoaded(true);
     };
 
     fetchCategory();
@@ -84,16 +91,17 @@ export default function EditCategoryPage() {
             )}
           </div>
 
-          <div className="sm:col-span-2">
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Image URL <span className="text-zinc-400">(optional)</span>
-            </label>
-            <input
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              {...register("image")}
-              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-            />
+          <div>
+            {loaded && (
+              <ImageUploader
+                label="Category Image"
+                value={imageUrl}
+                onChange={(url) => {
+                  setImageUrl(url);
+                  setValue("image", url);
+                }}
+              />
+            )}
           </div>
         </div>
 

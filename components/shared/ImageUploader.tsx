@@ -3,8 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
-import { uploadFile } from "@/lib/api/file";
-
+import { uploadFile, resolveImageUrl } from "@/lib/api/file";
 
 interface ImageUploaderProps {
   value?: string; // برای حالت edit (اختیاری)
@@ -17,7 +16,9 @@ export function ImageUploader({
   onChange,
   label = "Upload Image",
 }: ImageUploaderProps) {
-  const [preview, setPreview] = useState<string | null>(value || null);
+  const [preview, setPreview] = useState<string | null>(
+    resolveImageUrl(value) || null,
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
