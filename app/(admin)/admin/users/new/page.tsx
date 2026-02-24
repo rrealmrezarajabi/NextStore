@@ -20,6 +20,7 @@ const CreateUserPage = () => {
 
   const onSubmit = async (data: CreateUserDto) => {
     try {
+      if (!data.avatar) delete data.avatar;
       await createUser(data);
       reset();
       router.push("/admin/users");

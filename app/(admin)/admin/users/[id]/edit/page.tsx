@@ -49,6 +49,7 @@ const EditUserPage = () => {
 
   const onSubmit = async (data: UpdateUserDto) => {
     try {
+      if (!data.avatar) delete data.avatar;
       await updateUser(userId, data);
       router.push("/admin/users");
     } catch (error) {
