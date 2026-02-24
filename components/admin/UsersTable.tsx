@@ -5,8 +5,18 @@ import { safeImageSrc } from "@/lib/utils";
 import { User } from "@/types/user";
 import Link from "next/link";
 import { UserPen, UserRoundX } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { deleteUser } from "@/lib/api/user";
 
 export function UsersTable({ users }: { users: User[] }) {
+  const router = useRouter();
+
+  async function handleDelete(userId: number) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+    await deleteUser(userId);
+    router.refresh();
+  }
+
   return (
     <div className="rounded-xl border border-zinc-200 bg-white">
       <div className="overflow-x-auto">
@@ -70,6 +80,7 @@ export function UsersTable({ users }: { users: User[] }) {
                       variant="destructive"
                       type="button"
                       className="cursor-pointer"
+                      onClick={() => handleDelete(user.id)}
                     >
                       Delete
                       <UserRoundX />

@@ -52,6 +52,15 @@ export async function createUser(userData: CreateUserDto): Promise<User> {
 
   return data;
 }
+// deleting user function
+export async function deleteUser(userId: number): Promise<void> {
+  const res = await fetch(`${BASE_URL}/users/${userId}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) throw new Error("failed to delete user");
+}
+
 // updating user function
 export async function updateUser(
   userId: number,
