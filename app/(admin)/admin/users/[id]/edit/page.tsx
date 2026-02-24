@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { ImageUploader } from "@/components/shared/ImageUploader";
+import { resolveImageUrl } from "@/lib/api/file";
 import { getUserById, updateUser } from "@/lib/api/user";
 
 type UpdateUserDto = {
@@ -19,6 +21,9 @@ const EditUserPage = () => {
   const router = useRouter();
   const params = useParams();
   const userId = Number(params.id);
+
+  const [loaded, setLoaded] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   const {
     register,
@@ -35,6 +40,8 @@ const EditUserPage = () => {
       setValue("username", user.username);
       setValue("email", user.email);
       setValue("avatar", user.avatar);
+      setAvatarUrl(resolveImageUrl(user.avatar));
+      setLoaded(true);
     };
 
     fetchUser();
@@ -134,17 +141,17 @@ const EditUserPage = () => {
             )}
           </div>
 
-          <div className="sm:col-span-2">
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Avatar URL{" "}
-              <span className="normal-case text-zinc-400">(optional)</span>
-            </label>
-            <input
-              type="text"
-              placeholder="https://..."
-              {...register("avatar")}
-              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
-            />
+          <div>
+            {loaded && (
+              <ImageUploader
+                label="Avatar"
+                value={avatarUrl}
+                onChange={(url) => {
+                  setAvatarUrl(url);
+                  setValue("avatar", url);
+                }}
+              />
+            )}
           </div>
         </div>
 

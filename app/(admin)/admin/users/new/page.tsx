@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { ImageUploader } from "@/components/shared/ImageUploader";
 import { createUser } from "@/lib/api/user";
 import type { CreateUserDto } from "@/types/user";
 
@@ -13,6 +14,7 @@ const CreateUserPage = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateUserDto>();
 
@@ -134,16 +136,10 @@ const CreateUserPage = () => {
             )}
           </div>
 
-          <div className="sm:col-span-2">
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
-              Avatar URL{" "}
-              <span className="normal-case text-zinc-400">(optional)</span>
-            </label>
-            <input
-              type="text"
-              placeholder="https://..."
-              {...register("avatar")}
-              className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+          <div>
+            <ImageUploader
+              label="Avatar"
+              onChange={(url) => setValue("avatar", url)}
             />
           </div>
         </div>
