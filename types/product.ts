@@ -18,6 +18,14 @@ export interface CreateProductDTO {
   images: string[];
 }
 
+export interface UpdateProductDTO {
+  title?: string;
+  price?: number;
+  description?: string;
+  categoryId?: number;
+  images?: string[];
+}
+
 export interface PaginatedMeta {
   total: number;
   page: number;

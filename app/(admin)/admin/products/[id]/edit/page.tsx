@@ -1,31 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
+import { resolveImageUrl } from "@/lib/api/file";
 import { getAllCategories } from "@/lib/api/category";
-import { CreateProduct } from "@/lib/api/product";
-import type { CreateProductDTO } from "@/types/product";
+import { getProduct, updateProduct, deleteProduct } from "@/lib/api/product";
+import type { UpdateProductDTO } from "@/types/product";
 import type { Category } from "@/types/category";
 
-export default function CreateProductPage() {
+export default function EditProductPage() {
   const router = useRouter();
+  const params = useParams();
+  const productId = Number(params.id);
+
+  const [loaded, setLoaded] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<string[]>([""]);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm<Omit<CreateProductDTO, "images">>();
+  } = useForm<Omit<UpdateProductDTO, "images">>();
 
   useEffect(() => {
-    getAllCategories().then(setCategories).catch(console.error);
-  }, []);
+    Promise.all([getProduct(productId), getAllCategories()])
+      .then(([product, cats]) => {
+        setValue("title", product.title);
+        setValue("price", product.price);
+        setValue("description", product.description ?? "");
+        setValue("categoryId", product.category?.id);
+        setCategories(cats);
+        setImages(
+          product.images?.length
+            ? product.images.map((img) => resolveImageUrl(img))
+            : [""],
+        );
+        setLoaded(true);
+      })
+      .catch(console.error);
+  }, [productId, setValue]);
 
   const addImage = () => setImages((prev) => [...prev, ""]);
   const removeImage = (index: number) =>
@@ -33,9 +53,9 @@ export default function CreateProductPage() {
   const updateImage = (index: number, url: string) =>
     setImages((prev) => prev.map((img, i) => (i === index ? url : img)));
 
-  const onSubmit = async (data: Omit<CreateProductDTO, "images">) => {
+  const onSubmit = async (data: Omit<UpdateProductDTO, "images">) => {
     try {
-      await CreateProduct({
+      await updateProduct(productId, {
         ...data,
         price: Number(data.price),
         categoryId: Number(data.categoryId),
@@ -43,18 +63,33 @@ export default function CreateProductPage() {
       });
       router.push("/admin/products");
     } catch (error) {
-      console.error("Failed to create product", error);
+      console.error("Failed to update product", error);
     }
   };
+
+  const onDelete = async () => {
+    try {
+      await deleteProduct(productId);
+      router.push("/admin/products");
+    } catch (error) {
+      console.error("Failed to delete product", error);
+    }
+  };
+
+  if (!loaded) {
+    return (
+      <div className="flex items-center justify-center py-20 text-sm text-zinc-500">
+        Loading product...
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-black">Create Product</h1>
-          <p className="text-sm text-zinc-600">
-            Add a new product to your catalog.
-          </p>
+          <h1 className="text-xl font-semibold text-black">Edit Product</h1>
+          <p className="text-sm text-zinc-600">Update product details.</p>
         </div>
         <Button asChild variant="outline">
           <Link href="/admin/products">Back to products</Link>
@@ -66,7 +101,7 @@ export default function CreateProductPage() {
         className="rounded-xl border border-zinc-200 bg-white p-6"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          
+          {/* Title */}
           <div className="sm:col-span-2">
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Title
@@ -84,7 +119,7 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
+          {/* Price */}
           <div>
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Price ($)
@@ -107,7 +142,7 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
+          {/* Category */}
           <div>
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Category
@@ -130,7 +165,7 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
+          {/* Description */}
           <div className="sm:col-span-2">
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Description
@@ -143,7 +178,7 @@ export default function CreateProductPage() {
             />
           </div>
 
-          
+          {/* Images */}
           <div className="sm:col-span-2">
             <div className="flex items-center justify-between">
               <label className="text-xs uppercase tracking-wide text-zinc-500">
@@ -181,17 +216,22 @@ export default function CreateProductPage() {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.push("/admin/products")}
-          >
-            Cancel
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+          <Button type="button" variant="destructive" onClick={onDelete}>
+            Delete Product
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Product"}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/admin/products")}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
         </div>
       </form>
     </div>

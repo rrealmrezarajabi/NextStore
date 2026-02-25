@@ -76,9 +76,12 @@ export function ProductTable({ products }: { products: Product[] }) {
                       variant="outline"
                       type="button"
                       className="cursor-pointer"
+                      asChild
                     >
-                      Edit
-                      <SquarePen />
+                      <Link href={`/admin/products/${product.id}/edit`}>
+                        Edit
+                        <SquarePen />
+                      </Link>
                     </Button>
                     <Button
                       className="cursor-pointer"

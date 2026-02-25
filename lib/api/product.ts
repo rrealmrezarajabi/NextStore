@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import {
   CreateProductDTO,
+  UpdateProductDTO,
   PaginatedProducts,
   Product,
 } from "../../types/product";
@@ -87,4 +88,25 @@ export async function CreateProduct(
   const data = res.json();
 
   return data;
+}
+
+export async function updateProduct(
+  id: number,
+  productData: UpdateProductDTO,
+): Promise<Product> {
+  const res = await fetch(`${BASE_URL}/products/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productData),
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to update product (${res.status}): ${text}`);
+  }
+
+  return res.json() as Promise<Product>;
 }

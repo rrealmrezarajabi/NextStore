@@ -29,8 +29,8 @@ export default async function ProductPage({
             <Link href="/admin/products">Back to products</Link>
           </Button>
 
-          <Button variant="outline" type="button">
-            Edit
+          <Button variant="outline" asChild>
+            <Link href={`/admin/products/${productId}/edit`}>Edit</Link>
           </Button>
           <Button variant="destructive" type="button">
             Delete
