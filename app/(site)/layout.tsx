@@ -1,6 +1,5 @@
 import Navbar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
-import Providers from "@/providers";
 
 export default function SiteLayout({
   children,
@@ -10,11 +9,7 @@ export default function SiteLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-
-      <main className="flex-1 bg-zinc-950">
-        <Providers>{children}</Providers>
-      </main>
-
+      <main className="flex-1 bg-zinc-950">{children}</main>
       <Footer />
     </div>
   );
