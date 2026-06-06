@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, LogIn, UserPlus } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,21 +25,7 @@ export default function Navbar() {
           <Link href="/about">About</Link>
         </nav>
 
-        <div className="hidden md:flex gap-2">
-          <Button variant="ghost" asChild>
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Link>
-          </Button>
-
-          <Button asChild>
-            <Link href="/signup">
-              <UserPlus className="mr-2 h-4 w-4" />
-              Sign Up
-            </Link>
-          </Button>
-        </div>
+        <div className="hidden md:block" />
 
         <div className="md:hidden">
           <DropdownMenu>
@@ -62,19 +48,6 @@ export default function Navbar() {
                 <Link href="/about">About</Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem asChild>
-                <Link href="/login" className="flex items-center">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Login
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <Link href="/signup" className="flex items-center">
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  Sign Up
-                </Link>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

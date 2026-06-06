@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-zinc-950">
@@ -36,19 +38,19 @@ export default function Hero() {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
+            <Link
               href="/products"
               className="inline-flex h-11 items-center justify-center rounded-lg bg-white px-7 text-sm font-medium text-zinc-950 transition hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/40"
             >
               View Products
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/about"
               className="inline-flex h-11 items-center justify-center rounded-lg border border-white/15 bg-white/4 px-7 text-sm font-medium text-white/80 transition hover:bg-white/8 focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               About NextStore
-            </a>
+            </Link>
           </div>
 
           <div className="mt-16 flex flex-col items-center gap-3 text-white/50">

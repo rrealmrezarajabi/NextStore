@@ -1,4 +1,4 @@
-import { getProduct } from "@/lib/api/product";
+import { getProduct } from "@/features/products/services/products.service";
 import Image from "next/image";
 import { safeImageSrc } from "@/lib/utils";
 export default async function ProductPage({

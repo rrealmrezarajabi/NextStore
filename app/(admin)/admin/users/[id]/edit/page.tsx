@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { resolveImageUrl } from "@/lib/api/file";
-import { getUserById, updateUser } from "@/lib/api/user";
+import { resolveImageUrl } from "@/features/files/services/files.service";
+import { getUserById, updateUser } from "@/features/users/services/users.service";
 
 type UpdateUserDto = {
   firstName: string;

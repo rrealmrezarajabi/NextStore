@@ -1,7 +1,7 @@
-import { ProductsGrid } from "@/components/Products/ProductsGrid";
-import { CategoriesSidebar } from "@/components/Products/CategoriesSidebar";
-import { getProducts } from "@/lib/api/product";
-import { getAllCategories } from "@/lib/api/category";
+import { ProductsGrid } from "@/features/products/components/ProductsGrid";
+import { CategoriesSidebar } from "@/features/categories/components/CategoriesSidebar";
+import { getProducts } from "@/features/products/services/products.service";
+import { getAllCategories } from "@/features/categories/services/categories.service";
 import { Searchbar } from "@/components/shared/Searchbar";
 import { Pagination } from "@/components/shared/Pagination";
 

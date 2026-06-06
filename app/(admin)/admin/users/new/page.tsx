@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { createUser } from "@/lib/api/user";
-import type { CreateUserDto } from "@/types/user";
+import { createUser } from "@/features/users/services/users.service";
+import type { CreateUserDto } from "@/features/users/types";
 
 const CreateUserPage = () => {
   const router = useRouter();

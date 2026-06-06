@@ -1,8 +1,8 @@
-import { UsersTable } from "@/components/admin/UsersTable";
+import { UsersTable } from "@/features/users/components/UsersTable";
 import { Searchbar } from "@/components/shared/Searchbar";
 import { Pagination } from "@/components/shared/Pagination";
 import { Button } from "@/components/ui/button";
-import { getUsers } from "@/lib/api/user";
+import { getUsers } from "@/features/users/services/users.service";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 

@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function safeImageSrc(url?: string): string {
+export function safeImageSrc(url?: string | null): string {
   if (!url) {
     return "/placeholders/product.png";
   }

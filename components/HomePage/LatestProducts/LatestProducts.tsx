@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ProductsCarousel from "./ProductsCarousel";
-import { getProducts } from "@/lib/api/product";
+import { getProducts } from "@/features/products/services/products.service";
 
 async function getLatest() {
   const { data } = await getProducts({ limit: 20, cacheMode: "revalidate" });

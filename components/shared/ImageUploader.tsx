@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
-import { uploadFile, resolveImageUrl } from "@/lib/api/file";
+import { uploadFile, resolveImageUrl } from "@/features/files/services/files.service";
 
 interface ImageUploaderProps {
   value?: string; // برای حالت edit (اختیاری)

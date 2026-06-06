@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/providers";
-import { getSession } from "@/lib/auth/get-session";
 
 export const metadata: Metadata = {
   title: "NextStore",
@@ -13,12 +12,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getSession();
-
   return (
     <html lang="en">
       <body>
-        <Providers initialUser={user}>{children}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

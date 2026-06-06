@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { resolveImageUrl } from "@/lib/api/file";
+import { resolveImageUrl } from "@/features/files/services/files.service";
 import {
   getCategoryById,
   updateCategory,
   deleteCategory,
-} from "@/lib/api/category";
-import type { UpdateCategoryDTO } from "@/types/category";
+} from "@/features/categories/services/categories.service";
+import type { UpdateCategoryDTO } from "@/features/categories/types";
 
 export default function EditCategoryPage() {
   const router = useRouter();

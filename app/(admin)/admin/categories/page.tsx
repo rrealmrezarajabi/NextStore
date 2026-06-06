@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CategoriesTable } from "@/components/admin/CategoriesTable";
+import { CategoriesTable } from "@/features/categories/components/CategoriesTable";
 import { Searchbar } from "@/components/shared/Searchbar";
 import { Pagination } from "@/components/shared/Pagination";
-import { getCategories } from "@/lib/api/category";
+import { getCategories } from "@/features/categories/services/categories.service";
 import { Plus } from "lucide-react";
 
 const LIMIT = 10;

@@ -1,4 +1,4 @@
-import { getCategoryById } from "@/lib/api/category";
+import { getCategoryById } from "@/features/categories/services/categories.service";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

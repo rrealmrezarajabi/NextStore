@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getProduct } from "@/lib/api/product";
+import { getProduct } from "@/features/products/services/products.service";
 import { safeImageSrc } from "@/lib/utils";
 
 export default async function ProductPage({

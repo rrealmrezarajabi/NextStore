@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { getAllCategories } from "@/lib/api/category";
-import { CreateProduct } from "@/lib/api/product";
-import type { CreateProductDTO } from "@/types/product";
-import type { Category } from "@/types/category";
+import { getAllCategories } from "@/features/categories/services/categories.service";
+import { CreateProduct } from "@/features/products/services/products.service";
+import type { CreateProductDTO } from "@/features/products/types";
+import type { Category } from "@/features/categories/types";
 
 export default function CreateProductPage() {
   const router = useRouter();

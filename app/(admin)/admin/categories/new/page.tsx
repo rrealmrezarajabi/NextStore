@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { createCategory } from "@/lib/api/category";
-import type { CreateCategoryDTO } from "@/types/category";
+import { createCategory } from "@/features/categories/services/categories.service";
+import type { CreateCategoryDTO } from "@/features/categories/types";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 
 export default function CreateCategoryPage() {

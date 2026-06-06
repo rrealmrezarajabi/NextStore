@@ -7,11 +7,11 @@ import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { resolveImageUrl } from "@/lib/api/file";
-import { getAllCategories } from "@/lib/api/category";
-import { getProduct, updateProduct, deleteProduct } from "@/lib/api/product";
-import type { UpdateProductDTO } from "@/types/product";
-import type { Category } from "@/types/category";
+import { resolveImageUrl } from "@/features/files/services/files.service";
+import { getAllCategories } from "@/features/categories/services/categories.service";
+import { getProduct, updateProduct, deleteProduct } from "@/features/products/services/products.service";
+import type { UpdateProductDTO } from "@/features/products/types";
+import type { Category } from "@/features/categories/types";
 
 export default function EditProductPage() {
   const router = useRouter();

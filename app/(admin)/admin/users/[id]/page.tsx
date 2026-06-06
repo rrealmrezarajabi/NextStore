@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getUserById } from "@/lib/api/user";
+import { getUserById } from "@/features/users/services/users.service";
 import { safeImageSrc } from "@/lib/utils";
 
 export default async function UserPage({ params }: { params: { id: string } }) {
