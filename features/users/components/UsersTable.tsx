@@ -13,7 +13,6 @@ export function UsersTable({ users }: { users: User[] }) {
   const deleteUserMutation = useDeleteUser();
 
   async function handleDelete(userId: number) {
-    if (!confirm("Are you sure you want to delete this user?")) return;
     await deleteUserMutation.mutateAsync(userId);
     router.refresh();
   }
