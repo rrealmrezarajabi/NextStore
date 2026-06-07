@@ -1,9 +1,16 @@
-import React from 'react'
+import { ProfileForm } from "@/features/profile/components/ProfileForm";
 
-const ProfilePage = () => {
+export default function ProfilePage() {
   return (
-    <div>ProfilePage</div>
-  )
-}
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-xl font-semibold text-black">Profile</h1>
+        <p className="text-sm text-zinc-600">
+          Update your personal information and account settings.
+        </p>
+      </div>
 
-export default ProfilePage
+      <ProfileForm />
+    </div>
+  );
+}
