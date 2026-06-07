@@ -4,24 +4,25 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { createCategory } from "@/features/categories/services/categories.service";
+import { useCreateCategory } from "@/features/categories/hooks/use-category-mutations";
 import type { CreateCategoryDTO } from "@/features/categories/types";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 
 export default function CreateCategoryPage() {
   const router = useRouter();
+  const createCategoryMutation = useCreateCategory();
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<CreateCategoryDTO>();
 
   const onSubmit = async (data: CreateCategoryDTO) => {
     try {
-      await createCategory(data);
+      await createCategoryMutation.mutateAsync(data);
       reset();
       router.push("/admin/categories");
     } catch (error) {
@@ -77,8 +78,10 @@ export default function CreateCategoryPage() {
             Cancel
           </Button>
 
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Category"}
+          <Button type="submit" disabled={createCategoryMutation.isPending}>
+            {createCategoryMutation.isPending
+              ? "Creating..."
+              : "Create Category"}
           </Button>
         </div>
       </form>

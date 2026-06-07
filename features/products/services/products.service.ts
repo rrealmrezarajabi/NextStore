@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import {
   CreateProductDTO,
   UpdateProductDTO,
@@ -45,7 +44,9 @@ export async function getProduct(id: number): Promise<Product> {
 
   const res = await fetch(url, { next: { revalidate: 60 } });
 
-  if (res.status === 404) notFound();
+  if (res.status === 404) {
+    throw new Error("Product not found");
+  }
 
   if (!res.ok) {
     throw new Error(
@@ -61,7 +62,7 @@ export async function deleteProduct(id: number) {
   return data ?? true;
 }
 
-export async function CreateProduct(
+export async function createProduct(
   productData: CreateProductDTO,
 ): Promise<Product> {
   const { data } = await apiClient.post<Product>("/products", productData);

@@ -2,48 +2,45 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { resolveImageUrl } from "@/features/files/services/files.service";
+import { useCategory } from "@/features/categories/hooks/use-category-queries";
 import {
-  getCategoryById,
-  updateCategory,
-  deleteCategory,
-} from "@/features/categories/services/categories.service";
+  useDeleteCategory,
+  useUpdateCategory,
+} from "@/features/categories/hooks/use-category-mutations";
 import type { UpdateCategoryDTO } from "@/features/categories/types";
 
 export default function EditCategoryPage() {
   const router = useRouter();
   const params = useParams();
   const categoryId = Number(params.id);
-
-  const [loaded, setLoaded] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const categoryQuery = useCategory(categoryId);
+  const updateCategoryMutation = useUpdateCategory();
+  const deleteCategoryMutation = useDeleteCategory();
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    control,
+    formState: { errors },
   } = useForm<UpdateCategoryDTO>();
+  const imageUrl = useWatch({ control, name: "image" });
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      const category = await getCategoryById(categoryId);
-      setValue("name", category.name);
-      setValue("image", category.image ?? "");
-      setImageUrl(resolveImageUrl(category.image));
-      setLoaded(true);
-    };
+    if (!categoryQuery.data) return;
 
-    fetchCategory();
-  }, [categoryId, setValue]);
+    setValue("name", categoryQuery.data.name);
+    setValue("image", categoryQuery.data.image ?? "");
+  }, [categoryQuery.data, setValue]);
 
   const onSubmit = async (data: UpdateCategoryDTO) => {
     try {
-      await updateCategory(categoryId, data);
+      await updateCategoryMutation.mutateAsync({ id: categoryId, data });
       router.push("/admin/categories");
     } catch (error) {
       console.error("Failed to update category", error);
@@ -52,7 +49,7 @@ export default function EditCategoryPage() {
 
   const onDelete = async () => {
     try {
-      await deleteCategory(categoryId);
+      await deleteCategoryMutation.mutateAsync(categoryId);
       router.push("/admin/categories");
     } catch (error) {
       console.error("Failed to delete category", error);
@@ -92,12 +89,11 @@ export default function EditCategoryPage() {
           </div>
 
           <div>
-            {loaded && (
+            {categoryQuery.isSuccess && (
               <ImageUploader
                 label="Category Image"
-                value={imageUrl}
+                value={resolveImageUrl(imageUrl)}
                 onChange={(url) => {
-                  setImageUrl(url);
                   setValue("image", url);
                 }}
               />
@@ -106,7 +102,12 @@ export default function EditCategoryPage() {
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <Button type="button" variant="destructive" onClick={onDelete}>
+          <Button
+            type="button"
+            variant="destructive"
+            disabled={deleteCategoryMutation.isPending}
+            onClick={onDelete}
+          >
             Delete Category
           </Button>
           <div className="flex gap-3">
@@ -117,8 +118,8 @@ export default function EditCategoryPage() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
+            <Button type="submit" disabled={updateCategoryMutation.isPending}>
+              {updateCategoryMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </div>

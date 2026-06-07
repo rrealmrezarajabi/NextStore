@@ -5,16 +5,13 @@ import { safeImageSrc } from "@/lib/utils";
 import { User } from "../types";
 import Link from "next/link";
 import { UserPen, UserRoundX } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useDeleteUser } from "../hooks/use-user-mutations";
 
 export function UsersTable({ users }: { users: User[] }) {
-  const router = useRouter();
   const deleteUserMutation = useDeleteUser();
 
   async function handleDelete(userId: number) {
     await deleteUserMutation.mutateAsync(userId);
-    router.refresh();
   }
 
   return (

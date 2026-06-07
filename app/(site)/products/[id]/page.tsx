@@ -1,5 +1,6 @@
 import { getProduct } from "@/features/products/services/products.service";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { safeImageSrc } from "@/lib/utils";
 export default async function ProductPage({
   params,
@@ -8,7 +9,15 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
   const productId = Number(id);
-  const product = await getProduct(productId);
+  if (!Number.isFinite(productId)) notFound();
+
+  const product = await getProduct(productId).catch((error) => {
+    if (error instanceof Error && error.message === "Product not found") {
+      notFound();
+    }
+
+    throw error;
+  });
   const cover = product.images?.[0] ?? "";
 
   return (

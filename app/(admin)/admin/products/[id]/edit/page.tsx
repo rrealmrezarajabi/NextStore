@@ -2,64 +2,77 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { resolveImageUrl } from "@/features/files/services/files.service";
-import { getAllCategories } from "@/features/categories/services/categories.service";
-import { getProduct, updateProduct, deleteProduct } from "@/features/products/services/products.service";
+import { useAllCategories } from "@/features/categories/hooks/use-category-queries";
+import { useProduct } from "@/features/products/hooks/use-product-queries";
+import {
+  useDeleteProduct,
+  useUpdateProduct,
+} from "@/features/products/hooks/use-product-mutations";
 import type { UpdateProductDTO } from "@/features/products/types";
-import type { Category } from "@/features/categories/types";
 
 export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
   const productId = Number(params.id);
+  const productQuery = useProduct(productId);
+  const categoriesQuery = useAllCategories();
+  const updateProductMutation = useUpdateProduct();
+  const deleteProductMutation = useDeleteProduct();
 
-  const [loaded, setLoaded] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [images, setImages] = useState<string[]>([""]);
+  const [imageDraft, setImageDraft] = useState<{
+    productId: number;
+    values: string[];
+  } | null>(null);
+  const productImages = useMemo(
+    () =>
+      productQuery.data?.images?.length
+        ? productQuery.data.images.map((img) => resolveImageUrl(img))
+        : [""],
+    [productQuery.data],
+  );
+  const images =
+    imageDraft?.productId === productId ? imageDraft.values : productImages;
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Omit<UpdateProductDTO, "images">>();
 
   useEffect(() => {
-    Promise.all([getProduct(productId), getAllCategories()])
-      .then(([product, cats]) => {
-        setValue("title", product.title);
-        setValue("price", product.price);
-        setValue("description", product.description ?? "");
-        setValue("categoryId", product.category?.id);
-        setCategories(cats);
-        setImages(
-          product.images?.length
-            ? product.images.map((img) => resolveImageUrl(img))
-            : [""],
-        );
-        setLoaded(true);
-      })
-      .catch(console.error);
-  }, [productId, setValue]);
+    if (!productQuery.data) return;
 
-  const addImage = () => setImages((prev) => [...prev, ""]);
+    setValue("title", productQuery.data.title);
+    setValue("price", productQuery.data.price);
+    setValue("description", productQuery.data.description ?? "");
+    setValue("categoryId", productQuery.data.category?.id);
+  }, [productQuery.data, setValue]);
+
+  const setImages = (values: string[]) =>
+    setImageDraft({ productId, values });
+  const addImage = () => setImages([...images, ""]);
   const removeImage = (index: number) =>
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages(images.filter((_, i) => i !== index));
   const updateImage = (index: number, url: string) =>
-    setImages((prev) => prev.map((img, i) => (i === index ? url : img)));
+    setImages(images.map((img, i) => (i === index ? url : img)));
 
   const onSubmit = async (data: Omit<UpdateProductDTO, "images">) => {
     try {
-      await updateProduct(productId, {
-        ...data,
-        price: Number(data.price),
-        categoryId: Number(data.categoryId),
-        images: images.filter(Boolean),
+      await updateProductMutation.mutateAsync({
+        id: productId,
+        data: {
+          ...data,
+          price: Number(data.price),
+          categoryId: Number(data.categoryId),
+          images: images.filter(Boolean),
+        },
       });
       router.push("/admin/products");
     } catch (error) {
@@ -69,14 +82,14 @@ export default function EditProductPage() {
 
   const onDelete = async () => {
     try {
-      await deleteProduct(productId);
+      await deleteProductMutation.mutateAsync(productId);
       router.push("/admin/products");
     } catch (error) {
       console.error("Failed to delete product", error);
     }
   };
 
-  if (!loaded) {
+  if (productQuery.isLoading || categoriesQuery.isLoading) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-zinc-500">
         Loading product...
@@ -152,7 +165,7 @@ export default function EditProductPage() {
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             >
               <option value="">Select a category</option>
-              {categories.map((cat) => (
+              {(categoriesQuery.data ?? []).map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
                 </option>
@@ -217,7 +230,12 @@ export default function EditProductPage() {
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-          <Button type="button" variant="destructive" onClick={onDelete}>
+          <Button
+            type="button"
+            variant="destructive"
+            disabled={deleteProductMutation.isPending}
+            onClick={onDelete}
+          >
             Delete Product
           </Button>
           <div className="flex gap-3">
@@ -228,8 +246,8 @@ export default function EditProductPage() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
+            <Button type="submit" disabled={updateProductMutation.isPending}>
+              {updateProductMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </div>

@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { Product } from "../types";
@@ -9,18 +8,12 @@ import { useDeleteProduct } from "../hooks/use-product-mutations";
 import { Trash2, SquarePen } from "lucide-react";
 
 export function ProductTable({ products }: { products: Product[] }) {
-  const router = useRouter();
   const deleteProductMutation = useDeleteProduct();
 
   async function onDelete(id: number) {
     try {
       await deleteProductMutation.mutateAsync(id);
-      router.refresh();
     } catch (error) {
-      if (error instanceof Error && error.message.includes("(404")) {
-        router.refresh();
-        return;
-      }
       console.error("Failed to delete product", error);
     }
   }

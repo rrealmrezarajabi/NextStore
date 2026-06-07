@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { Category } from "../types";
@@ -10,13 +9,11 @@ import { useDeleteCategory } from "../hooks/use-category-mutations";
 import { Trash2, SquarePen } from "lucide-react";
 
 export function CategoriesTable({ categories }: { categories: Category[] }) {
-  const router = useRouter();
   const deleteCategoryMutation = useDeleteCategory();
 
   async function onDelete(id: number) {
     try {
       await deleteCategoryMutation.mutateAsync(id);
-      router.refresh();
     } catch (error) {
       console.error("Failed to delete category", error);
     }

@@ -2,30 +2,26 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { getAllCategories } from "@/features/categories/services/categories.service";
-import { CreateProduct } from "@/features/products/services/products.service";
+import { useAllCategories } from "@/features/categories/hooks/use-category-queries";
+import { useCreateProduct } from "@/features/products/hooks/use-product-mutations";
 import type { CreateProductDTO } from "@/features/products/types";
-import type { Category } from "@/features/categories/types";
 
 export default function CreateProductPage() {
   const router = useRouter();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const createProductMutation = useCreateProduct();
+  const categoriesQuery = useAllCategories();
   const [images, setImages] = useState<string[]>([""]);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Omit<CreateProductDTO, "images">>();
-
-  useEffect(() => {
-    getAllCategories().then(setCategories).catch(console.error);
-  }, []);
 
   const addImage = () => setImages((prev) => [...prev, ""]);
   const removeImage = (index: number) =>
@@ -35,7 +31,7 @@ export default function CreateProductPage() {
 
   const onSubmit = async (data: Omit<CreateProductDTO, "images">) => {
     try {
-      await CreateProduct({
+      await createProductMutation.mutateAsync({
         ...data,
         price: Number(data.price),
         categoryId: Number(data.categoryId),
@@ -117,7 +113,7 @@ export default function CreateProductPage() {
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             >
               <option value="">Select a category</option>
-              {categories.map((cat) => (
+              {(categoriesQuery.data ?? []).map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
                 </option>
@@ -189,8 +185,8 @@ export default function CreateProductPage() {
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Product"}
+          <Button type="submit" disabled={createProductMutation.isPending}>
+            {createProductMutation.isPending ? "Creating..." : "Create Product"}
           </Button>
         </div>
       </form>

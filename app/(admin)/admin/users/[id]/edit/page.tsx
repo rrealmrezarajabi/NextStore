@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { resolveImageUrl } from "@/features/files/services/files.service";
-import { getUserById, updateUser } from "@/features/users/services/users.service";
+import { useUser } from "@/features/users/hooks/use-user-queries";
+import { useUpdateUser } from "@/features/users/hooks/use-user-mutations";
 
 type UpdateUserDto = {
   firstName: string;
@@ -21,36 +22,32 @@ const EditUserPage = () => {
   const router = useRouter();
   const params = useParams();
   const userId = Number(params.id);
-
-  const [loaded, setLoaded] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const userQuery = useUser(userId);
+  const updateUserMutation = useUpdateUser();
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    control,
+    formState: { errors },
   } = useForm<UpdateUserDto>();
+  const avatarUrl = useWatch({ control, name: "avatar" });
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUserById(userId);
-      setValue("firstName", user.firstName);
-      setValue("lastName", user.lastName);
-      setValue("username", user.username);
-      setValue("email", user.email);
-      setValue("avatar", user.avatar);
-      setAvatarUrl(resolveImageUrl(user.avatar));
-      setLoaded(true);
-    };
+    if (!userQuery.data) return;
 
-    fetchUser();
-  }, [userId, setValue]);
+    setValue("firstName", userQuery.data.firstName);
+    setValue("lastName", userQuery.data.lastName);
+    setValue("username", userQuery.data.username);
+    setValue("email", userQuery.data.email);
+    setValue("avatar", userQuery.data.avatar);
+  }, [userQuery.data, setValue]);
 
   const onSubmit = async (data: UpdateUserDto) => {
     try {
       if (!data.avatar) delete data.avatar;
-      await updateUser(userId, data);
+      await updateUserMutation.mutateAsync({ id: userId, data });
       router.push("/admin/users");
     } catch (error) {
       console.log(error);
@@ -143,12 +140,11 @@ const EditUserPage = () => {
           </div>
 
           <div>
-            {loaded && (
+            {userQuery.isSuccess && (
               <ImageUploader
                 label="Avatar"
-                value={avatarUrl}
+                value={resolveImageUrl(avatarUrl)}
                 onChange={(url) => {
-                  setAvatarUrl(url);
                   setValue("avatar", url);
                 }}
               />
@@ -160,8 +156,8 @@ const EditUserPage = () => {
           <Button type="button" variant="outline" asChild>
             <Link href="/admin/users">Cancel</Link>
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Updating..." : "Update User"}
+          <Button type="submit" disabled={updateUserMutation.isPending}>
+            {updateUserMutation.isPending ? "Updating..." : "Update User"}
           </Button>
         </div>
       </form>

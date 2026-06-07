@@ -5,23 +5,24 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
-import { createUser } from "@/features/users/services/users.service";
+import { useCreateUser } from "@/features/users/hooks/use-user-mutations";
 import type { CreateUserDto } from "@/features/users/types";
 
 const CreateUserPage = () => {
   const router = useRouter();
+  const createUserMutation = useCreateUser();
   const {
     register,
     handleSubmit,
     reset,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<CreateUserDto>();
 
   const onSubmit = async (data: CreateUserDto) => {
     try {
       if (!data.avatar) delete data.avatar;
-      await createUser(data);
+      await createUserMutation.mutateAsync(data);
       reset();
       router.push("/admin/users");
     } catch (error) {
@@ -149,8 +150,8 @@ const CreateUserPage = () => {
           <Button type="button" variant="outline" asChild>
             <Link href="/admin/users">Cancel</Link>
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create User"}
+          <Button type="submit" disabled={createUserMutation.isPending}>
+            {createUserMutation.isPending ? "Creating..." : "Create User"}
           </Button>
         </div>
       </form>
