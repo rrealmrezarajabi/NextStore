@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { LogIn, Menu, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,7 +25,20 @@ export default function Navbar() {
           <Link href="/about">About</Link>
         </nav>
 
-        <div className="hidden md:block" />
+        <div className="hidden items-center gap-2 md:flex">
+          <Button asChild variant="ghost">
+            <Link href="/login">
+              <LogIn />
+              Login
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/register">
+              <UserPlus />
+              Register
+            </Link>
+          </Button>
+        </div>
 
         <div className="md:hidden">
           <DropdownMenu>
@@ -48,6 +61,19 @@ export default function Navbar() {
                 <Link href="/about">About</Link>
               </DropdownMenuItem>
 
+              <DropdownMenuItem asChild>
+                <Link href="/login">
+                  <LogIn />
+                  Login
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <Link href="/register">
+                  <UserPlus />
+                  Register
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
