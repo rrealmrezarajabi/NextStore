@@ -11,5 +11,6 @@ export function useProfile() {
   return useQuery({
     queryKey: profileQueryKeys.all,
     queryFn: getProfile,
+    retry:false // prevents more requests when we get 401
   });
 }
