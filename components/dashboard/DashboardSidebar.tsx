@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogoutButton } from "../shared/LogoutButton";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -57,8 +58,9 @@ export default function AccountSidebar() {
           href="/"
           className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
         >
-          ← Back to Shop
+           Back to Shop
         </Link>
+        <LogoutButton />
       </div>
     </aside>
   );
