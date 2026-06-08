@@ -19,7 +19,6 @@ export default function DashboardLayout({
 }) {
   return (
     <RequireAuth>
-      {" "}
       <div className="min-h-screen bg-white">
         <div className="flex min-h-screen">
           <aside className="hidden md:block w-64 shrink-0">
