@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { LogoutButton } from "../shared/LogoutButton";
 const navItems = [
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
@@ -50,8 +50,9 @@ export default function AdminSidebar() {
           href="/"
           className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
         >
-          ← Back to Homepage
+           Back to Homepage
         </Link>
+        <LogoutButton />
       </div>
     </aside>
   );

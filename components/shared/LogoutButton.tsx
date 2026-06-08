@@ -10,7 +10,7 @@ export function LogoutButton() {
   return (
     <Button
       type="button"
-      variant="outline"
+      variant="ghost"
       disabled={logoutMutation.isPending}
       onClick={() => logoutMutation.mutate()}
     >
