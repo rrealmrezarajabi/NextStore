@@ -1,6 +1,5 @@
 import { apiClient } from "@/lib/api/axios";
-import type { LoginDTO, RegisterDTO } from "../types";
-import type { Profile } from "@/features/profile/types";
+import type { LoginDTO, Profile, RegisterDTO } from "../types";
 
 type AuthResponse = {
   user: Profile;

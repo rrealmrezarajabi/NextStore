@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoutButton } from "../shared/LogoutButton";
-import { useProfile } from "@/features/profile/hooks/use-profile-queries";
+import { useProfile } from "@/features/auth/hooks/use-profile-queries";
 import Image from "next/image";
 const navItems = [
   { href: "/admin/products", label: "Products" },

@@ -1,9 +1,9 @@
 "use client";
 
-import { profileQueryKeys } from "@/features/profile/hooks/use-profile-queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { login, logout, register } from "../services/auth.service";
+import { profileQueryKeys } from "./use-profile-queries";
 
 export function useLogin() {
   const router = useRouter();

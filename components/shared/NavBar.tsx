@@ -7,11 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useProfile } from "@/features/profile/hooks/use-profile-queries";
+import { useProfile } from "@/features/auth/hooks/use-profile-queries";
 import {
   LayoutDashboard,
   LogIn,
-  LogOut,
   Menu,
   Shield,
   UserPlus,

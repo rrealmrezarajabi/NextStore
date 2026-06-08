@@ -1,6 +1,6 @@
 "use client";
 
-import { useProfile } from "@/features/profile/hooks/use-profile-queries";
+import { useProfile } from "@/features/auth/hooks/use-profile-queries";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
