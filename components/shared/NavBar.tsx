@@ -8,9 +8,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useProfile } from "@/features/profile/hooks/use-profile-queries";
-import { LayoutDashboard, LogIn, Menu, Shield, UserPlus } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  Menu,
+  Shield,
+  UserPlus,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { LogoutButton } from "./LogoutButton";
 
 export default function Navbar() {
   const profileQuery = useProfile();
@@ -49,6 +57,8 @@ export default function Navbar() {
                   Dashboard
                 </Link>
               </Button>
+
+              <LogoutButton />
             </>
           ) : (
             <>

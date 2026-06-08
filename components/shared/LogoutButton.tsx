@@ -8,7 +8,7 @@ export function LogoutButton() {
   const logoutMutation = useLogout();
 
   return (
-    <Button
+    <Button className="cursor-pointer"
       type="button"
       variant="ghost"
       disabled={logoutMutation.isPending}
