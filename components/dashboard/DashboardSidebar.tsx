@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoutButton } from "../shared/LogoutButton";
-
+import Image from "next/image";
+import { useProfile } from "@/features/auth/hooks/use-profile-queries";
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/profile", label: "Profile" },
@@ -14,17 +15,28 @@ const navItems = [
 
 export default function AccountSidebar() {
   const pathname = usePathname();
+  const user = useProfile()
 
   return (
     <aside className="w-64 border-r border-zinc-200 bg-white flex flex-col h-screen">
-      <div className="flex h-16 items-center px-4">
-        <div>
-          <div className="text-sm font-semibold tracking-tight text-black">
-            My Account
-          </div>
-          <div className="text-xs text-zinc-500">User Panel</div>
-        </div>
-      </div>
+       <div className="flex h-16 items-center gap-3 px-4">
+              <Image
+                src={user.data?.avatar || "/default-avatar.png"}
+                alt={user.data?.firstName || "Avatar"}
+                width={40}
+                height={40}
+                className="rounded-full object-cover"
+              />
+      
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold text-black">
+                  {user.data?.firstName}
+                </span>
+      
+                <span className="text-xs text-gray-500">@{user.data?.username}</span>
+              </div>
+            </div>
+            <hr/>
 
       <nav className="px-2 py-3">
         <div className="space-y-1">
