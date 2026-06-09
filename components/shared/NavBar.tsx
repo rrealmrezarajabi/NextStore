@@ -14,15 +14,18 @@ import {
   Menu,
   Shield,
   UserPlus,
+  Handbag,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { LogoutButton } from "./LogoutButton";
+import { useCartQuery } from "@/features/cart/hooks/use-cart-queries";
 
 export default function Navbar() {
   const profileQuery = useProfile();
   const user = profileQuery.data;
   const isAdmin = user?.role === "admin";
+  const {data:cart} = useCartQuery()
 
   return (
     <header className="border-b bg-white/90">
@@ -54,6 +57,17 @@ export default function Navbar() {
                 <Link href="/dashboard">
                   <LayoutDashboard />
                   Dashboard
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="relative">
+                <Link href="/dashboard/cart">
+                  <Handbag />
+                  Cart
+                  {cart?.items.length ? (
+                    <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
+                      {cart?.items.length}
+                    </span>
+                  ) : null}
                 </Link>
               </Button>
 
