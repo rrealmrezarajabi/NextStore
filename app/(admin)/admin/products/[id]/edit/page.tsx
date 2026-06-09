@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,10 @@ import {
   useDeleteProduct,
   useUpdateProduct,
 } from "@/features/products/hooks/use-product-mutations";
+import { updateProductSchema } from "@/features/products/schemas/product.schema";
 import type { UpdateProductDTO } from "@/features/products/types";
+
+const updateProductFormSchema = updateProductSchema.omit({ images: true });
 
 export default function EditProductPage() {
   const router = useRouter();
@@ -44,7 +48,9 @@ export default function EditProductPage() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Omit<UpdateProductDTO, "images">>();
+  } = useForm<Omit<UpdateProductDTO, "images">>({
+    resolver: zodResolver(updateProductFormSchema),
+  });
 
   useEffect(() => {
     if (!productQuery.data) return;
@@ -122,7 +128,7 @@ export default function EditProductPage() {
             <input
               type="text"
               placeholder="e.g. Wireless Headphones"
-              {...register("title", { required: "Title is required" })}
+              {...register("title")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.title && (
@@ -142,10 +148,7 @@ export default function EditProductPage() {
               step="0.01"
               min="0"
               placeholder="0.00"
-              {...register("price", {
-                required: "Price is required",
-                min: { value: 0, message: "Price must be positive" },
-              })}
+              {...register("price", { valueAsNumber: true })}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.price && (
@@ -161,7 +164,7 @@ export default function EditProductPage() {
               Category
             </label>
             <select
-              {...register("categoryId", { required: "Category is required" })}
+              {...register("categoryId", { valueAsNumber: true })}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             >
               <option value="">Select a category</option>
@@ -189,6 +192,11 @@ export default function EditProductPage() {
               {...register("description")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 resize-none"
             />
+            {errors.description && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           {/* Images */}

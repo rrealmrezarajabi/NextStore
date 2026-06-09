@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
@@ -12,7 +13,8 @@ import {
   useDeleteCategory,
   useUpdateCategory,
 } from "@/features/categories/hooks/use-category-mutations";
-import type { UpdateCategoryDTO } from "@/features/categories/types";
+import { createCategorySchema } from "@/features/categories/schemas/category.schema";
+import type { CreateCategoryDTO } from "@/features/categories/types";
 
 export default function EditCategoryPage() {
   const router = useRouter();
@@ -28,7 +30,9 @@ export default function EditCategoryPage() {
     setValue,
     control,
     formState: { errors },
-  } = useForm<UpdateCategoryDTO>();
+  } = useForm<CreateCategoryDTO>({
+    resolver: zodResolver(createCategorySchema),
+  });
   const imageUrl = useWatch({ control, name: "image" });
 
   useEffect(() => {
@@ -38,7 +42,7 @@ export default function EditCategoryPage() {
     setValue("image", categoryQuery.data.image ?? "");
   }, [categoryQuery.data, setValue]);
 
-  const onSubmit = async (data: UpdateCategoryDTO) => {
+  const onSubmit = async (data: CreateCategoryDTO) => {
     try {
       await updateCategoryMutation.mutateAsync({ id: categoryId, data });
       router.push("/admin/categories");
@@ -80,7 +84,7 @@ export default function EditCategoryPage() {
             <input
               type="text"
               placeholder="e.g. Electronics"
-              {...register("name", { required: "Name is required" })}
+              {...register("name")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.name && (

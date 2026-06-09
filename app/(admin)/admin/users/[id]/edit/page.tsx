@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { resolveImageUrl } from "@/features/files/services/files.service";
 import { useUser } from "@/features/users/hooks/use-user-queries";
 import { useUpdateUser } from "@/features/users/hooks/use-user-mutations";
+import { createUserSchema } from "@/features/users/schemas/user.schema";
 
 type UpdateUserDto = {
   firstName: string;
@@ -17,6 +19,14 @@ type UpdateUserDto = {
   email: string;
   avatar?: string;
 };
+
+const editUserSchema = createUserSchema.pick({
+  firstName: true,
+  lastName: true,
+  username: true,
+  email: true,
+  avatar: true,
+});
 
 const EditUserPage = () => {
   const router = useRouter();
@@ -31,7 +41,9 @@ const EditUserPage = () => {
     setValue,
     control,
     formState: { errors },
-  } = useForm<UpdateUserDto>();
+  } = useForm<UpdateUserDto>({
+    resolver: zodResolver(editUserSchema),
+  });
   const avatarUrl = useWatch({ control, name: "avatar" });
 
   useEffect(() => {
@@ -78,7 +90,7 @@ const EditUserPage = () => {
             <input
               type="text"
               placeholder="Jane"
-              {...register("firstName", { required: "First name is required" })}
+              {...register("firstName")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.firstName && (
@@ -95,7 +107,7 @@ const EditUserPage = () => {
             <input
               type="text"
               placeholder="Doe"
-              {...register("lastName", { required: "Last name is required" })}
+              {...register("lastName")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.lastName && (
@@ -112,7 +124,7 @@ const EditUserPage = () => {
             <input
               type="text"
               placeholder="jane_doe"
-              {...register("username", { required: "Username is required" })}
+              {...register("username")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.username && (
@@ -129,7 +141,7 @@ const EditUserPage = () => {
             <input
               type="email"
               placeholder="jane@example.com"
-              {...register("email", { required: "Email is required" })}
+              {...register("email")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.email && (

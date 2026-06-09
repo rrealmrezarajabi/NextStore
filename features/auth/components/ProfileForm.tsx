@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { resolveImageUrl } from "@/features/files/services/files.service";
+import { updateProfileSchema } from "../schemas/profile.schema";
 import { useProfile } from "../hooks/use-profile-queries";
 import { useUpdateProfile } from "../hooks/use-profile-mutations";
 import type { UpdateProfileDto } from "../types";
@@ -20,7 +22,9 @@ export function ProfileForm() {
     setValue,
     control,
     formState: { errors },
-  } = useForm<UpdateProfileDto>();
+  } = useForm<UpdateProfileDto>({
+    resolver: zodResolver(updateProfileSchema),
+  });
   const avatarUrl = useWatch({ control, name: "avatar" });
 
   useEffect(() => {
@@ -74,7 +78,7 @@ export function ProfileForm() {
           <input
             type="text"
             placeholder="Jane"
-            {...register("firstName", { required: "First name is required" })}
+            {...register("firstName")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.firstName && (
@@ -91,7 +95,7 @@ export function ProfileForm() {
           <input
             type="text"
             placeholder="Doe"
-            {...register("lastName", { required: "Last name is required" })}
+            {...register("lastName")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.lastName && (
@@ -108,7 +112,7 @@ export function ProfileForm() {
           <input
             type="text"
             placeholder="jane_doe"
-            {...register("username", { required: "Username is required" })}
+            {...register("username")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.username && (
@@ -125,7 +129,7 @@ export function ProfileForm() {
           <input
             type="email"
             placeholder="jane@example.com"
-            {...register("email", { required: "Email is required" })}
+            {...register("email")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
@@ -141,10 +145,7 @@ export function ProfileForm() {
             type="password"
             placeholder="Leave blank to keep current password"
             {...register("password", {
-              minLength: {
-                value: 4,
-                message: "Password must be at least 4 characters",
-              },
+              setValueAs: (value) => value || undefined,
             })}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />

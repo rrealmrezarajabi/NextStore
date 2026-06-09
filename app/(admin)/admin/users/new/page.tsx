@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { useCreateUser } from "@/features/users/hooks/use-user-mutations";
+import { createUserSchema } from "@/features/users/schemas/user.schema";
 import type { CreateUserDto } from "@/features/users/types";
 
 const CreateUserPage = () => {
@@ -17,7 +19,9 @@ const CreateUserPage = () => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<CreateUserDto>();
+  } = useForm<CreateUserDto>({
+    resolver: zodResolver(createUserSchema),
+  });
 
   const onSubmit = async (data: CreateUserDto) => {
     try {
@@ -54,7 +58,7 @@ const CreateUserPage = () => {
             <input
               type="text"
               placeholder="Jane"
-              {...register("firstName", { required: "First name is required" })}
+              {...register("firstName")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.firstName && (
@@ -71,7 +75,7 @@ const CreateUserPage = () => {
             <input
               type="text"
               placeholder="Doe"
-              {...register("lastName", { required: "Last name is required" })}
+              {...register("lastName")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.lastName && (
@@ -88,7 +92,7 @@ const CreateUserPage = () => {
             <input
               type="text"
               placeholder="jane_doe"
-              {...register("username", { required: "Username is required" })}
+              {...register("username")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.username && (
@@ -105,7 +109,7 @@ const CreateUserPage = () => {
             <input
               type="email"
               placeholder="jane@example.com"
-              {...register("email", { required: "Email is required" })}
+              {...register("email")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.email && (
@@ -122,13 +126,7 @@ const CreateUserPage = () => {
             <input
               type="password"
               placeholder="Minimum 4 characters"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 4,
-                  message: "Password must be at least 4 characters",
-                },
-              })}
+              {...register("password")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.password && (

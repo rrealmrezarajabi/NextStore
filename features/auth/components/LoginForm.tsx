@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/features/auth/hooks/use-auth-mutations";
+import { loginSchema } from "@/features/auth/schemas/login.schema";
 import type { LoginDTO } from "@/features/auth/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -12,7 +14,9 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginDTO>();
+  } = useForm<LoginDTO>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const onSubmit = async (data: LoginDTO) => {
     await loginMutation.mutateAsync(data);
@@ -38,9 +42,7 @@ export default function LoginForm() {
           <input
             type="email"
             placeholder="jane@example.com"
-            {...register("email", {
-              required: "Email is required",
-            })}
+            {...register("email")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
@@ -55,9 +57,7 @@ export default function LoginForm() {
           <input
             type="password"
             placeholder="Your password"
-            {...register("password", {
-              required: "Password is required",
-            })}
+            {...register("password")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.password && (

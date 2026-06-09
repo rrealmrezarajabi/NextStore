@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useRegister } from "@/features/auth/hooks/use-auth-mutations";
+import { registerSchema } from "@/features/auth/schemas/register.schema";
 import type { RegisterDTO } from "@/features/auth/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -12,7 +14,9 @@ export default function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterDTO>();
+  } = useForm<RegisterDTO>({
+    resolver: zodResolver(registerSchema),
+  });
 
   const onSubmit = async (data: RegisterDTO) => {
     await registerMutation.mutateAsync(data);
@@ -38,9 +42,7 @@ export default function RegisterForm() {
           <input
             type="text"
             placeholder="Jane"
-            {...register("firstName", {
-              required: "First name is required",
-            })}
+            {...register("firstName")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.firstName && (
@@ -57,9 +59,7 @@ export default function RegisterForm() {
           <input
             type="text"
             placeholder="Doe"
-            {...register("lastName", {
-              required: "Last name is required",
-            })}
+            {...register("lastName")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.lastName && (
@@ -76,13 +76,7 @@ export default function RegisterForm() {
           <input
             type="text"
             placeholder="jane_doe"
-            {...register("username", {
-              required: "Username is required",
-              minLength: {
-                value: 3,
-                message: "Username must be at least 3 characters",
-              },
-            })}
+            {...register("username")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.username && (
@@ -99,9 +93,7 @@ export default function RegisterForm() {
           <input
             type="email"
             placeholder="jane@example.com"
-            {...register("email", {
-              required: "Email is required",
-            })}
+            {...register("email")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
@@ -116,13 +108,7 @@ export default function RegisterForm() {
           <input
             type="password"
             placeholder="Minimum 8 characters"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-            })}
+            {...register("password")}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.password && (

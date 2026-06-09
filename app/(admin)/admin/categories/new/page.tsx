@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useCreateCategory } from "@/features/categories/hooks/use-category-mutations";
+import { createCategorySchema } from "@/features/categories/schemas/category.schema";
 import type { CreateCategoryDTO } from "@/features/categories/types";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 
@@ -18,7 +20,9 @@ export default function CreateCategoryPage() {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<CreateCategoryDTO>();
+  } = useForm<CreateCategoryDTO>({
+    resolver: zodResolver(createCategorySchema),
+  });
 
   const onSubmit = async (data: CreateCategoryDTO) => {
     try {
@@ -54,7 +58,7 @@ export default function CreateCategoryPage() {
             <input
               type="text"
               placeholder="e.g. Electronics"
-              {...register("name", { required: "Name is required" })}
+              {...register("name")}
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm"
             />
             {errors.name && (
