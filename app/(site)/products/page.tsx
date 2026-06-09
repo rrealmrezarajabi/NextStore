@@ -45,7 +45,13 @@ export default async function ProductsPage({
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col-reverse lg:flex-row gap-6">
+        <div className="mt-6 flex flex-col lg:flex-row gap-6">
+          <div className="w-full lg:w-64">
+            <CategoriesSidebar
+              categories={categories}
+              activeCategoryId={categoryId}
+            />
+          </div>
           <div className="flex-1">
             <ProductsGrid products={products} />
 
@@ -60,13 +66,6 @@ export default async function ProductsPage({
                 />
               </div>
             )}
-          </div>
-
-          <div className="w-full lg:w-64">
-            <CategoriesSidebar
-              categories={categories}
-              activeCategoryId={categoryId}
-            />
           </div>
         </div>
       </div>

@@ -47,8 +47,6 @@ export default function DashboardLayout({
                     <DashboardSidebar />
                   </SheetContent>
                 </Sheet>
-
-                <div className="text-sm font-medium">My Account</div>
               </div>
             </header>
 

@@ -11,15 +11,18 @@ export function CategoriesSidebar({
   activeCategoryId,
 }: CategoriesSidebarProps) {
   return (
-    <div className="bg-zinc-900 p-4 rounded-lg border border-zinc-800">
-      <h2 className="text-lg font-bold mb-4 text-white">Categories</h2>
-      <ul className="space-y-2">
-        <li>
+    <aside className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 lg:p-4">
+      <h2 className="mb-3 text-sm font-bold text-white lg:text-lg">
+        Categories
+      </h2>
+
+      <ul className="flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-2 lg:overflow-visible lg:pb-0">
+        <li className="shrink-0">
           <Link
             href="/products"
-            className={`block px-3 py-2 rounded text-sm transition-colors ${
+            className={`block whitespace-nowrap rounded px-3 py-2 text-sm transition-colors ${
               activeCategoryId === undefined
-                ? "bg-zinc-700 text-white font-medium"
+                ? "bg-zinc-700 font-medium text-white"
                 : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
             }`}
           >
@@ -28,12 +31,12 @@ export function CategoriesSidebar({
         </li>
 
         {categories.map((category) => (
-          <li key={category.id}>
+          <li key={category.id} className="shrink-0">
             <Link
               href={`/products?categoryId=${category.id}`}
-              className={`block px-3 py-2 rounded text-sm transition-colors ${
+              className={`block whitespace-nowrap rounded px-3 py-2 text-sm transition-colors ${
                 activeCategoryId === category.id
-                  ? "bg-zinc-700 text-white font-medium"
+                  ? "bg-zinc-700 font-medium text-white"
                   : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
               }`}
             >
@@ -42,6 +45,6 @@ export function CategoriesSidebar({
           </li>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 }

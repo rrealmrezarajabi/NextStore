@@ -25,7 +25,7 @@ export default function Navbar() {
   const profileQuery = useProfile();
   const user = profileQuery.data;
   const isAdmin = user?.role === "admin";
-  const {data:cart} = useCartQuery()
+  const { data: cart } = useCartQuery();
 
   return (
     <header className="border-b bg-white/90">
@@ -45,7 +45,7 @@ export default function Navbar() {
           {user ? (
             <>
               {isAdmin && (
-                <Button asChild variant="outline">
+                <Button asChild>
                   <Link href="/admin">
                     <Shield />
                     Admin
@@ -53,13 +53,13 @@ export default function Navbar() {
                 </Button>
               )}
 
-              <Button asChild>
+              <Button asChild variant="ghost">
                 <Link href="/dashboard">
                   <LayoutDashboard />
                   Dashboard
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="relative">
+              <Button asChild variant="ghost" className="relative">
                 <Link href="/dashboard/cart">
                   <Handbag />
                   Cart
@@ -100,7 +100,7 @@ export default function Navbar() {
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuItem asChild>
                 <Link href="/">Home</Link>
               </DropdownMenuItem>
@@ -113,12 +113,14 @@ export default function Navbar() {
                 <Link href="/about">About</Link>
               </DropdownMenuItem>
 
+              <div className="my-1 h-px bg-zinc-200" />
+
               {user ? (
                 <>
                   {isAdmin && (
                     <DropdownMenuItem asChild>
                       <Link href="/admin">
-                        <Shield />
+                        <Shield className="mr-2 h-4 w-4" />
                         Admin
                       </Link>
                     </DropdownMenuItem>
@@ -126,23 +128,47 @@ export default function Navbar() {
 
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">
-                      <LayoutDashboard />
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
                       Dashboard
                     </Link>
                   </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/dashboard/cart"
+                      className="flex w-full items-center justify-between"
+                    >
+                      <span className="flex items-center">
+                        <Handbag className="mr-2 h-4 w-4" />
+                        Cart
+                      </span>
+
+                      {cart?.items.length ? (
+                        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1.5 text-xs text-white">
+                          {cart.items.length}
+                        </span>
+                      ) : null}
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <div className="my-1 h-px bg-zinc-200" />
+
+                  <div className="px-2 py-1">
+                    <LogoutButton />
+                  </div>
                 </>
               ) : (
                 <>
                   <DropdownMenuItem asChild>
                     <Link href="/login">
-                      <LogIn />
+                      <LogIn className="mr-2 h-4 w-4" />
                       Login
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/register">
-                      <UserPlus />
+                      <UserPlus className="mr-2 h-4 w-4" />
                       Register
                     </Link>
                   </DropdownMenuItem>
