@@ -53,9 +53,6 @@ export function ProductTable({ products }: { products: Product[] }) {
                       >
                         {product.title}
                       </Link>
-                      <div className="text-xs text-zinc-500">
-                        ID {product.id}
-                      </div>
                     </div>
                   </div>
                 </td>

@@ -25,8 +25,9 @@ export function CategoriesTable({ categories }: { categories: Category[] }) {
         <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
           <tr>
             <th className="px-4 py-3 font-medium">Category</th>
-            <th className="px-4 py-3 font-medium">ID</th>
-            <th className="px-4 py-3 font-medium">Actions</th>
+            <th className="w-0 whitespace-nowrap px-4 py-3 text-right font-medium">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-zinc-100">
@@ -51,7 +52,7 @@ export function CategoriesTable({ categories }: { categories: Category[] }) {
                   </Link>
                 </div>
               </td>
-              <td className="px-4 py-3 text-zinc-500">#{category.id}</td>
+
               <td className="px-4 py-3">
                 <div className="flex items-center gap-2">
                   <Link href={`/admin/categories/${category.id}/edit`}>
