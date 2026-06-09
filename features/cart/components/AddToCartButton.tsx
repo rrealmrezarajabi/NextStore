@@ -2,7 +2,6 @@
 
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCartQuery } from "@/features/cart/hooks/use-cart-queries";
 import { useAddCartItemMutation } from "@/features/cart/hooks/use-cart-mutations";
 
 type ProductAddToCartButtonProps = {
@@ -12,11 +11,7 @@ type ProductAddToCartButtonProps = {
 export function ProductAddToCartButton({
   productId,
 }: ProductAddToCartButtonProps) {
-  const { data: cart } = useCartQuery();
-
   const addCartItem = useAddCartItemMutation();
-
-  const cartItem = cart?.items.find((item) => item.product.id === productId);
 
   const isPending = addCartItem.isPending;
 
