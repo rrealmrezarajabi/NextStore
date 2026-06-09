@@ -1,9 +1,7 @@
-import React from 'react'
+import { CartPageClient } from "@/features/cart/components/CartPageClient";
 
 const CartPage = () => {
-  return (
-    <div>CartPage</div>
-  )
-}
+  return <CartPageClient />;
+};
 
-export default CartPage
+export default CartPage;

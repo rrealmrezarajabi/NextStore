@@ -2,6 +2,7 @@ import { getProduct } from "@/features/products/services/products.service";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { safeImageSrc } from "@/lib/utils";
+import { ProductAddToCartButton } from "@/features/cart/components/AddToCartButton";
 export default async function ProductPage({
   params,
 }: {
@@ -44,6 +45,7 @@ export default async function ProductPage({
 
             <p className="mt-4 text-xl font-semibold">${product.price}</p>
             <p className="mt-4 text-sm text-zinc-300">{product.description}</p>
+            <ProductAddToCartButton productId={product.id} />
           </div>
         </div>
       </div>
