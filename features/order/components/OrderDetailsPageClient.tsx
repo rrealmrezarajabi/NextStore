@@ -6,6 +6,7 @@ import { ArrowLeft, MapPin, PackageCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { useOrder } from "../hooks/use-order-queries";
+import { OrderPaymentButton } from "./OrderPaymentButton";
 
 type OrderDetailsPageClientProps = {
   orderId: number;
@@ -119,6 +120,8 @@ export function OrderDetailsPageClient({
                 <span className="text-xl font-bold">${order.total}</span>
               </div>
             </div>
+
+            <OrderPaymentButton orderId={order.id} status={order.status} />
           </div>
 
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">

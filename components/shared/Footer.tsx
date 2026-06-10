@@ -12,7 +12,6 @@ export default function Footer() {
           <div>
             <Link href="/">
               <div className="flex gap-3 min-h items-center">
-                {" "}
                 <Image
                   className="rounded-full"
                   src="/footer.png"
@@ -64,7 +63,8 @@ export default function Footer() {
               />
 
               <div>
-                <p className="font-medium text-white">Mohamad Reza Rajabi</p>
+                <p className="font-bold text-white">Mohamad Reza Rajabi</p>
+                <p className="font-normal ">FrontEnd Developer</p>
 
                 <div className="mt-2 flex gap-3">
                   <a href="https://github.com/rrealmrezarajabi" target="_blank">
