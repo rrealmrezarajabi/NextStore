@@ -6,6 +6,7 @@ import {
   getOrderById,
   getAllOrders,
 } from "../services/order.service";
+import type { Order, PaginatedOrders } from "../types";
 
 export const orderQueryKeys = {
   all: ["orders"] as const,
@@ -15,15 +16,15 @@ export const orderQueryKeys = {
 };
 
 export function useMyOrders() {
-  return useQuery({
+  return useQuery<PaginatedOrders>({
     queryKey: orderQueryKeys.my,
-    queryFn: getMyOrders,
+    queryFn: () => getMyOrders(),
     retry: false,
   });
 }
 
 export function useOrder(id: number) {
-  return useQuery({
+  return useQuery<Order>({
     queryKey: orderQueryKeys.detail(id),
     queryFn: () => getOrderById(id),
     enabled: !!id,
@@ -32,9 +33,9 @@ export function useOrder(id: number) {
 }
 
 export function useAdminOrders() {
-  return useQuery({
+  return useQuery<PaginatedOrders>({
     queryKey: orderQueryKeys.admin,
-    queryFn: getAllOrders,
+    queryFn: () => getAllOrders(),
     retry: false,
   });
 }

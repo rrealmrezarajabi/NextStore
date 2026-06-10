@@ -1,8 +1,11 @@
+import { OrdersList } from "@/features/order/components/OrderList";
 
-const OrdersPage = () => {
+
+export default function OrdersPage() {
   return (
-    <div>OrdersPage</div>
-  )
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">My Orders</h1>
+      <OrdersList />
+    </div>
+  );
 }
-
-export default OrdersPage

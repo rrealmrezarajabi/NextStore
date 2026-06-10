@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  ArrowRight,
   Minus,
   Plus,
   ShoppingBag,
@@ -203,11 +204,21 @@ export function CartPageClient() {
           </div>
 
           <Button
+            asChild
+            className="mt-6 w-full bg-white text-zinc-950 hover:bg-zinc-200"
+          >
+            <Link href="/dashboard/cart/checkout">
+              Place order
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+
+          <Button
             type="button"
             disabled={clearCart.isPending}
             onClick={() => clearCart.mutate()}
             variant="outline"
-            className="mt-6 w-full border-zinc-700 bg-transparent text-white hover:bg-white hover:text-zinc-950"
+            className="mt-3 w-full border-zinc-700 bg-transparent text-white hover:bg-white hover:text-zinc-950"
           >
             <Trash2 className="size-4" />
             Clear cart

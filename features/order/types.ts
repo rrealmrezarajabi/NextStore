@@ -1,3 +1,14 @@
+import type { Address } from "@/features/addresses/types";
+
+export type PaginationMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};
+
 export type OrderStatus =
   | "pending"
   | "paid"
@@ -19,8 +30,13 @@ export type Order = {
   id: number;
   status: OrderStatus;
   total: number;
-  address: unknown | null;
+  address: Address | null;
   items: OrderItem[];
+};
+
+export type PaginatedOrders = {
+  data: Order[];
+  meta: PaginationMeta;
 };
 
 export type CreateOrderDto = {

@@ -1,13 +1,28 @@
 import { apiClient } from "@/lib/api/axios";
-import type { CreateOrderDto, Order, UpdateOrderStatusDto } from "../types";
+import type {
+  CreateOrderDto,
+  Order,
+  PaginatedOrders,
+  UpdateOrderStatusDto,
+} from "../types";
+
+type OrderListParams = {
+  page?: number;
+  limit?: number;
+};
 
 export async function createOrder(data: CreateOrderDto) {
   const res = await apiClient.post<Order>("/orders", data);
   return res.data;
 }
 
-export async function getMyOrders() {
-  const res = await apiClient.get<Order[]>("/orders/my");
+export async function getMyOrders({
+  page = 1,
+  limit = 20,
+}: OrderListParams = {}): Promise<PaginatedOrders> {
+  const res = await apiClient.get<PaginatedOrders>("/orders/my", {
+    params: { page, limit },
+  });
   return res.data;
 }
 
@@ -16,8 +31,13 @@ export async function getOrderById(id: number) {
   return res.data;
 }
 
-export async function getAllOrders() {
-  const res = await apiClient.get<Order[]>("/orders");
+export async function getAllOrders({
+  page = 1,
+  limit = 20,
+}: OrderListParams = {}): Promise<PaginatedOrders> {
+  const res = await apiClient.get<PaginatedOrders>("/orders", {
+    params: { page, limit },
+  });
   return res.data;
 }
 
