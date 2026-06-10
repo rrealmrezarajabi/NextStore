@@ -79,6 +79,8 @@ app/
   (user)/
     dashboard/
       addresses/
+        [id]/
+          page.tsx
         page.tsx
       cart/
         page.tsx
@@ -125,6 +127,19 @@ components/
     sheet.tsx
     spinner.tsx
 features/
+  addresses/
+    components/
+      AddressEditPageClient.tsx
+      AddressesList.tsx
+      AddressForm.tsx
+    hooks/
+      use-address-mutations.ts
+      use-address-queries.ts
+    schemas/
+      address.schema.ts
+    services/
+      address.service.ts
+    types.ts
   auth/
     components/
       LoginForm.tsx
@@ -143,6 +158,16 @@ features/
     services/
       auth.service.ts
       profile.services.ts
+    types.ts
+  cart/
+    components/
+      AddToCartButton.tsx
+      CartPageClient.tsx
+    hooks/
+      use-cart-mutations.ts
+      use-cart-queries.ts
+    services/
+      cart.service.ts
     types.ts
   categories/
     components/
