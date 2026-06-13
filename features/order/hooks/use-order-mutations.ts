@@ -4,13 +4,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createOrder, updateOrderStatus } from "../services/order.service";
 import { orderQueryKeys } from "./use-order-queries";
 import { UpdateOrderStatusDto } from "../types";
-
+import { toast } from "sonner";
 export function useCreateOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createOrder,
     onSuccess: () => {
+      toast.success("Order placed successfully");
+
       queryClient.invalidateQueries({
         queryKey: orderQueryKeys.all,
       });
@@ -18,6 +20,9 @@ export function useCreateOrder() {
       queryClient.invalidateQueries({
         queryKey: ["cart"],
       });
+    },
+    onError: () => {
+      toast.error("Failed to place order");
     },
   });
 }
