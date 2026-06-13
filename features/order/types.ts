@@ -1,4 +1,5 @@
 import type { Address } from "@/features/addresses/types";
+import type { User } from "@/features/users/types";
 
 export type PaginationMeta = {
   total: number;
@@ -30,6 +31,7 @@ export type Order = {
   id: number;
   status: OrderStatus;
   total: number;
+  user?: User;
   address: Address | null;
   items: OrderItem[];
 };

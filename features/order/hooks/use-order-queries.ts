@@ -12,13 +12,19 @@ export const orderQueryKeys = {
   all: ["orders"] as const,
   my: ["orders", "my"] as const,
   detail: (id: number) => ["orders", id] as const,
-  admin: ["orders", "admin"] as const,
+  admin: (params?: OrderListParams) => ["orders", "admin", params] as const,
 };
 
-export function useMyOrders() {
+type OrderListParams = {
+  search?: string;
+  page?: number;
+  limit?: number;
+};
+
+export function useMyOrders(params?: Pick<OrderListParams, "page" | "limit">) {
   return useQuery<PaginatedOrders>({
-    queryKey: orderQueryKeys.my,
-    queryFn: () => getMyOrders(),
+    queryKey: [...orderQueryKeys.my, params],
+    queryFn: () => getMyOrders(params),
     retry: false,
   });
 }
@@ -32,10 +38,10 @@ export function useOrder(id: number) {
   });
 }
 
-export function useAdminOrders() {
+export function useAdminOrders(params?: OrderListParams) {
   return useQuery<PaginatedOrders>({
-    queryKey: orderQueryKeys.admin,
-    queryFn: () => getAllOrders(),
+    queryKey: orderQueryKeys.admin(params),
+    queryFn: () => getAllOrders(params),
     retry: false,
   });
 }

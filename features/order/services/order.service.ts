@@ -7,6 +7,7 @@ import type {
 } from "../types";
 
 type OrderListParams = {
+  search?: string;
   page?: number;
   limit?: number;
 };
@@ -32,11 +33,12 @@ export async function getOrderById(id: number) {
 }
 
 export async function getAllOrders({
+  search,
   page = 1,
   limit = 20,
 }: OrderListParams = {}): Promise<PaginatedOrders> {
   const res = await apiClient.get<PaginatedOrders>("/orders", {
-    params: { page, limit },
+    params: { search, page, limit },
   });
   return res.data;
 }
