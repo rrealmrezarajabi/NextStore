@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { login, logout, register } from "../services/auth.service";
 import { profileQueryKeys } from "./use-profile-queries";
-
+import { toast } from "sonner";
 export function useLogin() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -12,6 +12,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: login,
     onSuccess: ({ user }) => {
+      toast.success("login successfull")
       queryClient.setQueryData(profileQueryKeys.all, user);
       router.push("/dashboard");
     },
