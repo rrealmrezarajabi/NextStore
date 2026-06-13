@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getApiErrorMessage } from "@/lib/api/error-message";
+import { toast } from "sonner";
 import {
   addCartItem,
   clearCart,
@@ -15,9 +17,13 @@ export function useAddCartItemMutation() {
     mutationFn: (payload: AddCartItemPayload) => addCartItem(payload),
 
     onSuccess: () => {
+      toast.success("Added to cart");
       queryClient.invalidateQueries({
         queryKey: cartKeys.all,
       });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not add item to cart"));
     },
   });
 }
@@ -35,9 +41,13 @@ export function useUpdateCartItemMutation() {
     }) => updateCartItem(id, payload),
 
     onSuccess: () => {
+      toast.success("Cart updated");
       queryClient.invalidateQueries({
         queryKey: cartKeys.all,
       });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not update cart"));
     },
   });
 }
@@ -49,9 +59,13 @@ export function useRemoveCartItemMutation() {
     mutationFn: (id: number) => removeCartItem(id),
 
     onSuccess: () => {
+      toast.success("Item removed from cart");
       queryClient.invalidateQueries({
         queryKey: cartKeys.all,
       });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not remove item"));
     },
   });
 }
@@ -63,9 +77,13 @@ export function useClearCartMutation() {
     mutationFn: () => clearCart(),
 
     onSuccess: () => {
+      toast.success("Cart cleared");
       queryClient.invalidateQueries({
         queryKey: cartKeys.all,
       });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not clear cart"));
     },
   });
 }

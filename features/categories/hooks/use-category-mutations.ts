@@ -1,6 +1,8 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getApiErrorMessage } from "@/lib/api/error-message";
+import { toast } from "sonner";
 import {
   createCategory,
   deleteCategory,
@@ -15,7 +17,11 @@ export function useCreateCategory() {
   return useMutation({
     mutationFn: createCategory,
     onSuccess: () => {
+      toast.success("Category created");
       queryClient.invalidateQueries({ queryKey: categoryQueryKeys.all });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not create category"));
     },
   });
 }
@@ -27,8 +33,12 @@ export function useUpdateCategory() {
     mutationFn: ({ id, data }: { id: number; data: UpdateCategoryDTO }) =>
       updateCategory(id, data),
     onSuccess: (_category, { id }) => {
+      toast.success("Category updated");
       queryClient.invalidateQueries({ queryKey: categoryQueryKeys.all });
       queryClient.invalidateQueries({ queryKey: categoryQueryKeys.detail(id) });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not update category"));
     },
   });
 }
@@ -39,7 +49,11 @@ export function useDeleteCategory() {
   return useMutation({
     mutationFn: deleteCategory,
     onSuccess: () => {
+      toast.success("Category deleted");
       queryClient.invalidateQueries({ queryKey: categoryQueryKeys.all });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not delete category"));
     },
   });
 }

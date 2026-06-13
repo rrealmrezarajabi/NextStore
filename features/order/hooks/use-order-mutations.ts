@@ -1,10 +1,12 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getApiErrorMessage } from "@/lib/api/error-message";
+import { toast } from "sonner";
 import { createOrder, updateOrderStatus } from "../services/order.service";
 import { orderQueryKeys } from "./use-order-queries";
 import { UpdateOrderStatusDto } from "../types";
-import { toast } from "sonner";
+
 export function useCreateOrder() {
   const queryClient = useQueryClient();
 
@@ -21,8 +23,8 @@ export function useCreateOrder() {
         queryKey: ["cart"],
       });
     },
-    onError: () => {
-      toast.error("Failed to place order");
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Failed to place order"));
     },
   });
 }
@@ -33,7 +35,8 @@ export function useUpdateOrderStatus(id: number) {
   return useMutation({
     mutationFn: (data: UpdateOrderStatusDto) => updateOrderStatus(id, data),
 
-    onSuccess: () => {
+    onSuccess: (_order, data) => {
+      toast.success(`Order marked as ${data.status}`);
       queryClient.invalidateQueries({
         queryKey: orderQueryKeys.all,
       });
@@ -41,6 +44,9 @@ export function useUpdateOrderStatus(id: number) {
       queryClient.invalidateQueries({
         queryKey: orderQueryKeys.detail(id),
       });
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error, "Could not update order status"));
     },
   });
 }
