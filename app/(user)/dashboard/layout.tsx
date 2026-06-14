@@ -9,7 +9,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import DashboardSidebar from "@/features/dashboard/components/DashboardSidebar";
 import RequireAuth from "@/features/auth/components/RequireAuth";
 
 export default function DashboardLayout({

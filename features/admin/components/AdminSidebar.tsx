@@ -2,31 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogoutButton } from "../shared/LogoutButton";
-import Image from "next/image";
+import { LogoutButton } from "@/components/shared/LogoutButton";
 import { useProfile } from "@/features/auth/hooks/use-profile-queries";
+import Image from "next/image";
 import { safeImageSrc } from "@/lib/utils";
 const navItems = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/dashboard/profile", label: "Profile" },
-  { href: "/dashboard/cart", label: "Cart" },
-  { href: "/dashboard/orders", label: "Orders" },
-  { href: "/dashboard/addresses", label: "Addresses" },
+  { href: "/admin/products", label: "Products" },
+  { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/users", label: "Users" },
 ];
 
-export default function AccountSidebar() {
+export default function AdminSidebar() {
   const pathname = usePathname();
-  const user = useProfile();
-  const isAdmin = user.data?.role === "admin";
+  const admin = useProfile();
 
   return (
     <aside className="sticky top-0 w-64 border-r border-zinc-200 bg-white flex flex-col h-dvh">
       <div className="flex h-16 items-center gap-3 px-4">
         <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
           <Image
-            src={safeImageSrc(user.data?.avatar)}
-            alt={`${user.data?.firstName ?? "User"} ${
-              user.data?.lastName ?? ""
+            src={safeImageSrc(admin.data?.avatar)}
+            alt={`${admin.data?.firstName ?? "Admin"} ${
+              admin.data?.lastName ?? ""
             }`.trim()}
             fill
             className="object-cover"
@@ -36,10 +34,10 @@ export default function AccountSidebar() {
 
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-black">
-            {user.data?.firstName}
+            {admin.data?.firstName}
           </span>
 
-          <span className="text-xs text-gray-500">@{user.data?.username}</span>
+          <span className="text-xs text-gray-500">@{admin.data?.username}</span>
         </div>
       </div>
       <hr />
@@ -47,11 +45,7 @@ export default function AccountSidebar() {
       <nav className="px-2 py-3">
         <div className="space-y-1">
           {navItems.map((item) => {
-            const active =
-              item.href === "/dashboard"
-                ? pathname === item.href
-                : pathname === item.href ||
-                  pathname.startsWith(`${item.href}/`);
+            const active = pathname === item.href;
 
             return (
               <Link
@@ -71,20 +65,18 @@ export default function AccountSidebar() {
         </div>
       </nav>
 
-      <div className="mt-auto px-2 py-4 border-t border-zinc-200 space-y-1">
-        {isAdmin && (
-          <Link
-            href="/admin"
-            className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
-          >
-            Go to Admin Panel
-          </Link>
-        )}
+      <div className="mt-auto px-2 py-4 border-t border-zinc-200">
+        <Link
+          href="/dashboard"
+          className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
+        >
+          Go to Dashboard
+        </Link>
         <Link
           href="/"
           className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-black transition"
         >
-          Back to Shop
+          Back to Homepage
         </Link>
         <LogoutButton />
       </div>

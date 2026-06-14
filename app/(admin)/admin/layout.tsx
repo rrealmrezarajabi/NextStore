@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Menu } from "lucide-react";
 import RequireAdmin from "@/features/auth/components/RequireAdmin";
-import AdminSidebar from "@/components/admin/AdminSidebar";
+import AdminSidebar from "@/features/admin/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
