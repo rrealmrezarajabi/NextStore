@@ -1,7 +1,5 @@
-import React from "react";
+import { UserDashboard as UserDashboardContent } from "@/features/dashboard/components/UserDashboard";
 
-const UserDashboard = () => {
-  return <div>UserDashboard</div>;
-};
-
-export default UserDashboard;
+export default function UserDashboardPage() {
+  return <UserDashboardContent />;
+}
