@@ -13,14 +13,14 @@ NextStore is a modern ecommerce frontend built with Next.js, TypeScript, React Q
 - Server-side product fetching for public pages
 - Client-side mutations and cached async state with TanStack React Query
 - Form validation with React Hook Form and Zod
-- Reusable UI components powered by Tailwind CSS, Radix UI, shadcn-style primitives, and Lucide icons
+- Reusable UI components powered by Tailwind CSS, Shadcn UI, shadcn-style primitives, and Lucide icons
 - Axios API client with credentials enabled and automatic refresh-token retry handling
 
 ## Tech Stack
 
 - **Framework:** Next.js 16 App Router
 - **Language:** TypeScript
-- **UI:** React 19, Tailwind CSS 4, Radix UI, Lucide React
+- **UI:** React 19, Tailwind CSS 4, Shadcn UI, Lucide React
 - **Forms:** React Hook Form, Zod
 - **Data fetching:** Fetch API for server components, Axios for client requests, TanStack React Query
 - **Notifications:** Sonner
