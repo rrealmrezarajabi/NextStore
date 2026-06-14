@@ -1,36 +1,205 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextStore Frontend
+
+NextStore is a modern ecommerce frontend built with Next.js, TypeScript, React Query, Tailwind CSS, and a feature-based architecture. It includes a public storefront, authentication, customer dashboard, shopping cart, checkout flow, and an admin panel for managing products, categories, users, and orders.
+
+![NextStore home page](./public/home.png)
+
+## Highlights
+
+- Public ecommerce storefront with home, product listing, product details, search, category filtering, and pagination
+- Authentication flow with login, registration, logout, protected user routes, and admin-only routes
+- Customer dashboard for profile management, addresses, cart, checkout, and order history
+- Admin dashboard for products, categories, users, orders, and order status management
+- Server-side product fetching for public pages
+- Client-side mutations and cached async state with TanStack React Query
+- Form validation with React Hook Form and Zod
+- Reusable UI components powered by Tailwind CSS, Radix UI, shadcn-style primitives, and Lucide icons
+- Axios API client with credentials enabled and automatic refresh-token retry handling
+
+## Tech Stack
+
+- **Framework:** Next.js 16 App Router
+- **Language:** TypeScript
+- **UI:** React 19, Tailwind CSS 4, Radix UI, Lucide React
+- **Forms:** React Hook Form, Zod
+- **Data fetching:** Fetch API for server components, Axios for client requests, TanStack React Query
+- **Notifications:** Sonner
+- **Tooling:** ESLint, npm
+
+## Project Structure
+
+```txt
+app/
+  (site)/          Public storefront routes
+  (auth)/          Login and registration routes
+  (user)/          Customer dashboard routes
+  (admin)/         Admin dashboard routes
+components/
+  HomePage/        Landing page sections
+  shared/          Shared app components
+  ui/              Reusable UI primitives
+features/
+  auth/            Auth services, hooks, schemas, and components
+  products/        Product services, hooks, schemas, and UI
+  categories/      Category services, hooks, schemas, and UI
+  cart/            Cart services, hooks, and UI
+  order/           Order services, hooks, and UI
+  addresses/       Address services, hooks, schemas, and UI
+  users/           User management services, hooks, schemas, and UI
+lib/
+  api/             API client and base URL
+  schemas/         Shared schemas
+```
+
+## Core Features
+
+### Storefront
+
+- Product grid with responsive cards
+- Product detail pages
+- Category sidebar
+- Product search
+- Pagination
+- Latest products carousel on the home page
+
+### Authentication
+
+- Register and login pages
+- Cookie-based auth through the backend
+- Protected customer dashboard
+- Admin route guard
+- Automatic token refresh retry for authenticated API requests
+
+### Customer Dashboard
+
+- Profile management
+- Address list and edit flow
+- Cart quantity updates
+- Clear cart and remove item actions
+- Checkout flow
+- Order list and order detail pages
+
+### Admin Panel
+
+- Admin overview page
+- Product CRUD pages
+- Category CRUD pages
+- User CRUD pages
+- Orders table
+- Order detail page
+- Order status update flow
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- NextStore backend running locally
+
+The frontend currently expects the API to be available at:
+
+```txt
+http://localhost:4000/api/v1
+```
+
+The API base URL is configured in:
+
+```txt
+lib/api/base-url.ts
+```
+
+### Installation
+
+```bash
+npm install
+```
+
+### Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build for Production
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Start Production Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Lint
 
-## Deploy on Vercel
+```bash
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Reference
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This frontend is designed to work with the companion NextStore REST API.
+
+Default backend URL:
+
+```txt
+http://localhost:4000/api/v1
+```
+
+Swagger UI:
+
+```txt
+http://localhost:4000/api/docs
+```
+
+See [API_REFERENCE.md](./API_REFERENCE.md) for request and response examples.
+
+## Important Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Home page |
+| `/products` | Product listing, search, category filter, pagination |
+| `/products/[id]` | Product detail page |
+| `/login` | Login page |
+| `/register` | Register page |
+| `/dashboard` | Customer dashboard |
+| `/dashboard/profile` | Customer profile |
+| `/dashboard/addresses` | Customer addresses |
+| `/dashboard/cart` | Shopping cart |
+| `/dashboard/cart/checkout` | Checkout |
+| `/dashboard/orders` | Customer orders |
+| `/admin` | Admin dashboard |
+| `/admin/products` | Admin product management |
+| `/admin/categories` | Admin category management |
+| `/admin/users` | Admin user management |
+| `/admin/orders` | Admin order management |
+
+## What This Project Demonstrates
+
+- Building a real multi-section ecommerce frontend with Next.js App Router
+- Organizing code by business feature instead of only by component type
+- Handling authenticated API requests with cookies and refresh-token retry logic
+- Combining server-rendered public pages with client-side dashboard interactions
+- Managing async server state with React Query
+- Creating reusable form, table, navigation, pagination, and dashboard components
+- Implementing role-based route protection for customer and admin areas
+
+## Notes
+
+- The frontend depends on the backend being available for product, auth, cart, address, user, and order data.
+- Server-rendered pages that fetch products require the API to be reachable during production builds.
+- The current API URL is hard-coded in `lib/api/base-url.ts`; moving it to an environment variable is recommended before deployment.
+
+## Author
+
+Built as a full ecommerce frontend portfolio project.
