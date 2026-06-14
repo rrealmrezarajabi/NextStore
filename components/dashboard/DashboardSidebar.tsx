@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LogoutButton } from "../shared/LogoutButton";
 import Image from "next/image";
 import { useProfile } from "@/features/auth/hooks/use-profile-queries";
+import { safeImageSrc } from "@/lib/utils";
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/profile", label: "Profile" },
@@ -15,19 +16,23 @@ const navItems = [
 
 export default function AccountSidebar() {
   const pathname = usePathname();
-  const user = useProfile()
-  const isAdmin = user.data?.role === "admin"
+  const user = useProfile();
+  const isAdmin = user.data?.role === "admin";
 
   return (
     <aside className="sticky top-0 w-64 border-r border-zinc-200 bg-white flex flex-col h-dvh">
       <div className="flex h-16 items-center gap-3 px-4">
-        <Image
-          src={user.data?.avatar || "/default-avatar.png"}
-          alt={user.data?.firstName || "Avatar"}
-          width={40}
-          height={40}
-          className="rounded-full object-cover"
-        />
+        <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
+          <Image
+            src={safeImageSrc(user.data?.avatar)}
+            alt={`${user.data?.firstName ?? "User"} ${
+              user.data?.lastName ?? ""
+            }`.trim()}
+            fill
+            className="object-cover"
+            sizes="40px"
+          />
+        </div>
 
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-black">

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LogoutButton } from "../shared/LogoutButton";
 import { useProfile } from "@/features/auth/hooks/use-profile-queries";
 import Image from "next/image";
+import { safeImageSrc } from "@/lib/utils";
 const navItems = [
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
@@ -19,13 +20,17 @@ export default function AdminSidebar() {
   return (
     <aside className="sticky top-0 w-64 border-r border-zinc-200 bg-white flex flex-col h-dvh">
       <div className="flex h-16 items-center gap-3 px-4">
-        <Image
-          src={admin.data?.avatar || "/default-avatar.png"}
-          alt={admin.data?.firstName || "Avatar"}
-          width={40}
-          height={40}
-          className="rounded-full object-cover"
-        />
+        <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
+          <Image
+            src={safeImageSrc(admin.data?.avatar)}
+            alt={`${admin.data?.firstName ?? "Admin"} ${
+              admin.data?.lastName ?? ""
+            }`.trim()}
+            fill
+            className="object-cover"
+            sizes="40px"
+          />
+        </div>
 
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-black">
