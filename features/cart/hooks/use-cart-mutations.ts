@@ -22,8 +22,8 @@ export function useAddCartItemMutation() {
         queryKey: cartKeys.all,
       });
     },
-    onError: (error) => {
-      toast.error(getApiErrorMessage(error, "Could not add item to cart"));
+    onError: () => {
+      toast.error("Could not add item to cart , please login");
     },
   });
 }
