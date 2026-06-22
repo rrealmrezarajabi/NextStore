@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/features/auth/hooks/use-auth-mutations";
-import { loginSchema } from "@/features/auth/schemas/login.schema";
+import { loginSchema } from "@/features/auth/schemas/login schema/login.schema";
 import type { LoginDTO } from "@/features/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -29,9 +29,7 @@ export default function LoginForm() {
     >
       <div>
         <h1 className="text-2xl font-semibold text-zinc-950">Sign in</h1>
-        <p className="mt-2 text-sm text-zinc-600">
-          Welcome back to NextStore.
-        </p>
+        <p className="mt-2 text-sm text-zinc-600">Welcome back to NextStore.</p>
       </div>
 
       <div className="mt-6 grid gap-4">

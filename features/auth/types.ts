@@ -1,5 +1,5 @@
-import { registerSchema } from "./schemas/register.schema";
-import { loginSchema } from "./schemas/login.schema";
+import { registerSchema } from "./schemas/register schema/register.schema";
+import { loginSchema } from "./schemas/login schema/login.schema";
 import { profileSchema, updateProfileSchema } from "./schemas/profile.schema";
 import { z } from "zod";
 
