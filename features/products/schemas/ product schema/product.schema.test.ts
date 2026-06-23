@@ -14,10 +14,22 @@ describe("createProductSchema", () => {
     expect(result.success).toBe(true);
   });
 
-  it("should not be passed with negative price number", () => {
+  it("passes with a decimal price", () => {
     const result = createProductSchema.safeParse({
       title: "Test Product",
-      price: -100,
+      price: 19.99,
+      description: "A test description",
+      categoryId: 1,
+      images: ["image1.jpg"],
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("fails when price is zero or negative", () => {
+    const result = createProductSchema.safeParse({
+      title: "Test Product",
+      price: 0,
       description: "A test description",
       categoryId: 1,
       images: ["image1.jpg"],
@@ -26,7 +38,7 @@ describe("createProductSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should not be passed with no title ", () => {
+  it("fails with no title ", () => {
     const result = createProductSchema.safeParse({
       title: "",
       price: 100,
@@ -38,7 +50,7 @@ describe("createProductSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("should not be passed with no image", () => {
+  it("fails with no image", () => {
     const result = createProductSchema.safeParse({
       title: "test",
       price: 100,
