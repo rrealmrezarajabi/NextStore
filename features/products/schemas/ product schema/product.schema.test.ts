@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createProductSchema } from "./product.schema";
+import { createProductSchema, updateProductSchema } from "./product.schema";
 
 describe("createProductSchema", () => {
   it("passes with valid product data", () => {
@@ -57,6 +57,27 @@ describe("createProductSchema", () => {
       description: "A test description",
       categoryId: 1,
       images: [],
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("updateProductSchema", () => {
+  it("passes with an empty object", () => {
+    const result = updateProductSchema.safeParse({});
+    expect(result.success).toBe(true);
+  });
+
+  it("passes when only price is provided", () => {
+    const result = updateProductSchema.safeParse({
+      price: 100,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("fails when price is negative", () => {
+    const result = updateProductSchema.safeParse({
+      price: -100,
     });
     expect(result.success).toBe(false);
   });
