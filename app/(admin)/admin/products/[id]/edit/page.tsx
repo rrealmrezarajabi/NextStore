@@ -15,7 +15,7 @@ import {
   useDeleteProduct,
   useUpdateProduct,
 } from "@/features/products/hooks/use-product-mutations";
-import { updateProductSchema } from "@/features/products/schemas/product.schema";
+import { updateProductSchema } from "@/features/products/schemas/ product schema/product.schema";
 import type { UpdateProductDTO } from "@/features/products/types";
 
 const updateProductFormSchema = updateProductSchema.omit({ images: true });
@@ -61,8 +61,7 @@ export default function EditProductPage() {
     setValue("categoryId", productQuery.data.category?.id);
   }, [productQuery.data, setValue]);
 
-  const setImages = (values: string[]) =>
-    setImageDraft({ productId, values });
+  const setImages = (values: string[]) => setImageDraft({ productId, values });
   const addImage = () => setImages([...images, ""]);
   const removeImage = (index: number) =>
     setImages(images.filter((_, i) => i !== index));

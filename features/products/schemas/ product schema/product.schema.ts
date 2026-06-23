@@ -14,7 +14,7 @@ export const productSchema = z.object({
 
 export const createProductSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  price: z.number().int().min(0),
+  price: z.number().positive("Price must be greater than 0"),
   description: z.string().min(1, "Description is required"),
   categoryId: z.number().int(),
   images: z.array(z.string()).min(1, "At least one image is required"),

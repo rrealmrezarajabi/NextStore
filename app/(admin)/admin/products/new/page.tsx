@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { useAllCategories } from "@/features/categories/hooks/use-category-queries";
 import { useCreateProduct } from "@/features/products/hooks/use-product-mutations";
-import { createProductSchema } from "@/features/products/schemas/product.schema";
+import { createProductSchema } from "@/features/products/schemas/ product schema/product.schema";
 import type { CreateProductDTO } from "@/features/products/types";
 
 const createProductFormSchema = createProductSchema.omit({ images: true });
@@ -68,7 +68,6 @@ export default function CreateProductPage() {
         className="rounded-xl border border-zinc-200 bg-white p-6"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          
           <div className="sm:col-span-2">
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Title
@@ -86,7 +85,6 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
           <div>
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Price ($)
@@ -106,7 +104,6 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
           <div>
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Category
@@ -129,7 +126,6 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
           <div className="sm:col-span-2">
             <label className="text-xs uppercase tracking-wide text-zinc-500">
               Description
@@ -147,7 +143,6 @@ export default function CreateProductPage() {
             )}
           </div>
 
-          
           <div className="sm:col-span-2">
             <div className="flex items-center justify-between">
               <label className="text-xs uppercase tracking-wide text-zinc-500">
