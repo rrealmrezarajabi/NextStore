@@ -8,6 +8,7 @@ import { safeImageSrc } from "@/lib/utils";
 import { useOrder } from "../hooks/use-order-queries";
 import { useUpdateOrderStatus } from "../hooks/use-order-mutations";
 import type { OrderStatus } from "../types";
+import { formatOrderNumber } from "@/utils/formatOrderNumber";
 
 const ORDER_STATUSES: OrderStatus[] = [
   "pending",
@@ -65,7 +66,7 @@ export function AdminOrderDetailsPageClient({
         <div>
           <p className="text-sm font-medium text-zinc-500">Order details</p>
           <h1 className="mt-1 text-2xl font-bold text-zinc-950">
-            Order #{order.id}
+            {formatOrderNumber(order.id)}
           </h1>
         </div>
         <Button asChild variant="outline" className="w-full sm:w-auto">
