@@ -1,4 +1,5 @@
 import { apiClient } from "@/lib/api/axios";
+import { parseOrderNumber } from "@/utils/formatOrderNumber";
 import type {
   CreateOrderDto,
   Order,
@@ -8,6 +9,7 @@ import type {
 
 type OrderListParams = {
   search?: string;
+  orderId?: number;
   page?: number;
   limit?: number;
 };
@@ -34,11 +36,19 @@ export async function getOrderById(id: number) {
 
 export async function getAllOrders({
   search,
+  orderId,
   page = 1,
   limit = 20,
 }: OrderListParams = {}): Promise<PaginatedOrders> {
+  const parsedOrderId = search ? parseOrderNumber(search) : null;
+
   const res = await apiClient.get<PaginatedOrders>("/orders", {
-    params: { search, page, limit },
+    params: {
+      search: parsedOrderId ? undefined : search,
+      orderId: orderId ?? parsedOrderId ?? undefined,
+      page,
+      limit,
+    },
   });
   return res.data;
 }
