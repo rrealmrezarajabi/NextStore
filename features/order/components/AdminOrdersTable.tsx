@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Order, OrderStatus } from "../types";
+import { formatOrderNumber } from "@/utils/formatOrderNumber";
 
 const statusStyles: Record<OrderStatus, string> = {
   pending: "bg-amber-50 text-amber-700 ring-amber-200",
@@ -51,7 +52,7 @@ export function AdminOrdersTable({ orders }: { orders: Order[] }) {
                     href={`/admin/orders/${order.id}`}
                     className="font-medium text-black hover:underline"
                   >
-                    Order #{order.id}
+                    {formatOrderNumber(order.id)}
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-zinc-700">
