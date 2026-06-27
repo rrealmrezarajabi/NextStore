@@ -1,4 +1,12 @@
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+import path from "path";
+
+/**
+ * Load env vars (E2E_CUSTOMER_EMAIL, E2E_ADMIN_EMAIL, ...) from a .env file
+ * before the config (and the tests that read process.env) run.
+ */
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
