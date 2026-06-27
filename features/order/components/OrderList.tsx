@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMyOrders } from "../hooks/use-order-queries";
+import { formatOrderNumber } from "@/utils/formatOrderNumber";
 
 export function OrdersList() {
   const { data: ordersPage, isLoading, isError } = useMyOrders();
@@ -22,7 +23,7 @@ export function OrdersList() {
         <div key={order.id} className="rounded-lg border p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold">Order #{order.id}</p>
+              <p className="font-semibold">{formatOrderNumber(order.id)}</p>
               <p className="text-sm text-muted-foreground">
                 Status: {order.status}
               </p>
