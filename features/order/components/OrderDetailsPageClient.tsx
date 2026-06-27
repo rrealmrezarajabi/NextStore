@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { safeImageSrc } from "@/lib/utils";
 import { useOrder } from "../hooks/use-order-queries";
 import { OrderPaymentButton } from "./OrderPaymentButton";
+import { formatOrderNumber } from "@/utils/formatOrderNumber";
 
 type OrderDetailsPageClientProps = {
   orderId: number;
@@ -51,7 +52,7 @@ export function OrderDetailsPageClient({
         <div>
           <p className="text-sm font-medium text-zinc-500">Order details</p>
           <h1 className="mt-1 text-2xl font-bold text-zinc-950">
-            Order #{order.id}
+            {formatOrderNumber(order.id)}
           </h1>
         </div>
         <Button asChild variant="outline" className="w-full sm:w-auto">
