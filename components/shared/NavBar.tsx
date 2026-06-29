@@ -21,6 +21,10 @@ import Link from "next/link";
 import { LogoutButton } from "./LogoutButton";
 import { useCartQuery } from "@/features/cart/hooks/use-cart-queries";
 
+
+const navLinkClass =
+  "relative px-3 py-1 rounded-md transition-colors duration-300 hover:text-white hover:bg-black";
+
 export default function Navbar() {
   const profileQuery = useProfile();
   const user = profileQuery.data;
@@ -35,10 +39,18 @@ export default function Navbar() {
           <span className="text-lg font-semibold">NextStore</span>
         </Link>
 
-        <nav className="hidden gap-10 font-bold text-zinc-700 md:flex">
-          <Link href="/">Home</Link>
-          <Link href="/products">Products</Link>
-          <Link href="/about">About</Link>
+        <nav className="hidden gap-6 md:flex">
+          <Link href="/" className={navLinkClass}>
+            Home
+          </Link>
+
+          <Link href="/products" className={navLinkClass}>
+            Products
+          </Link>
+
+          <Link href="/about" className={navLinkClass}>
+            About
+          </Link>
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
