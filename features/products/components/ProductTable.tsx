@@ -6,6 +6,7 @@ import { safeImageSrc } from "@/lib/utils";
 import { Product } from "../types";
 import { useDeleteProduct } from "../hooks/use-product-mutations";
 import { Trash2, SquarePen } from "lucide-react";
+import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog";
 
 export function ProductTable({ products }: { products: Product[] }) {
   const deleteProductMutation = useDeleteProduct();
@@ -74,17 +75,22 @@ export function ProductTable({ products }: { products: Product[] }) {
                         <SquarePen />
                       </Link>
                     </Button>
-                    <Button
-                      className="cursor-pointer"
-                      disabled={deleteProductMutation.isPending}
-                      onClick={() => onDelete(product.id)}
-                      size="xs"
-                      variant="destructive"
-                      type="button"
+                    <ConfirmDeleteDialog
+                      title="Delete product?"
+                      description="This will permanently remove the product."
+                      loading={deleteProductMutation.isPending}
+                      onConfirm={() => onDelete(product.id)}
                     >
-                      Delete
-                      <Trash2 />
-                    </Button>
+                      <Button
+                        className="cursor-pointer"
+                        size="xs"
+                        variant="destructive"
+                        type="button"
+                      >
+                        Delete
+                        <Trash2 />
+                      </Button>
+                    </ConfirmDeleteDialog>
                   </div>
                 </td>
               </tr>

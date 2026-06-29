@@ -5,18 +5,8 @@ import { safeImageSrc } from "@/lib/utils";
 import { User } from "../types";
 import Link from "next/link";
 import { UserPen, UserRoundX } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useDeleteUser } from "../hooks/use-user-mutations";
+import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog";
 
 export function UsersTable({ users }: { users: User[] }) {
   const deleteUserMutation = useDeleteUser();
@@ -83,49 +73,22 @@ export function UsersTable({ users }: { users: User[] }) {
                       </Button>
                     </Link>
 
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button
-                          size="xs"
-                          variant="destructive"
-                          type="button"
-                          className="cursor-pointer"
-                          disabled={deleteUserMutation.isPending}
-                        >
-                          Delete
-                          <UserRoundX />
-                        </Button>
-                      </AlertDialogTrigger>
-
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete user?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. The user will be
-                            permanently removed.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-
-                        <AlertDialogFooter>
-                          <AlertDialogCancel
-                            disabled={deleteUserMutation.isPending}
-                          >
-                            Cancel
-                          </AlertDialogCancel>
-
-                          <AlertDialogAction
-                            disabled={deleteUserMutation.isPending}
-                            onClick={async (e) => {
-                              e.preventDefault();
-                              await handleDelete(user.id);
-                            }}
-                            className="bg-red-600 hover:bg-red-700"
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                    <ConfirmDeleteDialog
+                      title="Delete user?"
+                      description="This action cannot be undone. The user will be permanently removed."
+                      loading={deleteUserMutation.isPending}
+                      onConfirm={() => handleDelete(user.id)}
+                    >
+                      <Button
+                        size="xs"
+                        variant="destructive"
+                        type="button"
+                        className="cursor-pointer"
+                      >
+                        Delete
+                        <UserRoundX />
+                      </Button>
+                    </ConfirmDeleteDialog>
                   </div>
                 </td>
               </tr>

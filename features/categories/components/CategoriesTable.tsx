@@ -7,6 +7,7 @@ import { safeImageSrc } from "@/lib/utils";
 import { Category } from "../types";
 import { useDeleteCategory } from "../hooks/use-category-mutations";
 import { Trash2, SquarePen } from "lucide-react";
+import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog";
 
 export function CategoriesTable({ categories }: { categories: Category[] }) {
   const deleteCategoryMutation = useDeleteCategory();
@@ -66,17 +67,22 @@ export function CategoriesTable({ categories }: { categories: Category[] }) {
                       <SquarePen />
                     </Button>
                   </Link>
-                  <Button
-                    className="cursor-pointer"
-                    disabled={deleteCategoryMutation.isPending}
-                    onClick={() => onDelete(category.id)}
-                    size="xs"
-                    variant="destructive"
-                    type="button"
+                  <ConfirmDeleteDialog
+                    title="Delete category?"
+                    description="This action cannot be undone. The category will be permanently removed."
+                    loading={deleteCategoryMutation.isPending}
+                    onConfirm={() => onDelete(category.id)}
                   >
-                    Delete
-                    <Trash2 />
-                  </Button>
+                    <Button
+                      className="cursor-pointer"
+                      size="xs"
+                      variant="destructive"
+                      type="button"
+                    >
+                      Delete
+                      <Trash2 />
+                    </Button>
+                  </ConfirmDeleteDialog>
                 </div>
               </td>
             </tr>
