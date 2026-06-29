@@ -8,31 +8,29 @@ export default function Footer() {
   return (
     <footer className="bg-zinc-950 text-zinc-300 border-t border-zinc-800">
       <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
-            <Link href="/">
-              <div className="flex gap-3 min-h items-center">
-                <Image
-                  className="rounded-full"
-                  src="/footer.png"
-                  width={46}
-                  height={46}
-                  alt="footer logo"
-                />
-                <h3 className="text-xl font-semibold text-white">NextStore</h3>
-              </div>
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/footer.png"
+                width={42}
+                height={42}
+                alt="logo"
+                className="rounded-full"
+              />
+              <span className="text-white font-semibold text-lg">
+                NextStore
+              </span>
             </Link>
 
-            <p className="mt-3 text-sm text-zinc-400 max-w-xs">
-              A modern e-commerce store built with Next.js.
+            <p className="mt-4 text-sm text-zinc-400 leading-6">
+              NextStore is your go-to destination for quality products and
+              exceptional shopping experience.
             </p>
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold text-white">
-              Quick Links
-            </h4>
-
+            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link className="hover:text-white" href="/">
@@ -52,36 +50,35 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
-            <div className="flex items-center gap-4">
-              <Image
-                src="/me.jpg"
-                alt="Developer photo"
-                width={56}
-                height={56}
-                className="rounded-full border border-zinc-700 object-cover"
-              />
+          <div className=" p-4 flex items-center gap-3">
+            <Image
+              src="/me.jpg"
+              width={64}
+              height={64}
+              alt="dev"
+              className="rounded-full"
+            />
+            <div>
+              <p className="text-white font-medium text-md">
+                Mohamad Reza Rajabi
+              </p>
+              <p className="text-sm text-zinc-400">FrontEnd Developer</p>
 
-              <div>
-                <p className="font-bold text-white">Mohamad Reza Rajabi</p>
-                <p className="font-normal ">FrontEnd Developer</p>
-
-                <div className="mt-2 flex gap-3">
-                  <a href="https://github.com/rrealmrezarajabi" target="_blank">
-                    <Github className="h-5 w-5 hover:text-white" />
-                  </a>
-
-                  <a href="https://linkedin.com/" target="_blank">
-                    <Linkedin className="h-5 w-5 hover:text-white " />
-                  </a>
-                </div>
+              <div className="flex gap-2 mt-2 text-zinc-400">
+                <Github size={16} className="hover:text-white cursor-pointer" />
+                <Linkedin
+                  size={16}
+                  className="hover:text-white cursor-pointer"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-zinc-800 pt-6 text-center text-sm text-zinc-500">
-          © {year} NextStore. All rights reserved.
+        <div className="mt-12 border-t border-zinc-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-zinc-500">
+            © {year} NextStore. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
