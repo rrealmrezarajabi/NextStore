@@ -28,8 +28,6 @@ import { ProductImagesField } from "./ProductImagesField";
 const createProductFormSchema = createProductSchema.omit({ images: true });
 const updateProductFormSchema = updateProductSchema.omit({ images: true });
 
-
-
 type ProductFormValues = Omit<CreateProductDTO, "images">;
 
 interface ProductFormProps {
@@ -53,6 +51,7 @@ export function ProductForm({ mode, productId, product }: ProductFormProps) {
     key: string;
     values: string[];
   } | null>(null);
+  const [imagesError, setImagesError] = useState<string | null>(null);
 
   const draftKey = isEdit ? `edit-${productId}` : "create";
 
@@ -72,9 +71,10 @@ export function ProductForm({ mode, productId, product }: ProductFormProps) {
   const addImage = () => setImages([...images, ""]);
   const removeImage = (index: number) =>
     setImages(images.filter((_, i) => i !== index));
-  const updateImage = (index: number, url: string) =>
+  const updateImage = (index: number, url: string) => {
     setImages(images.map((img, i) => (i === index ? url : img)));
-
+    if (imagesError) setImagesError(null);
+  };
 
   const resolver = useMemo(
     () =>
@@ -101,11 +101,19 @@ export function ProductForm({ mode, productId, product }: ProductFormProps) {
   }, [isEdit, product, setValue]);
 
   const onSubmit = async (data: ProductFormValues) => {
+    const filteredImages = images.filter(Boolean);
+
+    if (!isEdit && filteredImages.length === 0) {
+      setImagesError("At least one image is required.");
+      return;
+    }
+    setImagesError(null);
+
     const payload = {
       ...data,
       price: Number(data.price),
       categoryId: Number(data.categoryId),
-      images: images.filter(Boolean),
+      images: filteredImages,
     };
 
     try {
@@ -135,6 +143,14 @@ export function ProductForm({ mode, productId, product }: ProductFormProps) {
       console.error("Failed to delete product", error);
     }
   };
+
+  if (categoriesQuery.isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20 text-sm text-zinc-500">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -170,6 +186,9 @@ export function ProductForm({ mode, productId, product }: ProductFormProps) {
             onRemove={removeImage}
             onUpdate={updateImage}
           />
+          {imagesError && (
+            <p className="text-xs text-red-500 sm:col-span-2">{imagesError}</p>
+          )}
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">

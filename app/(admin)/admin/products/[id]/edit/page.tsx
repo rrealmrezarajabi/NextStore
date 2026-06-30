@@ -1,7 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useAllCategories } from "@/features/categories/hooks/use-category-queries";
+import { useParams, notFound } from "next/navigation";
 import { useProduct } from "@/features/products/hooks/use-product-queries";
 import { ProductForm } from "@/features/products/components/ProductForm";
 
@@ -9,10 +8,13 @@ export default function EditProductPage() {
   const params = useParams();
   const productId = Number(params.id);
 
-  const productQuery = useProduct(productId);
-  const categoriesQuery = useAllCategories();
+  if (!Number.isFinite(productId)) {
+    notFound();
+  }
 
-  if (productQuery.isLoading || categoriesQuery.isLoading) {
+  const productQuery = useProduct(productId);
+
+  if (productQuery.isLoading) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-zinc-500">
         Loading product...

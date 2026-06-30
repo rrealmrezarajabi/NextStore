@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
-import { uploadFile, resolveImageUrl } from "@/features/files/services/files.service";
+import {
+  uploadFile,
+  resolveImageUrl,
+} from "@/features/files/services/files.service";
 
 interface ImageUploaderProps {
-  value?: string; // برای حالت edit (اختیاری)
-  onChange: (url: string) => void; // خروجی آپلود (location)
+  value?: string;
+  onChange: (url: string) => void;
   label?: string;
 }
 
@@ -16,6 +19,7 @@ export function ImageUploader({
   onChange,
   label = "Upload Image",
 }: ImageUploaderProps) {
+  const inputId = useId();
   const [preview, setPreview] = useState<string | null>(
     resolveImageUrl(value) || null,
   );
@@ -24,21 +28,19 @@ export function ImageUploader({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
-    // فقط عکس قبول کن
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file.");
       return;
     }
 
-    // preview محلی
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     setError(null);
     setLoading(true);
 
     try {
-      const url = await uploadFile(file); // "/uploads/....jpg"
-      onChange(url); // بده به فرم
+      const url = await uploadFile(file);
+      onChange(url);
     } catch (err) {
       console.error(err);
       setError("Upload failed. Try again.");
@@ -61,7 +63,10 @@ export function ImageUploader({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs uppercase tracking-wide text-zinc-500">
+      <label
+        htmlFor={inputId}
+        className="text-xs uppercase tracking-wide text-zinc-500"
+      >
         {label}
       </label>
 
@@ -70,7 +75,7 @@ export function ImageUploader({
           <div className="relative w-full h-full rounded-lg overflow-hidden border border-zinc-200">
             <Image
               src={preview}
-              alt="preview"
+              alt={label}
               fill
               className="object-cover"
               unoptimized
@@ -86,6 +91,7 @@ export function ImageUploader({
               <button
                 type="button"
                 onClick={handleRemove}
+                aria-label={`Remove ${label}`}
                 className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
               >
                 <X size={12} />
@@ -93,13 +99,17 @@ export function ImageUploader({
             )}
           </div>
         ) : (
-          <label className="flex flex-col items-center justify-center w-full h-full rounded-lg border-2 border-dashed border-zinc-300 cursor-pointer hover:border-zinc-400 transition bg-zinc-50">
+          <label
+            htmlFor={inputId}
+            className="flex flex-col items-center justify-center w-full h-full rounded-lg border-2 border-dashed border-zinc-300 cursor-pointer hover:border-zinc-400 transition bg-zinc-50"
+          >
             <Upload size={20} className="text-zinc-400" />
             <span className="mt-1 text-xs text-zinc-400">
               {loading ? "Uploading..." : "Click to upload"}
             </span>
 
             <input
+              id={inputId}
               ref={inputRef}
               type="file"
               accept="image/*"
