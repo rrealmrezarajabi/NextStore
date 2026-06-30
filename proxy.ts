@@ -14,7 +14,7 @@ function isProtected(pathname: string) {
   );
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   const isProtectedRoute = isProtected(pathname);
