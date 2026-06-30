@@ -31,7 +31,7 @@ async function login(page: Page, email: string, password: string) {
 }
 
 // ---------------------------------------------------------------------------
-// 1-3: Guest access to protected routes (handled by middleware.ts)
+// 1-3: Guest access to protected routes (handled by proxy.ts)
 // ---------------------------------------------------------------------------
 test.describe("Guest access to protected routes", () => {
   test("visiting /dashboard redirects to /login with redirect param", async ({
@@ -61,7 +61,7 @@ test.describe("Guest access to protected routes", () => {
   }) => {
     await page.goto("/dashboard/orders?page=2");
 
-    // middleware.ts builds the redirect param from `pathname + search`,
+    // proxy.ts builds the redirect param from `pathname + search`,
     // so the full original path+query should come back intact (decoded).
     const url = new URL(page.url());
     expect(url.pathname).toBe("/login");
@@ -117,7 +117,7 @@ test.describe("Logout", () => {
     await page.getByRole("button", { name: /Logout/i }).click();
     await expect(page).toHaveURL("/login");
 
-    // Auth cookies should now be cleared server-side, so the middleware
+    // Auth cookies should now be cleared server-side, so the proxy
     // should bounce us back to /login with a redirect param.
     await page.goto("/dashboard");
     const url = new URL(page.url());
