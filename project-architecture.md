@@ -120,6 +120,7 @@ components/
       TrustedBy.tsx
     Hero.tsx
   shared/
+    ConfirmDeleteDialog.tsx
     Footer.tsx
     ImageUploader.tsx
     LogoutButton.tsx
@@ -127,12 +128,15 @@ components/
     Pagination.tsx
     Searchbar.tsx
   ui/
+    alert-dialog.tsx
     button.tsx
     card.tsx
     dropdown-menu.tsx
     sheet.tsx
     sonner.tsx
     spinner.tsx
+e2e/
+  auth-route-protection.spec.ts
 features/
   addresses/
     components/
@@ -166,9 +170,13 @@ features/
       use-profile-mutations.ts
       use-profile-queries.ts
     schemas/
-      login.schema.ts
+      login-schema/
+        login.schema.test.ts
+        login.schema.ts
+      register-schema/
+        register.schema.test.ts
+        register.schema.ts
       profile.schema.ts
-      register.schema.ts
     services/
       auth.service.ts
       profile.services.ts
@@ -181,6 +189,7 @@ features/
       use-cart-mutations.ts
       use-cart-queries.ts
     services/
+      cart.service.test.ts
       cart.service.ts
     types.ts
   categories/
@@ -221,6 +230,7 @@ features/
       use-order-mutations.ts
       use-order-queries.ts
     services/
+      order.service.test.ts
       order.service.ts
     types.ts
   products/
@@ -233,7 +243,9 @@ features/
       use-product-mutations.ts
       use-product-queries.ts
     schemas/
-      product.schema.ts
+       product-schema/
+        product.schema.test.ts
+        product.schema.ts
     services/
       products.service.ts
     types.ts
@@ -267,16 +279,21 @@ public/
   logo.png
   me.jpg
   montana.jpg
+utils/
+  formatOrderNumber.test.ts
+  formatOrderNumber.ts
 .env.example
 .gitignore
 API_REFERENCE.md
 components.json
 eslint.config.mjs
-middleware.ts
 next.config.ts
 package.json
+playwright.config.ts
 postcss.config.mjs
 providers.tsx
+proxy.ts
 README.md
 tsconfig.json
+vitest.config.ts
 ```

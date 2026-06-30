@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ImageUploader } from "@/components/shared/ImageUploader";
 import { useAllCategories } from "@/features/categories/hooks/use-category-queries";
 import { useCreateProduct } from "@/features/products/hooks/use-product-mutations";
-import { createProductSchema } from "@/features/products/schemas/ product schema/product.schema";
+import { createProductSchema } from "@/features/products/schemas/product-schema/product.schema";
 import type { CreateProductDTO } from "@/features/products/types";
 
 const createProductFormSchema = createProductSchema.omit({ images: true });

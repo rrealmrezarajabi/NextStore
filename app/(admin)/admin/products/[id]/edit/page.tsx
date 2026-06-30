@@ -15,8 +15,9 @@ import {
   useDeleteProduct,
   useUpdateProduct,
 } from "@/features/products/hooks/use-product-mutations";
-import { updateProductSchema } from "@/features/products/schemas/ product schema/product.schema";
+
 import type { UpdateProductDTO } from "@/features/products/types";
+import { updateProductSchema } from "@/features/products/schemas/product-schema/product.schema";
 
 const updateProductFormSchema = updateProductSchema.omit({ images: true });
 

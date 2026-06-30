@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/features/auth/hooks/use-auth-mutations";
-import { loginSchema } from "@/features/auth/schemas/login schema/login.schema";
+import { loginSchema } from "@/features/auth/schemas/login-schema/login.schema";
 import type { LoginDTO } from "@/features/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

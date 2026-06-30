@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useRegister } from "@/features/auth/hooks/use-auth-mutations";
-import { registerSchema } from "@/features/auth/schemas/register schema/register.schema";
+import { registerSchema } from "@/features/auth/schemas/register-schema/register.schema";
 import type { RegisterDTO } from "@/features/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
