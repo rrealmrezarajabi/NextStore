@@ -78,17 +78,30 @@ export default function EditCategoryPage() {
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
+            <label
+              htmlFor="category-edit-name"
+              className="text-xs uppercase tracking-wide text-zinc-500"
+            >
               Name
             </label>
             <input
+              id="category-edit-name"
               type="text"
               placeholder="e.g. Electronics"
               {...register("name")}
+              aria-invalid={!!errors.name}
+              aria-describedby={
+                errors.name ? "category-edit-name-error" : undefined
+              }
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+              <p
+                id="category-edit-name-error"
+                className="mt-1 text-xs text-red-500"
+              >
+                {errors.name.message}
+              </p>
             )}
           </div>
 
