@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useTransition, useState } from "react";
+import { useId, useTransition, useState } from "react";
 import { Search, X } from "lucide-react";
 
 interface SearchbarProps {
@@ -16,6 +16,7 @@ export function Searchbar({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchInputId = useId();
 
   const [isPending, startTransition] = useTransition();
   const [value, setValue] = useState(searchParams.get("search") ?? "");
@@ -72,10 +73,12 @@ export function Searchbar({
         />
 
         <input
+          id={searchInputId}
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={placeholder}
+          aria-label={placeholder}
           className={inputClass}
         />
 
@@ -84,6 +87,7 @@ export function Searchbar({
           <button
             type="button"
             onClick={handleClear}
+            aria-label="Clear search"
             className={` absolute right-3 top-1/2 -translate-y-1/2 ${isDark ? "text-black hover:text-zinc-700" : "text-zinc-400 hover:text-zinc-700"}`}
           >
             <X className="h-4 w-4" />
