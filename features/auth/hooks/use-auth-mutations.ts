@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { login, logout, register } from "../services/auth.service";
 import { profileQueryKeys } from "./use-profile-queries";
+import { cartKeys } from "@/features/cart/hooks/use-cart-queries";
+import { orderQueryKeys } from "@/features/order/hooks/use-order-queries";
 
 export function useLogin() {
   const router = useRouter();
@@ -50,6 +52,8 @@ export function useLogout() {
     onSuccess: () => {
       toast.success("Signed out");
       queryClient.removeQueries({ queryKey: profileQueryKeys.all });
+      queryClient.removeQueries({ queryKey: cartKeys.all });
+      queryClient.removeQueries({ queryKey: orderQueryKeys.all });
       router.push("/login");
     },
     onError: (error) => {
