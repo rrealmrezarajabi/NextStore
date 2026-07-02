@@ -120,115 +120,187 @@ export function AddressForm({ address, mode = "create" }: AddressFormProps) {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-label"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Label
           </label>
           <input
+            id="address-label"
             type="text"
             placeholder="Home, Office, Parents"
             {...register("label")}
+            aria-invalid={!!errors.label}
+            aria-describedby={errors.label ? "address-label-error" : undefined}
             className={inputClassName}
           />
+          {errors.label && (
+            <p id="address-label-error" className="mt-1 text-xs text-red-500">
+              {errors.label.message}
+            </p>
+          )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-full-name"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Full Name
           </label>
           <input
+            id="address-full-name"
             type="text"
             placeholder="Jane Doe"
             {...register("fullName")}
+            aria-invalid={!!errors.fullName}
+            aria-describedby={
+              errors.fullName ? "address-full-name-error" : undefined
+            }
             className={inputClassName}
           />
           {errors.fullName && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="address-full-name-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.fullName.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-phone"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Phone
           </label>
           <input
+            id="address-phone"
             type="tel"
             placeholder="09123456789"
             {...register("phone")}
+            aria-invalid={!!errors.phone}
+            aria-describedby={errors.phone ? "address-phone-error" : undefined}
             className={inputClassName}
           />
           {errors.phone && (
-            <p className="mt-1 text-xs text-red-500">{errors.phone.message}</p>
+            <p id="address-phone-error" className="mt-1 text-xs text-red-500">
+              {errors.phone.message}
+            </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-postal-code"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Postal Code
           </label>
           <input
+            id="address-postal-code"
             type="text"
             placeholder="1234567890"
             {...register("postalCode")}
+            aria-invalid={!!errors.postalCode}
+            aria-describedby={
+              errors.postalCode ? "address-postal-code-error" : undefined
+            }
             className={inputClassName}
           />
           {errors.postalCode && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="address-postal-code-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.postalCode.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-province"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Province
           </label>
           <input
+            id="address-province"
             type="text"
             placeholder="Tehran"
             {...register("province")}
+            aria-invalid={!!errors.province}
+            aria-describedby={
+              errors.province ? "address-province-error" : undefined
+            }
             className={inputClassName}
           />
           {errors.province && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="address-province-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.province.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-city"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             City
           </label>
           <input
+            id="address-city"
             type="text"
             placeholder="Tehran"
             {...register("city")}
+            aria-invalid={!!errors.city}
+            aria-describedby={errors.city ? "address-city-error" : undefined}
             className={inputClassName}
           />
           {errors.city && (
-            <p className="mt-1 text-xs text-red-500">{errors.city.message}</p>
+            <p id="address-city-error" className="mt-1 text-xs text-red-500">
+              {errors.city.message}
+            </p>
           )}
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="address-street"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Street Address
           </label>
           <textarea
+            id="address-street"
             rows={3}
             placeholder="Street, alley, building, unit"
             {...register("street")}
+            aria-invalid={!!errors.street}
+            aria-describedby={errors.street ? "address-street-error" : undefined}
             className={inputClassName}
           />
           {errors.street && (
-            <p className="mt-1 text-xs text-red-500">{errors.street.message}</p>
+            <p id="address-street-error" className="mt-1 text-xs text-red-500">
+              {errors.street.message}
+            </p>
           )}
         </div>
 
-        <label className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-3 text-sm font-medium text-zinc-800 sm:col-span-2">
+        <label
+          htmlFor="address-is-default"
+          className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-3 text-sm font-medium text-zinc-800 sm:col-span-2"
+        >
           <input
+            id="address-is-default"
             type="checkbox"
             {...register("isDefault")}
             className="size-4 rounded border-zinc-300 accent-zinc-950"
