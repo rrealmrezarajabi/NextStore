@@ -16,17 +16,10 @@ if (!CUSTOMER_EMAIL || !CUSTOMER_PASSWORD || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
   );
 }
 
-/**
- * Logs in through the real UI form.
- *
- * Note: LoginForm's <label> elements aren't associated with their <input>s
- * (no htmlFor/id, no wrapping), so getByLabel() won't find them. We use
- * getByPlaceholder() instead, since the placeholders are stable literal text.
- */
 async function login(page: Page, email: string, password: string) {
   await page.goto("/login");
-  await page.getByPlaceholder("jane@example.com").fill(email);
-  await page.getByPlaceholder("Your password").fill(password);
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 
