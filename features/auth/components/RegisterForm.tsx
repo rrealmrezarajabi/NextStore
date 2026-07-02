@@ -36,83 +36,135 @@ export default function RegisterForm() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="register-first-name"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             First Name
           </label>
           <input
+            id="register-first-name"
             type="text"
             placeholder="Jane"
             {...register("firstName")}
+            aria-invalid={!!errors.firstName}
+            aria-describedby={
+              errors.firstName ? "register-first-name-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.firstName && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="register-first-name-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.firstName.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="register-last-name"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Last Name
           </label>
           <input
+            id="register-last-name"
             type="text"
             placeholder="Doe"
             {...register("lastName")}
+            aria-invalid={!!errors.lastName}
+            aria-describedby={
+              errors.lastName ? "register-last-name-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.lastName && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="register-last-name-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.lastName.message}
             </p>
           )}
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="register-username"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Username
           </label>
           <input
+            id="register-username"
             type="text"
             placeholder="jane_doe"
             {...register("username")}
+            aria-invalid={!!errors.username}
+            aria-describedby={
+              errors.username ? "register-username-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.username && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="register-username-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.username.message}
             </p>
           )}
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="register-email"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Email
           </label>
           <input
+            id="register-email"
             type="email"
             placeholder="jane@example.com"
             {...register("email")}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "register-email-error" : undefined}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+            <p id="register-email-error" className="mt-1 text-xs text-red-500">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="register-password"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Password
           </label>
           <input
+            id="register-password"
             type="password"
             placeholder="Minimum 8 characters"
             {...register("password")}
+            aria-invalid={!!errors.password}
+            aria-describedby={
+              errors.password ? "register-password-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.password && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="register-password-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.password.message}
             </p>
           )}
