@@ -84,68 +84,112 @@ const EditUserPage = () => {
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
+            <label
+              htmlFor="admin-user-edit-first-name"
+              className="text-xs uppercase tracking-wide text-zinc-500"
+            >
               First Name
             </label>
             <input
+              id="admin-user-edit-first-name"
               type="text"
               placeholder="Jane"
               {...register("firstName")}
+              aria-invalid={!!errors.firstName}
+              aria-describedby={
+                errors.firstName ? "admin-user-edit-first-name-error" : undefined
+              }
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.firstName && (
-              <p className="mt-1 text-xs text-red-500">
+              <p
+                id="admin-user-edit-first-name-error"
+                className="mt-1 text-xs text-red-500"
+              >
                 {errors.firstName.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
+            <label
+              htmlFor="admin-user-edit-last-name"
+              className="text-xs uppercase tracking-wide text-zinc-500"
+            >
               Last Name
             </label>
             <input
+              id="admin-user-edit-last-name"
               type="text"
               placeholder="Doe"
               {...register("lastName")}
+              aria-invalid={!!errors.lastName}
+              aria-describedby={
+                errors.lastName ? "admin-user-edit-last-name-error" : undefined
+              }
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.lastName && (
-              <p className="mt-1 text-xs text-red-500">
+              <p
+                id="admin-user-edit-last-name-error"
+                className="mt-1 text-xs text-red-500"
+              >
                 {errors.lastName.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
+            <label
+              htmlFor="admin-user-edit-username"
+              className="text-xs uppercase tracking-wide text-zinc-500"
+            >
               Username
             </label>
             <input
+              id="admin-user-edit-username"
               type="text"
               placeholder="jane_doe"
               {...register("username")}
+              aria-invalid={!!errors.username}
+              aria-describedby={
+                errors.username ? "admin-user-edit-username-error" : undefined
+              }
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.username && (
-              <p className="mt-1 text-xs text-red-500">
+              <p
+                id="admin-user-edit-username-error"
+                className="mt-1 text-xs text-red-500"
+              >
                 {errors.username.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wide text-zinc-500">
+            <label
+              htmlFor="admin-user-edit-email"
+              className="text-xs uppercase tracking-wide text-zinc-500"
+            >
               Email
             </label>
             <input
+              id="admin-user-edit-email"
               type="email"
               placeholder="jane@example.com"
               {...register("email")}
+              aria-invalid={!!errors.email}
+              aria-describedby={
+                errors.email ? "admin-user-edit-email-error" : undefined
+              }
               className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
             />
             {errors.email && (
-              <p className="mt-1 text-xs text-red-500">
+              <p
+                id="admin-user-edit-email-error"
+                className="mt-1 text-xs text-red-500"
+              >
                 {errors.email.message}
               </p>
             )}
