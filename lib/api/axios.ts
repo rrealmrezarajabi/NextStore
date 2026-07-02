@@ -10,24 +10,54 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
+// Holds the in-flight refresh request. If multiple requests get a 401
+// at the same time, they all await this SAME promise instead of each
+// calling /auth/refresh separately.
+let refreshPromise: Promise<void> | null = null;
+
+function refreshSession(): Promise<void> {
+  if (!refreshPromise) {
+    refreshPromise = apiClient
+      .post("/auth/refresh")
+      .then(() => undefined)
+      .finally(() => {
+        // reset so a future (new) expiry can trigger a fresh refresh
+        refreshPromise = null;
+      });
+  }
+  return refreshPromise;
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryRequestConfig;
 
+    const isAuthEndpoint =
+      originalRequest?.url?.includes("/auth/login") ||
+      originalRequest?.url?.includes("/auth/register") ||
+      originalRequest?.url?.includes("/auth/refresh");
+
     if (
       error.response?.status === 401 &&
       originalRequest &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes("/auth/login") &&
-      !originalRequest.url?.includes("/auth/register") &&
-      !originalRequest.url?.includes("/auth/refresh")
+      !isAuthEndpoint
     ) {
       originalRequest._retry = true;
 
-      await apiClient.post("/auth/refresh");
-
-      return apiClient(originalRequest);
+      try {
+        await refreshSession();
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        // Refresh token is also invalid/expired.
+        // Full reload to /login clears all in-memory state (React Query
+        // cache, component state, etc.) in one shot.
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+        return Promise.reject(refreshError);
+      }
     }
 
     return Promise.reject(error);
