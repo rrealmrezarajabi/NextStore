@@ -72,85 +72,137 @@ export function ProfileForm() {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="profile-first-name"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             First Name
           </label>
           <input
+            id="profile-first-name"
             type="text"
             placeholder="Jane"
             {...register("firstName")}
+            aria-invalid={!!errors.firstName}
+            aria-describedby={
+              errors.firstName ? "profile-first-name-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.firstName && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="profile-first-name-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.firstName.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="profile-last-name"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Last Name
           </label>
           <input
+            id="profile-last-name"
             type="text"
             placeholder="Doe"
             {...register("lastName")}
+            aria-invalid={!!errors.lastName}
+            aria-describedby={
+              errors.lastName ? "profile-last-name-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.lastName && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="profile-last-name-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.lastName.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="profile-username"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Username
           </label>
           <input
+            id="profile-username"
             type="text"
             placeholder="jane_doe"
             {...register("username")}
+            aria-invalid={!!errors.username}
+            aria-describedby={
+              errors.username ? "profile-username-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.username && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="profile-username-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.username.message}
             </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="profile-email"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Email
           </label>
           <input
+            id="profile-email"
             type="email"
             placeholder="jane@example.com"
             {...register("email")}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "profile-email-error" : undefined}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+            <p id="profile-email-error" className="mt-1 text-xs text-red-500">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="profile-password"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             New Password
           </label>
           <input
+            id="profile-password"
             type="password"
             placeholder="Leave blank to keep current password"
             {...register("password", {
               setValueAs: (value) => value || undefined,
             })}
+            aria-invalid={!!errors.password}
+            aria-describedby={
+              errors.password ? "profile-password-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.password && (
-            <p className="mt-1 text-xs text-red-500">
+            <p
+              id="profile-password-error"
+              className="mt-1 text-xs text-red-500"
+            >
               {errors.password.message}
             </p>
           )}
