@@ -34,32 +34,48 @@ export default function LoginForm() {
 
       <div className="mt-6 grid gap-4">
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="login-email"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Email
           </label>
           <input
+            id="login-email"
             type="email"
             placeholder="jane@example.com"
             {...register("email")}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "login-email-error" : undefined}
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.email && (
-            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+            <p id="login-email-error" className="mt-1 text-xs text-red-500">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wide text-zinc-500">
+          <label
+            htmlFor="login-password"
+            className="text-xs uppercase tracking-wide text-zinc-500"
+          >
             Password
           </label>
           <input
+            id="login-password"
             type="password"
             placeholder="Your password"
             {...register("password")}
+            aria-invalid={!!errors.password}
+            aria-describedby={
+              errors.password ? "login-password-error" : undefined
+            }
             className="mt-2 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
           />
           {errors.password && (
-            <p className="mt-1 text-xs text-red-500">
+            <p id="login-password-error" className="mt-1 text-xs text-red-500">
               {errors.password.message}
             </p>
           )}
