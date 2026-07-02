@@ -1,5 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { BASE_URL } from "./base-url";
+import {
+  notifySessionExpired,
+  resetSessionExpiredNotice,
+} from "./session-expired";
 
 type RetryRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean;
@@ -19,7 +23,9 @@ function refreshSession(): Promise<void> {
   if (!refreshPromise) {
     refreshPromise = apiClient
       .post("/auth/refresh")
-      .then(() => undefined)
+      .then(() => {
+        resetSessionExpiredNotice();
+      })
       .finally(() => {
         // reset so a future (new) expiry can trigger a fresh refresh
         refreshPromise = null;
@@ -50,12 +56,7 @@ apiClient.interceptors.response.use(
         await refreshSession();
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // Refresh token is also invalid/expired.
-        // Full reload to /login clears all in-memory state (React Query
-        // cache, component state, etc.) in one shot.
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-        }
+        notifySessionExpired();
         return Promise.reject(refreshError);
       }
     }

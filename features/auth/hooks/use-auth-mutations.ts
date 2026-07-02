@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getApiErrorMessage } from "@/lib/api/error-message";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { resetSessionExpiredNotice } from "@/lib/api/session-expired";
+import { clearAuthQueryData } from "../lib/auth-query-cache";
 import { login, logout, register } from "../services/auth.service";
 import { profileQueryKeys } from "./use-profile-queries";
-import { cartKeys } from "@/features/cart/hooks/use-cart-queries";
-import { orderQueryKeys } from "@/features/order/hooks/use-order-queries";
 
 export function useLogin() {
   const router = useRouter();
@@ -16,6 +16,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: login,
     onSuccess: ({ user }) => {
+      resetSessionExpiredNotice();
       toast.success("Signed in successfully");
       queryClient.setQueryData(profileQueryKeys.all, user);
       router.push("/dashboard");
@@ -33,6 +34,7 @@ export function useRegister() {
   return useMutation({
     mutationFn: register,
     onSuccess: ({ user }) => {
+      resetSessionExpiredNotice();
       toast.success("Account created successfully");
       queryClient.setQueryData(profileQueryKeys.all, user);
       router.push("/dashboard");
@@ -51,9 +53,7 @@ export function useLogout() {
     mutationFn: logout,
     onSuccess: () => {
       toast.success("Signed out");
-      queryClient.removeQueries({ queryKey: profileQueryKeys.all });
-      queryClient.removeQueries({ queryKey: cartKeys.all });
-      queryClient.removeQueries({ queryKey: orderQueryKeys.all });
+      clearAuthQueryData(queryClient);
       router.push("/login");
     },
     onError: (error) => {
