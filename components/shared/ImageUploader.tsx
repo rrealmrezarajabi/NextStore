@@ -26,13 +26,12 @@ export function ImageUploader({
   label = "Upload Image",
 }: ImageUploaderProps) {
   const inputId = useId();
-  const [preview, setPreview] = useState<string | null>(
-    resolveImageUrl(value) || null,
-  );
+  const [localPreview, setLocalPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const objectUrlRef = useRef<string | null>(null);
+  const preview = localPreview ?? resolveImageUrl(value) ?? null;
 
   const revokeObjectUrl = useCallback(() => {
     if (!objectUrlRef.current) return;
@@ -41,11 +40,8 @@ export function ImageUploader({
   }, []);
 
   useEffect(() => {
-    revokeObjectUrl();
-    setPreview(resolveImageUrl(value) || null);
-
     return revokeObjectUrl;
-  }, [revokeObjectUrl, value]);
+  }, [revokeObjectUrl]);
 
   const handleFile = async (file: File) => {
     if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
@@ -61,12 +57,14 @@ export function ImageUploader({
     revokeObjectUrl();
     const objectUrl = URL.createObjectURL(file);
     objectUrlRef.current = objectUrl;
-    setPreview(objectUrl);
+    setLocalPreview(objectUrl);
     setError(null);
     setLoading(true);
 
     try {
       const url = await uploadFile(file);
+      revokeObjectUrl();
+      setLocalPreview(null);
       onChange(url);
     } catch (err) {
       revokeObjectUrl();
@@ -76,7 +74,7 @@ export function ImageUploader({
           "The server could not upload this image. Try again.",
         ),
       );
-      setPreview(resolveImageUrl(value) || null);
+      setLocalPreview(null);
     } finally {
       setLoading(false);
     }
@@ -89,7 +87,7 @@ export function ImageUploader({
 
   const handleRemove = () => {
     revokeObjectUrl();
-    setPreview(null);
+    setLocalPreview(null);
     onChange("");
     if (inputRef.current) inputRef.current.value = "";
   };
