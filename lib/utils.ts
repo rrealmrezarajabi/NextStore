@@ -6,17 +6,32 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function safeImageSrc(url?: string | null): string {
-  if (!url) {
+  const fallback = "/placeholders/product.png";
+  const imageUrl = url?.trim();
+
+  if (!imageUrl) {
+    return fallback;
+  }
+
+  if (/\.svg(?:$|[?#])/i.test(imageUrl)) {
+    return fallback;
+  }
+
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    return imageUrl;
+  }
+
+  if (imageUrl.startsWith("//")) {
+    return fallback;
+  }
+
+  if (!imageUrl.startsWith("/")) {
+    return `/${imageUrl}`;
+  }
+
+  if (imageUrl.includes("..")) {
     return "/placeholders/product.png";
   }
 
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-
-  if (!url.startsWith("/")) {
-    return `/${url}`;
-  }
-
-  return url;
+  return imageUrl;
 }
