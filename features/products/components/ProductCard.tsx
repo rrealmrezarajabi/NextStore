@@ -4,7 +4,13 @@ import { safeImageSrc } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Product } from "../types";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  eager = false,
+}: {
+  product: Product;
+  eager?: boolean;
+}) {
   const cover = product.images?.[0] ?? "";
 
   return (
@@ -18,6 +24,8 @@ export function ProductCard({ product }: { product: Product }) {
               fill
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              loading={eager ? "eager" : "lazy"}
+              fetchPriority={eager ? "high" : "auto"}
             />
           ) : null}
         </div>
