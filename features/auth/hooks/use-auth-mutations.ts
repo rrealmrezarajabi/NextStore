@@ -19,7 +19,7 @@ export function useLogin() {
       resetSessionExpiredNotice();
       toast.success("Signed in successfully");
       queryClient.setQueryData(profileQueryKeys.all, user);
-      router.push("/dashboard");
+      router.push(user.role === "admin" ? "/admin" : "/dashboard");
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, "Sign in failed"));
