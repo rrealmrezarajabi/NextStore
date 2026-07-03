@@ -1,18 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef, useId } from "react";
+import { useState, useRef, useId } from "react";
 import Image from "next/image";
 import { Upload, X, Loader2 } from "lucide-react";
-import { getApiErrorMessage } from "@/lib/api/error-message";
 import {
   uploadFile,
   resolveImageUrl,
 } from "@/features/files/services/files.service";
-
-const MAX_IMAGE_SIZE_MB = 5;
-const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const ACCEPTED_IMAGE_FORMATS = "image/jpeg,image/png,image/webp";
 
 interface ImageUploaderProps {
   value?: string;
@@ -32,35 +26,14 @@ export function ImageUploader({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const objectUrlRef = useRef<string | null>(null);
-
-  const revokeObjectUrl = useCallback(() => {
-    if (!objectUrlRef.current) return;
-    URL.revokeObjectURL(objectUrlRef.current);
-    objectUrlRef.current = null;
-  }, []);
-
-  useEffect(() => {
-    revokeObjectUrl();
-    setPreview(resolveImageUrl(value) || null);
-
-    return revokeObjectUrl;
-  }, [revokeObjectUrl, value]);
 
   const handleFile = async (file: File) => {
-    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-      setError("Upload a JPG, PNG, or WebP image.");
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file.");
       return;
     }
 
-    if (file.size > MAX_IMAGE_SIZE_BYTES) {
-      setError(`Image must be ${MAX_IMAGE_SIZE_MB}MB or smaller.`);
-      return;
-    }
-
-    revokeObjectUrl();
     const objectUrl = URL.createObjectURL(file);
-    objectUrlRef.current = objectUrl;
     setPreview(objectUrl);
     setError(null);
     setLoading(true);
@@ -69,14 +42,9 @@ export function ImageUploader({
       const url = await uploadFile(file);
       onChange(url);
     } catch (err) {
-      revokeObjectUrl();
-      setError(
-        getApiErrorMessage(
-          err,
-          "The server could not upload this image. Try again.",
-        ),
-      );
-      setPreview(resolveImageUrl(value) || null);
+      console.error(err);
+      setError("Upload failed. Try again.");
+      setPreview(null);
     } finally {
       setLoading(false);
     }
@@ -88,7 +56,6 @@ export function ImageUploader({
   };
 
   const handleRemove = () => {
-    revokeObjectUrl();
     setPreview(null);
     onChange("");
     if (inputRef.current) inputRef.current.value = "";
@@ -145,7 +112,7 @@ export function ImageUploader({
               id={inputId}
               ref={inputRef}
               type="file"
-              accept={ACCEPTED_IMAGE_FORMATS}
+              accept="image/*"
               className="hidden"
               onChange={handleChange}
             />
