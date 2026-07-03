@@ -1,4 +1,8 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { BASE_URL } from "./base-url";
 import {
   notifySessionExpired,
@@ -7,6 +11,11 @@ import {
 
 type RetryRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean;
+  _suppressSessionExpiredRedirect?: boolean;
+};
+
+export type ApiRequestConfig = AxiosRequestConfig & {
+  _suppressSessionExpiredRedirect?: boolean;
 };
 
 export const apiClient = axios.create({
@@ -56,7 +65,9 @@ apiClient.interceptors.response.use(
         await refreshSession();
         return apiClient(originalRequest);
       } catch (refreshError) {
-        notifySessionExpired();
+        if (!originalRequest._suppressSessionExpiredRedirect) {
+          notifySessionExpired();
+        }
         return Promise.reject(refreshError);
       }
     }

@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useProfile } from "@/features/auth/hooks/use-profile-queries";
+import { useOptionalProfile } from "@/features/auth/hooks/use-profile-queries";
 import {
   LayoutDashboard,
   LogIn,
@@ -26,10 +26,10 @@ const navLinkClass =
   "relative px-3 py-1 rounded-md transition-colors duration-300 hover:text-white hover:bg-black";
 
 export default function Navbar() {
-  const profileQuery = useProfile();
+  const profileQuery = useOptionalProfile();
   const user = profileQuery.data;
   const isAdmin = user?.role === "admin";
-  const { data: cart } = useCartQuery();
+  const { data: cart } = useCartQuery({ enabled: !!user });
 
   return (
     <header className="border-b bg-white/90">

@@ -43,10 +43,13 @@ vi.mock("axios", () => ({
   },
 }));
 
-function createUnauthorizedError(url: string) {
+function createUnauthorizedError(
+  url: string,
+  config?: { _suppressSessionExpiredRedirect?: boolean },
+) {
   return {
     response: { status: 401 },
-    config: { url },
+    config: { url, ...config },
   };
 }
 
@@ -140,5 +143,35 @@ describe("apiClient auth refresh interceptor", () => {
     expect(assign).toHaveBeenCalledWith(
       "http://localhost:3000/login?redirect=%2Fdashboard%2Forders%3Fpage%3D2",
     );
+  });
+
+  it("does not redirect public passive auth checks when refresh fails", async () => {
+    const rejectedHandler = await setupInterceptor();
+    const assign = vi.fn();
+    const dispatchEvent = vi.fn();
+
+    vi.stubGlobal("window", {
+      dispatchEvent,
+      location: {
+        origin: "http://localhost:3000",
+        pathname: "/",
+        search: "",
+        assign,
+      },
+    });
+
+    axiosMock.client.post.mockRejectedValue(new Error("refresh failed"));
+
+    await expect(
+      rejectedHandler(
+        createUnauthorizedError("/auth/profile", {
+          _suppressSessionExpiredRedirect: true,
+        }),
+      ),
+    ).rejects.toThrow("refresh failed");
+
+    expect(axiosMock.client.post).toHaveBeenCalledTimes(1);
+    expect(dispatchEvent).not.toHaveBeenCalled();
+    expect(assign).not.toHaveBeenCalled();
   });
 });

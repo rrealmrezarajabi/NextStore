@@ -5,9 +5,14 @@ export const cartKeys = {
   all: ["cart"] as const,
 };
 
-export function useCartQuery() {
+type UseCartQueryOptions = {
+  enabled?: boolean;
+};
+
+export function useCartQuery({ enabled = true }: UseCartQueryOptions = {}) {
   return useQuery({
     queryKey: cartKeys.all,
     queryFn: getCart,
+    enabled,
   });
 }

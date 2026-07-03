@@ -117,4 +117,20 @@ test.describe("Logout", () => {
     expect(url.pathname).toBe("/login");
     expect(url.searchParams.get("redirect")).toBe("/dashboard");
   });
+
+  test("logged-out user can still access the public home page", async ({
+    page,
+  }) => {
+    await login(page, CUSTOMER_EMAIL, CUSTOMER_PASSWORD);
+    await expect(page).toHaveURL("/dashboard");
+
+    await page.getByRole("button", { name: /Logout/i }).click();
+    await expect(page).toHaveURL("/login");
+
+    await page.goto("/");
+    await expect(page).toHaveURL("/");
+    await expect(
+      page.getByRole("navigation").getByRole("link", { name: "Products" }),
+    ).toBeVisible();
+  });
 });

@@ -1,8 +1,18 @@
-import { apiClient } from "@/lib/api/axios";
+import { apiClient, type ApiRequestConfig } from "@/lib/api/axios";
 import type { Profile, UpdateProfileDto } from "../types";
 
-export async function getProfile(): Promise<Profile> {
-  const res = await apiClient.get<Profile>("/auth/profile");
+type GetProfileOptions = {
+  suppressSessionExpiredRedirect?: boolean;
+};
+
+export async function getProfile({
+  suppressSessionExpiredRedirect = false,
+}: GetProfileOptions = {}): Promise<Profile> {
+  const config: ApiRequestConfig = {
+    _suppressSessionExpiredRedirect: suppressSessionExpiredRedirect,
+  };
+
+  const res = await apiClient.get<Profile>("/auth/profile", config);
   return res.data;
 }
 

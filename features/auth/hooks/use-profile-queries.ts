@@ -10,7 +10,18 @@ export const profileQueryKeys = {
 export function useProfile() {
   return useQuery({
     queryKey: profileQueryKeys.all,
-    queryFn: getProfile,
+    queryFn: () => getProfile(),
+    retry: false,
+  });
+}
+
+export function useOptionalProfile() {
+  return useQuery({
+    queryKey: profileQueryKeys.all,
+    queryFn: () =>
+      getProfile({
+        suppressSessionExpiredRedirect: true,
+      }),
     retry: false,
   });
 }
