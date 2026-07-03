@@ -33,8 +33,6 @@ export default async function ProductPage({
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                loading="eager"
-                fetchPriority="high"
               />
             ) : null}
           </div>
