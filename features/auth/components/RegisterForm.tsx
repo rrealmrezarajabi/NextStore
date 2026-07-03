@@ -5,6 +5,7 @@ import { useRegister } from "@/features/auth/hooks/use-auth-mutations";
 import { registerSchema } from "@/features/auth/schemas/register-schema/register.schema";
 import type { RegisterDTO } from "@/features/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -27,6 +28,15 @@ export default function RegisterForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
     >
+      <Link
+        href="/"
+        className="mb-6 flex items-center gap-2 text-zinc-950 transition hover:text-zinc-700"
+        aria-label="Go to NextStore home page"
+      >
+        <Image src="/logo.png" width={36} height={36} alt="" priority />
+        <span className="text-lg font-semibold">NextStore</span>
+      </Link>
+
       <div>
         <h1 className="text-2xl font-semibold text-zinc-950">Create account</h1>
         <p className="mt-2 text-sm text-zinc-600">

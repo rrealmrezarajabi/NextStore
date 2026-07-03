@@ -5,6 +5,7 @@ import { useLogin } from "@/features/auth/hooks/use-auth-mutations";
 import { loginSchema } from "@/features/auth/schemas/login-schema/login.schema";
 import type { LoginDTO } from "@/features/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -27,6 +28,15 @@ export default function LoginForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
     >
+      <Link
+        href="/"
+        className="mb-6 flex items-center gap-2 text-zinc-950 transition hover:text-zinc-700"
+        aria-label="Go to NextStore home page"
+      >
+        <Image src="/logo.png" width={36} height={36} alt="" priority />
+        <span className="text-lg font-semibold">NextStore</span>
+      </Link>
+
       <div>
         <h1 className="text-2xl font-semibold text-zinc-950">Sign in</h1>
         <p className="mt-2 text-sm text-zinc-600">Welcome back to NextStore.</p>
