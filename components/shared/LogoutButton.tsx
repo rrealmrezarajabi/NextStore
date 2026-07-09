@@ -4,11 +4,16 @@ import { Button } from "@/components/ui/button";
 import { useLogout } from "@/features/auth/hooks/use-auth-mutations";
 import { LogOut } from "lucide-react";
 
-export function LogoutButton() {
-  const logoutMutation = useLogout();
+type LogoutButtonProps = {
+  redirectToLogin?: boolean;
+};
+
+export function LogoutButton({ redirectToLogin = false }: LogoutButtonProps) {
+  const logoutMutation = useLogout({ redirectToLogin });
 
   return (
-    <Button className="cursor-pointer"
+    <Button
+      className="cursor-pointer"
       type="button"
       variant="ghost"
       disabled={logoutMutation.isPending}

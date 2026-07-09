@@ -45,7 +45,11 @@ export function useRegister() {
   });
 }
 
-export function useLogout() {
+type UseLogoutOptions = {
+  redirectToLogin?: boolean;
+};
+
+export function useLogout({ redirectToLogin = false }: UseLogoutOptions = {}) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -54,7 +58,10 @@ export function useLogout() {
     onSuccess: () => {
       toast.success("Signed out");
       clearAuthQueryData(queryClient);
-      router.push("/login");
+
+      if (redirectToLogin) {
+        router.push("/login");
+      }
     },
     onError: (error) => {
       toast.error(getApiErrorMessage(error, "Could not sign out"));

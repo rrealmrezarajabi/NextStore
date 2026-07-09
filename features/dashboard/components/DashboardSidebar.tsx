@@ -86,7 +86,7 @@ export default function AccountSidebar() {
         >
           Back to Shop
         </Link>
-        <LogoutButton />
+        <LogoutButton redirectToLogin />
       </div>
     </aside>
   );

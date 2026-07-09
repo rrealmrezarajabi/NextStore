@@ -78,7 +78,7 @@ export default function AdminSidebar() {
         >
           Back to Homepage
         </Link>
-        <LogoutButton />
+        <LogoutButton redirectToLogin />
       </div>
     </aside>
   );
