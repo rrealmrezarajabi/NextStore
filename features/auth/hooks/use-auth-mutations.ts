@@ -55,15 +55,19 @@ export function useLogout({ redirectToLogin = false }: UseLogoutOptions = {}) {
 
   return useMutation({
     mutationFn: logout,
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: profileQueryKeys.all });
+      clearAuthQueryData(queryClient);
+    },
     onSuccess: () => {
       toast.success("Signed out");
-      clearAuthQueryData(queryClient);
 
       if (redirectToLogin) {
         router.push("/login");
       }
     },
     onError: (error) => {
+      queryClient.invalidateQueries({ queryKey: profileQueryKeys.all });
       toast.error(getApiErrorMessage(error, "Could not sign out"));
     },
   });

@@ -6,7 +6,6 @@ import { userQueryKeys } from "@/features/users/hooks/use-user-queries";
 import { profileQueryKeys } from "../hooks/use-profile-queries";
 
 const AUTH_SCOPED_QUERY_KEYS: QueryKey[] = [
-  profileQueryKeys.all,
   cartKeys.all,
   orderQueryKeys.all,
   addressKeys.all,
@@ -14,6 +13,8 @@ const AUTH_SCOPED_QUERY_KEYS: QueryKey[] = [
 ];
 
 export function clearAuthQueryData(queryClient: QueryClient) {
+  queryClient.setQueryData(profileQueryKeys.all, null);
+
   for (const queryKey of AUTH_SCOPED_QUERY_KEYS) {
     queryClient.removeQueries({ queryKey });
   }
