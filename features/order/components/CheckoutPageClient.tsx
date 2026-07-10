@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle2, MapPin, Plus } from "lucide-react";
@@ -18,16 +18,13 @@ export function CheckoutPageClient() {
     null,
   );
 
-  const addresses = useMemo(
-    () => addressesQuery.data ?? [],
-    [addressesQuery.data],
-  );
-  const defaultAddressId = useMemo(() => {
-    if (addresses.length === 0) return null;
+  const addresses = addressesQuery.data ?? [];
 
-    const defaultAddress = addresses.find((address) => address.isDefault);
-    return defaultAddress?.id ?? addresses[0].id;
-  }, [addresses]);
+  const defaultAddressId =
+    addresses.find((address) => address.isDefault)?.id ??
+    addresses[0]?.id ??
+    null;
+
   const activeAddressId = selectedAddressId ?? defaultAddressId;
   const cart = cartQuery.data;
   const isLoading = cartQuery.isLoading || addressesQuery.isLoading;
@@ -104,9 +101,7 @@ export function CheckoutPageClient() {
           <div className="flex flex-col justify-between gap-3 border-b border-zinc-100 pb-4 sm:flex-row sm:items-center">
             <div className="flex items-center gap-2">
               <MapPin className="size-5 text-zinc-950" />
-              <h2 className="font-semibold text-zinc-950">
-                Delivery address
-              </h2>
+              <h2 className="font-semibold text-zinc-950">Delivery address</h2>
             </div>
             <Button asChild variant="outline" size="sm">
               <Link href="/dashboard/addresses">

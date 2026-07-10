@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import { FEATURES } from "./featureShowcase.data";
 
 type Feature = (typeof FEATURES)[number];
@@ -9,10 +9,7 @@ type Feature = (typeof FEATURES)[number];
 export default function FeatureShowcase() {
   const [activeId, setActiveId] = useState<Feature["id"]>(FEATURES[0].id);
 
-  const active = useMemo(
-    () => FEATURES.find((f) => f.id === activeId) ?? FEATURES[0],
-    [activeId],
-  );
+  const active = FEATURES.find((f) => f.id === activeId) ?? FEATURES[0];
 
   return (
     <section className="relative overflow-hidden bg-zinc-950 py-24">
