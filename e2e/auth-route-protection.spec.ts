@@ -71,6 +71,17 @@ test.describe("Authenticated access", () => {
     await expect(page).toHaveURL("/dashboard");
   });
 
+  test("logged-in user cannot visit /login or /register", async ({ page }) => {
+    await login(page, CUSTOMER_EMAIL, CUSTOMER_PASSWORD);
+    await expect(page).toHaveURL("/dashboard");
+
+    await page.goto("/login");
+    await expect(page).toHaveURL("/dashboard");
+
+    await page.goto("/register");
+    await expect(page).toHaveURL("/dashboard");
+  });
+
   test("customer cannot access /admin and is redirected to /dashboard", async ({
     page,
   }) => {
