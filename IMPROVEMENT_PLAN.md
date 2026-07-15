@@ -265,45 +265,6 @@ The app has e-commerce pages, but the shopping experience is still thin. A stron
 - Product detail uses multiple images when available.
 - Order details show a clear lifecycle/status experience.
 
-## 7. Fix image handling, upload safety, and Next image configuration
-
-**Why it matters**
-
-Images are central to e-commerce. Global image optimization being disabled and broad SVG allowance both weaken the production-readiness signal.
-
-**Files involved**
-
-- `next.config.ts:4` configures Next images.
-- `next.config.ts:5` sets `unoptimized: true`.
-- `next.config.ts:6` sets `dangerouslyAllowSVG: true`.
-- `next.config.ts:7` sets an SVG content security policy.
-- `components/shared/ImageUploader.tsx:30` starts file handling.
-- `components/shared/ImageUploader.tsx:31` only checks MIME starts with `image/`.
-- `components/shared/ImageUploader.tsx:36` creates an object URL.
-- `components/shared/ImageUploader.tsx:42` uploads the file.
-- `features/files/services/files.service.ts:5` derives backend origin with string replacement.
-- `features/files/services/files.service.ts:7` uploads files.
-- `features/files/services/files.service.ts:20` resolves image URLs.
-- `lib/utils.ts:8` defines `safeImageSrc`.
-
-**What to do**
-
-1. Replace global `unoptimized: true` with proper `remotePatterns` for the backend upload host.
-2. Avoid `dangerouslyAllowSVG` unless SVG product/category uploads are truly required. If SVGs are allowed, validate and sanitize them on the backend and document the reason.
-3. In `ImageUploader`, validate file size before upload, for example max 2-5 MB.
-4. Restrict accepted file types to safe raster formats if possible: JPEG, PNG, WebP.
-5. Revoke object URLs with `URL.revokeObjectURL` when previews change and when the component unmounts.
-6. Make upload errors user-facing and specific: type too large, unsupported format, network/server failure.
-7. Replace `BASE_URL.replace(/\/api\/v1$/, "")` with a safer URL helper using the `URL` constructor.
-
-**Definition of done**
-
-- Next image optimization is enabled for configured remote image hosts.
-- Uploading a huge file or unsupported type is blocked before network upload.
-- Repeated image uploads do not leak object URLs.
-- SVG upload support is either removed or explicitly justified and secured.
-- Product/category/user images still render after the config change.
-
 ## 8. Remove broad DTO casts and make form payload construction type-safe
 
 **Why it matters**
